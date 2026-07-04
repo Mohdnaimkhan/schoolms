@@ -1,0 +1,200 @@
+/* ===========================
+   RESET
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:var(--font-family);
+    background:var(--bg-body);
+    color:var(--text-light);
+    overflow-x:hidden;
+}
+
+/* ===========================
+   LINKS
+=========================== */
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+ul{
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+
+/* ===========================
+   NAVBAR
+=========================== */
+
+.sms-navbar{
+
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+
+    height:var(--navbar-height);
+
+    background:var(--bg-navbar);
+
+    border-bottom:1px solid var(--border-color);
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 20px;
+
+    z-index:1050;
+
+    box-shadow:var(--shadow-sm);
+
+}
+
+/* ===========================
+   SIDEBAR
+=========================== */
+
+.sms-sidebar{
+
+    position:fixed;
+
+    top:var(--navbar-height);
+
+    left:0;
+
+    width:var(--sidebar-width);
+
+    height:calc(100vh - var(--navbar-height));
+
+    background:var(--bg-sidebar);
+
+    border-right:1px solid var(--border-color);
+
+    overflow-y:auto;
+
+    transition:var(--transition);
+
+}
+
+/* ===========================
+   CONTENT
+=========================== */
+
+.sms-content{
+
+    margin-top:var(--navbar-height);
+
+    margin-left:var(--sidebar-width);
+
+    min-height:calc(100vh - var(--navbar-height));
+
+    padding:25px;
+
+    transition:var(--transition);
+
+}
+
+/* ===========================
+   FOOTER
+=========================== */
+
+.sms-footer{
+
+    margin-left:var(--sidebar-width);
+
+    background:var(--bg-navbar);
+
+    border-top:1px solid var(--border-color);
+
+    padding:18px 25px;
+
+    transition:var(--transition);
+
+}
+
+/* ===========================
+   PAGE HEADER
+=========================== */
+
+.sms-page-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:25px;
+
+}
+
+.sms-page-title{
+
+    font-size:1.7rem;
+
+    font-weight:600;
+
+}
+
+.sms-breadcrumb{
+
+    color:var(--text-muted);
+
+    font-size:.9rem;
+
+}
+
+/* ===========================
+   CUSTOM SCROLLBAR
+=========================== */
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:var(--bg-sidebar);
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#4b5563;
+
+    border-radius:20px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:#6b7280;
+
+}
+
+/* ===========================
+   SELECTION
+=========================== */
+
+::selection{
+
+    background:var(--primary);
+
+    color:#fff;
+
+}

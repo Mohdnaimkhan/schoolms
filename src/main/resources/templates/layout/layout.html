@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+
+<body>
+
+<!-- ===========================
+     Navbar
+============================ -->
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<!-- ===========================
+     Sidebar
+============================ -->
+
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<!-- ===========================
+     Main Content
+============================ -->
+
+<main class="sms-content">
+
+    <!-- Dynamic Page Content -->
+
+    <div th:replace="${content}"></div>
+
+</main>
+
+<!-- ===========================
+     Footer
+============================ -->
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- ===========================
+     Scripts
+============================ -->
+
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>

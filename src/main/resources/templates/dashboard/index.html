@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('Dashboard')}"></head>
+
+<body>
+
+    <!-- ==========================
+     Navbar
+=========================== -->
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <!-- ==========================
+     Sidebar
+=========================== -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <!-- ==========================
+     Main Content
+=========================== -->
+
+    <main class="sms-content">
+
+        <div class="container-fluid">
+
+            <!-- ==========================
+             Page Header
+        =========================== -->
+
+            <div class="sms-page-header">
+
+                <div>
+
+                    <h2 class="sms-page-title">
+
+                        Dashboard
+
+                    </h2>
+
+                    <div class="sms-breadcrumb">
+
+                        Home /
+                        Dashboard
+
+                    </div>
+
+                </div>
+
+                <div>
+
+                    <button class="btn btn-primary sms-btn">
+
+                        <i class="bi bi-plus-circle"></i>
+
+                        Add Student
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- ==========================
+              Welcome Card
+        =========================== -->
+
+            <div class="sms-card mb-4">
+
+                <div class="row align-items-center">
+
+                    <div class="col-lg-8">
+
+                        <h3 class="fw-bold">
+
+                            Welcome Back 👋
+
+                        </h3>
+
+                        <p class="text-secondary mb-0">
+
+                            Welcome to School Management System Dashboard.
+
+                            Manage students, teachers, classes and fees
+                            from one place.
+
+                        </p>
+
+                    </div>
+
+                    <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+
+                        <button class="btn btn-success sms-btn">
+
+                            Academic Session
+                            2026-27
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ==========================
+             Statistics
+        =========================== -->
+
+            <div class="row g-4">
+
+                <!-- Students -->
+
+                <div class="col-xl-3 col-lg-6 col-md-6">
+
+                    <div class="sms-card">
+
+                        <div class="d-flex justify-content-between">
+
+                            <div>
+
+                                <small class="text-secondary">
+
+                                    Students
+
+                                </small>
+
+                                <h2 class="mt-2">
+
+                                    520
+
+                                </h2>
+
+                            </div>
+
+                            <div>
+
+                                <i class="bi bi-people-fill fs-1 text-primary"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Teachers -->
+
+                <div class="col-xl-3 col-lg-6 col-md-6">
+
+                    <div class="sms-card">
+
+                        <div class="d-flex justify-content-between">
+
+                            <div>
+
+                                <small class="text-secondary">
+
+                                    Teachers
+
+                                </small>
+
+                                <h2 class="mt-2">
+
+                                    35
+
+                                </h2>
+
+                            </div>
+
+                            <div>
+
+                                <i class="bi bi-person-workspace fs-1 text-success"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Classes -->
+
+                <div class="col-xl-3 col-lg-6 col-md-6">
+
+                    <div class="sms-card">
+
+                        <div class="d-flex justify-content-between">
+
+                            <div>
+
+                                <small class="text-secondary">
+
+                                    Classes
+
+                                </small>
+
+                                <h2 class="mt-2">
+
+                                    18
+
+                                </h2>
+
+                            </div>
+
+                            <div>
+
+                                <i class="bi bi-building fs-1 text-warning"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Fees -->
+
+                <div class="col-xl-3 col-lg-6 col-md-6">
+
+                    <div class="sms-card">
+
+                        <div class="d-flex justify-content-between">
+
+                            <div>
+
+                                <small class="text-secondary">
+
+                                    Fee Collection
+
+                                </small>
+
+                                <h2 class="mt-2">
+
+                                    ₹2.5L
+
+                                </h2>
+
+                            </div>
+
+                            <div>
+
+                                <i class="bi bi-cash-stack fs-1 text-danger"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ==========================
+             Quick Actions
+        =========================== -->
+
+            <div class="row mt-4 g-4">
+
+                <div class="col-lg-3">
+
+                    <button class="btn btn-outline-primary w-100 py-3">
+
+                        <i class="bi bi-person-plus"></i>
+
+                        Add Student
+
+                    </button>
+
+                </div>
+
+                <div class="col-lg-3">
+
+                    <button class="btn btn-outline-success w-100 py-3">
+
+                        <i class="bi bi-person-workspace"></i>
+
+                        Add Teacher
+
+                    </button>
+
+                </div>
+
+                <div class="col-lg-3">
+
+                    <button class="btn btn-outline-warning w-100 py-3">
+
+                        <i class="bi bi-building"></i>
+
+                        Add Class
+
+                    </button>
+
+                </div>
+
+                <div class="col-lg-3">
+
+                    <button class="btn btn-outline-danger w-100 py-3">
+
+                        <i class="bi bi-cash-stack"></i>
+
+                        Collect Fee
+
+                    </button>
+
+                </div>
+
+            </div>
+            <!-- ======================================
+             Recent Students
+        ======================================= -->
+
+            <div class="row mt-4">
+
+                <div class="col-lg-8">
+
+                    <div class="sms-card">
+
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+
+                            <h5 class="mb-0">
+
+                                <i class="bi bi-people-fill me-2"></i>
+
+                                Recent Students
+
+                            </h5>
+
+                            <a href="/students" class="btn btn-sm btn-primary">
+
+                                View All
+
+                            </a>
+
+                        </div>
+
+                        <div class="table-responsive">
+
+                            <table class="table table-dark table-hover align-middle mb-0">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Class</th>
+                                        <th>Phone</th>
+                                        <th>Status</th>
+                                        <th class="text-center">Action</th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                    <tr>
+
+                                        <td>ST001</td>
+
+                                        <td>Rahul Sharma</td>
+
+                                        <td>10-A</td>
+
+                                        <td>9876543210</td>
+
+                                        <td>
+
+                                            <span class="badge bg-success">
+
+                                                Active
+
+                                            </span>
+
+                                        </td>
+
+                                        <td class="text-center">
+
+                                            <button class="btn btn-sm btn-outline-info">
+
+                                                <i class="bi bi-eye"></i>
+
+                                            </button>
+
+                                            <button class="btn btn-sm btn-outline-warning">
+
+                                                <i class="bi bi-pencil"></i>
+
+                                            </button>
+
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td>ST002</td>
+
+                                        <td>Amit Kumar</td>
+
+                                        <td>9-B</td>
+
+                                        <td>9988776655</td>
+
+                                        <td>
+
+                                            <span class="badge bg-success">
+
+                                                Active
+
+                                            </span>
+
+                                        </td>
+
+                                        <td class="text-center">
+
+                                            <button class="btn btn-sm btn-outline-info">
+
+                                                <i class="bi bi-eye"></i>
+
+                                            </button>
+
+                                            <button class="btn btn-sm btn-outline-warning">
+
+                                                <i class="bi bi-pencil"></i>
+
+                                            </button>
+
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td>ST003</td>
+
+                                        <td>Priya Singh</td>
+
+                                        <td>11-A</td>
+
+                                        <td>9871234567</td>
+
+                                        <td>
+
+                                            <span class="badge bg-success">
+
+                                                Active
+
+                                            </span>
+
+                                        </td>
+
+                                        <td class="text-center">
+
+                                            <button class="btn btn-sm btn-outline-info">
+
+                                                <i class="bi bi-eye"></i>
+
+                                            </button>
+
+                                            <button class="btn btn-sm btn-outline-warning">
+
+                                                <i class="bi bi-pencil"></i>
+
+                                            </button>
+
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- ==============================
+                 Notice Board
+            =============================== -->
+
+                <div class="col-lg-4">
+
+                    <div class="sms-card">
+
+                        <h5 class="mb-4">
+
+                            <i class="bi bi-megaphone-fill me-2"></i>
+
+                            Notice Board
+
+                        </h5>
+
+                        <div class="border-bottom pb-3 mb-3">
+
+                            <h6>
+
+                                Summer Vacation
+
+                            </h6>
+
+                            <small class="text-secondary">
+
+                                School will remain closed from
+                                15 June to 30 June.
+
+                            </small>
+
+                        </div>
+
+                        <div class="border-bottom pb-3 mb-3">
+
+                            <h6>
+
+                                Parent Meeting
+
+                            </h6>
+
+                            <small class="text-secondary">
+
+                                PTM on Saturday at 10:00 AM.
+
+                            </small>
+
+                        </div>
+
+                        <div>
+
+                            <h6>
+
+                                Fee Reminder
+
+                            </h6>
+
+                            <small class="text-secondary">
+
+                                Last date for fee submission
+                                is 10 July.
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ======================================
+             Fee Collection
+        ======================================= -->
+
+            <div class="row mt-4">
+
+                <div class="col-lg-7">
+
+                    <div class="sms-card">
+
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+
+                            <h5 class="mb-0">
+
+                                <i class="bi bi-cash-stack me-2"></i>
+
+                                Recent Fee Collection
+
+                            </h5>
+
+                            <a href="/fees" class="btn btn-sm btn-primary">
+
+                                View All
+
+                            </a>
+
+                        </div>
+
+                        <div class="table-responsive">
+
+                            <table class="table table-dark table-hover align-middle mb-0">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>Receipt</th>
+                                        <th>Student</th>
+                                        <th>Amount</th>
+                                        <th>Date</th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                    <tr>
+
+                                        <td>#1001</td>
+                                        <td>Rahul Sharma</td>
+                                        <td>₹15,000</td>
+                                        <td>30 Jun 2026</td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td>#1002</td>
+                                        <td>Amit Kumar</td>
+                                        <td>₹12,000</td>
+                                        <td>29 Jun 2026</td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td>#1003</td>
+                                        <td>Priya Singh</td>
+                                        <td>₹18,500</td>
+                                        <td>29 Jun 2026</td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ==============================
+                 Activity
+            =============================== -->
+
+                <div class="col-lg-5">
+
+                    <div class="sms-card">
+
+                        <h5 class="mb-4">
+
+                            <i class="bi bi-clock-history me-2"></i>
+
+                            Recent Activity
+
+                        </h5>
+
+                        <ul class="list-group list-group-flush">
+
+                            <li class="list-group-item bg-transparent text-light">
+
+                                ✅ New Student Added
+
+                                <br>
+
+                                <small class="text-secondary">
+
+                                    10 Minutes Ago
+
+                                </small>
+
+                            </li>
+
+                            <li class="list-group-item bg-transparent text-light">
+
+                                💰 Fee Collected
+
+                                <br>
+
+                                <small class="text-secondary">
+
+                                    30 Minutes Ago
+
+                                </small>
+
+                            </li>
+
+                            <li class="list-group-item bg-transparent text-light">
+
+                                👨‍🏫 Teacher Updated
+
+                                <br>
+
+                                <small class="text-secondary">
+
+                                    1 Hour Ago
+
+                                </small>
+
+                            </li>
+
+                            <li class="list-group-item bg-transparent text-light">
+
+                                🏫 New Class Created
+
+                                <br>
+
+                                <small class="text-secondary">
+
+                                    Today
+
+                                </small>
+
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- ======================================
+             Bottom Widgets
+        ======================================= -->
+
+            <div class="row mt-4">
+
+                <!-- Academic Session -->
+
+                <div class="col-lg-4 mb-4">
+
+                    <div class="sms-card h-100">
+
+                        <h5 class="mb-4">
+
+                            <i class="bi bi-calendar-check me-2"></i>
+
+                            Academic Session
+
+                        </h5>
+
+                        <table class="table table-borderless table-dark mb-0">
+
+                            <tr>
+
+                                <td>Session</td>
+
+                                <td class="text-end">
+
+                                    2026 - 2027
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>Working Days</td>
+
+                                <td class="text-end">
+
+                                    220
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>Total Holidays</td>
+
+                                <td class="text-end">
+
+                                    52
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>Status</td>
+
+                                <td class="text-end">
+
+                                    <span class="badge bg-success">
+
+                                        Running
+
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+                <!-- Upcoming Events -->
+
+                <div class="col-lg-4 mb-4">
+
+                    <div class="sms-card h-100">
+
+                        <h5 class="mb-4">
+
+                            <i class="bi bi-calendar-event me-2"></i>
+
+                            Upcoming Events
+
+                        </h5>
+
+                        <ul class="list-group list-group-flush">
+
+                            <li class="list-group-item bg-transparent text-light">
+
+                                🏆 Sports Day
+
+                                <br>
+
+                                <small class="text-secondary">
+
+                                    05 July 2026
+
+                                </small>
+
+                            </li>
+
+                            <li class="list-group-item bg-transparent text-light">
+
+                                📚 Unit Test
+
+                                <br>
+
+                                <small class="text-secondary">
+
+                                    12 July 2026
+
+                                </small>
+
+                            </li>
+
+                            <li class="list-group-item bg-transparent text-light">
+
+                                👨‍👩‍👧 Parent Meeting
+
+                                <br>
+
+                                <small class="text-secondary">
+
+                                    20 July 2026
+
+                                </small>
+
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+                <!-- System Status -->
+
+                <div class="col-lg-4 mb-4">
+
+                    <div class="sms-card h-100">
+
+                        <h5 class="mb-4">
+
+                            <i class="bi bi-cpu me-2"></i>
+
+                            System Status
+
+                        </h5>
+
+                        <div class="d-flex justify-content-between mb-3">
+
+                            <span>Database</span>
+
+                            <span class="badge bg-success">
+
+                                Connected
+
+                            </span>
+
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-3">
+
+                            <span>Server</span>
+
+                            <span class="badge bg-success">
+
+                                Running
+
+                            </span>
+
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-3">
+
+                            <span>Version</span>
+
+                            <span>
+
+                                v1.0
+
+                            </span>
+
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+
+                            <span>Last Backup</span>
+
+                            <span>
+
+                                Today
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- ==========================
+     Footer
+========================== -->
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <!-- ==========================
+     Scripts
+========================== -->
+
+    <div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>

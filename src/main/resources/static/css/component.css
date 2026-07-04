@@ -1,0 +1,77 @@
+/* ===========================
+   CARD
+=========================== */
+
+.sms-card{
+
+    background:var(--bg-card);
+
+    border:1px solid var(--border-color);
+
+    border-radius:var(--radius-md);
+
+    box-shadow:var(--shadow-sm);
+
+    transition:var(--transition);
+
+    padding:20px;
+
+}
+
+.sms-card:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:var(--shadow-md);
+
+}
+
+/* ===========================
+   BUTTON
+=========================== */
+
+.sms-btn{
+
+    border-radius:10px;
+
+    padding:8px 18px;
+
+    font-weight:500;
+
+}
+
+/* ===========================
+   TABLE
+=========================== */
+
+.sms-table{
+
+    background:var(--bg-card);
+
+    border-radius:var(--radius-md);
+
+    overflow:hidden;
+
+}
+
+.sms-table table{
+
+    margin:0;
+
+}
+
+/* ===========================
+   FORM
+=========================== */
+
+.sms-form{
+
+    background:var(--bg-card);
+
+    border-radius:var(--radius-md);
+
+    padding:25px;
+
+    border:1px solid var(--border-color);
+
+}

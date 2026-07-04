@@ -1,0 +1,78 @@
+<nav class="sms-navbar" th:fragment="navbar">
+
+    <!-- Left -->
+
+    <div class="d-flex align-items-center gap-3">
+
+        <button
+                class="btn btn-outline-light d-lg-none"
+                id="sidebarToggle">
+
+            <i class="bi bi-list"></i>
+
+        </button>
+
+        <img
+                th:src="@{/images/logo.png}"
+                width="42"
+                height="42"
+                class="rounded-circle"
+                alt="Logo">
+
+        <div>
+
+            <h6 class="mb-0 fw-semibold">
+
+                ABC PUBLIC SCHOOL
+
+            </h6>
+
+            <small class="text-secondary">
+
+                Learn • Grow • Succeed
+
+            </small>
+
+        </div>
+
+    </div>
+
+    <!-- Right -->
+
+    <div class="d-flex align-items-center gap-4">
+
+        <div
+                id="currentDateTime"
+                class="text-end small text-secondary">
+
+        </div>
+
+        <div class="dropdown">
+
+            <a href="#"
+               class="text-white fs-5"
+               data-bs-toggle="dropdown">
+
+                <i class="bi bi-person-circle"></i>
+
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-end">
+
+                <li>
+
+                    <a class="dropdown-item" href="#">
+
+                        Administrator
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
