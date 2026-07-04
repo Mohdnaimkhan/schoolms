@@ -1,13 +1,13 @@
-package com.naim.schoolms;
+package com.naim.school;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SchoolmsApplication {
+public class SchoolApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SchoolmsApplication.class, args);
+		SpringApplication.run(SchoolApplication.class, args);
 	}
 
 }

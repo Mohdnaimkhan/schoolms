@@ -10,9 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.naim</groupId>
-	<artifactId>schoolms</artifactId>
+	<artifactId>school</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>schoolms</name>
+	<name>school Management System</name>
 	<description />
 	<url />
 	<licenses>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <!-- ==========================
+                Page Header
+        =========================== -->
+
+        <div class="sms-page-header mb-4">
+
+            <div>
+
+                <h2 class="sms-page-title"
+                    th:text="${classRoom.id == null ? 'Add Class' : 'Edit Class'}">
+
+                </h2>
+
+                <p class="text-secondary mb-0">
+
+                    Create or update classroom information.
+
+                </p>
+
+            </div>
+
+            <a th:href="@{/classes}"
+               class="btn btn-outline-secondary">
+
+                <i class="bi bi-arrow-left me-2"></i>
+
+                Back
+
+            </a>
+
+        </div>
+
+        <!-- ==========================
+                Form Card
+        =========================== -->
+
+        <div class="sms-card">
+
+            <form th:action="@{/classes/save}"
+                  th:object="${classRoom}"
+                  method="post">
+
+                <input type="hidden" th:field="*{id}">
+
+                <div class="row g-4">
+
+                    <!-- Class Name -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Class Name
+
+                            <span class="text-danger">*</span>
+
+                        </label>
+
+                        <input
+                                type="text"
+                                class="form-control"
+                                th:field="*{className}"
+                                placeholder="Example : 10">
+
+                        <small class="text-danger"
+                               th:if="${#fields.hasErrors('className')}"
+                               th:errors="*{className}">
+                        </small>
+
+                    </div>
+
+                    <!-- Section -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Section
+
+                            <span class="text-danger">*</span>
+
+                        </label>
+
+                        <input
+                                type="text"
+                                class="form-control"
+                                th:field="*{section}"
+                                placeholder="A">
+
+                        <small class="text-danger"
+                               th:if="${#fields.hasErrors('section')}"
+                               th:errors="*{section}">
+                        </small>
+
+                    </div>
+
+                    <!-- Class Code -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Class Code
+
+                        </label>
+
+                        <input
+                                type="text"
+                                class="form-control"
+                                th:field="*{classCode}"
+                                placeholder="10-A">
+
+                    </div>
+
+                    <!-- Room Number -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Room Number
+
+                        </label>
+
+                        <input
+                                type="text"
+                                class="form-control"
+                                th:field="*{roomNumber}"
+                                placeholder="101">
+
+                    </div>
+
+                    <!-- Capacity -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Capacity
+
+                        </label>
+
+                        <input
+                                type="number"
+                                class="form-control"
+                                th:field="*{capacity}"
+                                placeholder="40">
+
+                    </div>
+
+                    <!-- Status -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Status
+
+                        </label>
+
+                        <select
+                                class="form-select"
+                                th:field="*{active}">
+
+                            <option th:value="true">
+
+                                Active
+
+                            </option>
+
+                            <option th:value="false">
+
+                                Inactive
+
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- Description -->
+
+                    <div class="col-12">
+
+                        <label class="form-label">
+
+                            Description
+
+                        </label>
+
+                        <textarea
+                                class="form-control"
+                                rows="4"
+                                th:field="*{description}"
+                                placeholder="Write something...">
+
+                        </textarea>
+
+                    </div>
+
+                </div>
+
+                <hr class="my-4">
+
+                <div class="d-flex justify-content-end gap-2">
+
+                    <a th:href="@{/classes}"
+                       class="btn btn-outline-secondary">
+
+                        Cancel
+
+                    </a>
+
+                    <button
+                            type="submit"
+                            class="btn btn-primary">
+
+                        <i class="bi bi-check-circle me-2"></i>
+
+                        <span th:text="${classRoom.id == null ? 'Save Class' : 'Update Class'}">
+
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+
+</body>
+
+</html>

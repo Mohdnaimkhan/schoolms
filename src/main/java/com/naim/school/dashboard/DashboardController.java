@@ -1,4 +1,4 @@
-package com.naim.schoolms.dashboard;
+package com.naim.school.dashboard;
 
 
 import org.springframework.stereotype.Controller;
