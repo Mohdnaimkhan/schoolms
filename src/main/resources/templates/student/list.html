@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <!-- Page Header -->
+
+        <div class="sms-page-header mb-4">
+
+            <div>
+
+                <h2 class="sms-page-title">
+
+                    <i class="bi bi-mortarboard-fill me-2"></i>
+
+                    Students
+
+                </h2>
+
+                <p class="text-secondary mb-0">
+
+                    Manage all student records.
+
+                </p>
+
+            </div>
+
+            <a th:href="@{/students/add}"
+               class="btn btn-primary">
+
+                <i class="bi bi-plus-circle me-2"></i>
+
+                Add Student
+
+            </a>
+
+        </div>
+
+        <!-- Search -->
+
+        <div class="sms-card mb-4">
+
+            <div class="row">
+
+                <div class="col-lg-4">
+
+                    <input type="text"
+                           id="searchStudent"
+                           class="form-control"
+                           placeholder="Search Student...">
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Student Table -->
+
+        <div class="sms-card">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead>
+
+                    <tr>
+
+                        <th>#</th>
+
+                        <th>Admission No</th>
+
+                        <th>Roll No</th>
+
+                        <th>Student Name</th>
+
+                        <th>Father Name</th>
+
+                        <th>Class</th>
+
+                        <th>Mobile</th>
+
+                        <th>Status</th>
+
+                        <th width="170">
+
+                            Action
+
+                        </th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody id="studentTable">
+
+                    <tr th:each="student,stat : ${students}">
+
+                        <td th:text="${stat.count}"></td>
+
+                        <td th:text="${student.admissionNo}"></td>
+
+                        <td th:text="${student.rollNo}"></td>
+
+                        <td th:text="${student.studentName}"></td>
+
+                        <td th:text="${student.fatherName}"></td>
+
+                        <td>
+
+                            <span th:if="${student.classRoom != null}"
+                                  th:text="${student.classRoom.className + ' - ' + student.classRoom.section}">
+                            </span>
+
+                            <span th:unless="${student.classRoom != null}">
+                                -
+                            </span>
+
+                        </td>
+
+                        <td th:text="${student.mobile}"></td>
+
+                        <td>
+
+                            <span class="badge bg-success"
+                                  th:if="${student.active}">
+
+                                Active
+
+                            </span>
+
+                            <span class="badge bg-danger"
+                                  th:unless="${student.active}">
+
+                                Inactive
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <a th:href="@{'/students/edit/' + ${student.id}}"
+                               class="btn btn-warning btn-sm">
+
+                                <i class="bi bi-pencil"></i>
+
+                            </a>
+
+                            <a th:href="@{'/students/delete/' + ${student.id}}"
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('Delete this student?')">
+
+                                <i class="bi bi-trash"></i>
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(students)}">
+
+                        <td colspan="9"
+                            class="text-center py-5">
+
+                            <i class="bi bi-person-x display-4"></i>
+
+                            <br><br>
+
+                            No Student Found
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+<script>
+
+document.getElementById("searchStudent")
+.addEventListener("keyup", function(){
+
+    let value = this.value.toLowerCase();
+
+    document.querySelectorAll("#studentTable tr")
+    .forEach(function(row){
+
+        row.style.display =
+            row.innerText.toLowerCase().includes(value)
+            ? ""
+            : "none";
+
+    });
+
+});
+
+</script>
+
+</body>
+
+</html>

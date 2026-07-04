@@ -14,28 +14,24 @@
 
     <div class="container-fluid">
 
-        <!-- ==========================
-                Page Header
-        =========================== -->
+        <!-- Page Header -->
 
         <div class="sms-page-header mb-4">
 
             <div>
 
                 <h2 class="sms-page-title"
-                    th:text="${classRoom.id == null ? 'Add Class' : 'Edit Class'}">
-
+                    th:text="${subject.id == null ? 'Add Subject' : 'Edit Subject'}">
+                    Add Subject
                 </h2>
 
                 <p class="text-secondary mb-0">
-
-                    Create or update classroom information.
-
+                    Create or update subject information.
                 </p>
 
             </div>
 
-            <a th:href="@{/classes}"
+            <a th:href="@{/subjects}"
                class="btn btn-outline-secondary">
 
                 <i class="bi bi-arrow-left me-2"></i>
@@ -46,28 +42,25 @@
 
         </div>
 
-        <!-- ==========================
-                Form Card
-        =========================== -->
+        <!-- Form Card -->
 
         <div class="sms-card">
 
-            <form th:action="@{/classes/save}"
-                  th:object="${classRoom}"
+            <form th:action="@{/subjects/save}"
+                  th:object="${subject}"
                   method="post">
 
                 <input type="hidden" th:field="*{id}">
 
                 <div class="row g-4">
 
-                    <!-- Class Name -->
+                    <!-- Subject Name -->
 
                     <div class="col-md-6">
 
                         <label class="form-label">
 
-                            Class Name
-
+                            Subject Name
                             <span class="text-danger">*</span>
 
                         </label>
@@ -75,92 +68,60 @@
                         <input
                                 type="text"
                                 class="form-control"
-                                th:field="*{className}"
-                                placeholder="Example : 10">
+                                th:field="*{subjectName}"
+                                placeholder="Mathematics">
 
                         <small class="text-danger"
-                               th:if="${#fields.hasErrors('className')}"
-                               th:errors="*{className}">
+                               th:errors="*{subjectName}">
                         </small>
 
                     </div>
 
-                    <!-- Section -->
+                    <!-- Subject Code -->
 
                     <div class="col-md-6">
 
                         <label class="form-label">
 
-                            Section
+                            Subject Code
 
+                        </label>
+
+                        <input
+                                type="text"
+                                class="form-control"
+                                th:field="*{subjectCode}"
+                                placeholder="MATH">
+
+                    </div>
+
+                    <!-- Class -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Class
                             <span class="text-danger">*</span>
 
                         </label>
 
-                        <input
-                                type="text"
-                                class="form-control"
-                                th:field="*{section}"
-                                placeholder="A">
+                        <select class="form-select"
+                                th:field="*{classRoom}">
 
-                        <small class="text-danger"
-                               th:if="${#fields.hasErrors('section')}"
-                               th:errors="*{section}">
-                        </small>
+                            <option value="">
 
-                    </div>
+                                Select Class
 
-                    <!-- Class Code -->
+                            </option>
 
-                    <div class="col-md-6">
+                            <option
+                                    th:each="cls : ${classes}"
+                                    th:value="${cls.id}"
+                                    th:text="${cls.className + ' - ' + cls.section}">
+                            </option>
 
-                        <label class="form-label">
-
-                            Class Code
-
-                        </label>
-
-                        <input
-                                type="text"
-                                class="form-control"
-                                th:field="*{classCode}"
-                                placeholder="10-A">
-
-                    </div>
-
-                    <!-- Room Number -->
-
-                    <div class="col-md-6">
-
-                        <label class="form-label">
-
-                            Room Number
-
-                        </label>
-
-                        <input
-                                type="text"
-                                class="form-control"
-                                th:field="*{roomNumber}"
-                                placeholder="101">
-
-                    </div>
-
-                    <!-- Capacity -->
-
-                    <div class="col-md-6">
-
-                        <label class="form-label">
-
-                            Capacity
-
-                        </label>
-
-                        <input
-                                type="number"
-                                class="form-control"
-                                th:field="*{capacity}"
-                                placeholder="40">
+                        </select>
 
                     </div>
 
@@ -174,8 +135,7 @@
 
                         </label>
 
-                        <select
-                                class="form-select"
+                        <select class="form-select"
                                 th:field="*{active}">
 
                             <option th:value="true">
@@ -205,11 +165,10 @@
                         </label>
 
                         <textarea
-                                class="form-control"
                                 rows="4"
+                                class="form-control"
                                 th:field="*{description}"
-                                placeholder="Write something...">
-
+                                placeholder="Subject Description">
                         </textarea>
 
                     </div>
@@ -220,22 +179,19 @@
 
                 <div class="d-flex justify-content-end gap-2">
 
-                    <a th:href="@{/classes}"
+                    <a th:href="@{/subjects}"
                        class="btn btn-outline-secondary">
 
                         Cancel
 
                     </a>
 
-                    <button
-                            type="submit"
+                    <button type="submit"
                             class="btn btn-primary">
 
                         <i class="bi bi-check-circle me-2"></i>
 
-                        <span th:text="${classRoom.id == null ? 'Save Class' : 'Update Class'}">
-
-                        </span>
+                        <span th:text="${subject.id == null ? 'Save Subject' : 'Update Subject'}"></span>
 
                     </button>
 
@@ -252,6 +208,7 @@
 <div th:replace="~{fragments/footer :: footer}"></div>
 
 <div th:replace="~{fragments/scripts :: scripts}"></div>
+
 </body>
 
 </html>

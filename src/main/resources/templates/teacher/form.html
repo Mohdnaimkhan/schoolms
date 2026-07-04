@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <!-- Page Header -->
+
+        <div class="sms-page-header mb-4">
+
+            <div>
+
+                <h2 class="sms-page-title"
+                    th:text="${teacher.id == null ? 'Add Teacher' : 'Edit Teacher'}">
+
+                    Add Teacher
+
+                </h2>
+
+                <p class="text-secondary mb-0">
+
+                    Create and manage teacher information.
+
+                </p>
+
+            </div>
+
+            <a th:href="@{/teachers}"
+               class="btn btn-outline-secondary">
+
+                <i class="bi bi-arrow-left me-2"></i>
+
+                Back
+
+            </a>
+
+        </div>
+
+        <!-- Card -->
+
+        <div class="sms-card">
+
+            <form th:action="@{/teachers/save}"
+                  th:object="${teacher}"
+                  method="post">
+
+                <input type="hidden"
+                       th:field="*{id}">
+
+                <div class="row g-4">
+
+                    <!-- Employee Code -->
+
+                    <div class="col-md-6"
+                         th:if="${teacher.id != null}">
+
+                        <label class="form-label">
+
+                            Employee Code
+
+                        </label>
+
+                        <input type="text"
+                               class="form-control"
+                               th:value="${teacher.employeeCode}"
+                               readonly>
+
+                    </div>
+
+                    <!-- Teacher Name -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Teacher Name
+                            <span class="text-danger">*</span>
+
+                        </label>
+
+                        <input type="text"
+                               class="form-control"
+                               th:field="*{teacherName}"
+                               placeholder="Enter Teacher Name">
+
+                        <small class="text-danger"
+                               th:errors="*{teacherName}">
+                        </small>
+
+                    </div>
+
+                    <!-- Gender -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Gender
+
+                        </label>
+
+                        <select class="form-select"
+                                th:field="*{gender}">
+
+                            <option value="">Select Gender</option>
+
+                            <option value="Male">
+
+                                Male
+
+                            </option>
+
+                            <option value="Female">
+
+                                Female
+
+                            </option>
+
+                            <option value="Other">
+
+                                Other
+
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- Mobile -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Mobile Number
+
+                        </label>
+
+                        <input type="text"
+                               class="form-control"
+                               th:field="*{mobile}"
+                               placeholder="9876543210">
+
+                    </div>
+
+                    <!-- Email -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Email
+
+                        </label>
+
+                        <input type="email"
+                               class="form-control"
+                               th:field="*{email}"
+                               placeholder="teacher@gmail.com">
+
+                    </div>
+
+                    <!-- Qualification -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Qualification
+
+                        </label>
+
+                        <input type="text"
+                               class="form-control"
+                               th:field="*{qualification}"
+                               placeholder="B.Ed, M.Sc">
+
+                    </div>
+
+                    <!-- Experience -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Experience (Years)
+
+                        </label>
+
+                        <input type="number"
+                               min="0"
+                               class="form-control"
+                               th:field="*{experience}">
+
+                    </div>
+                                        <!-- Joining Date -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Joining Date
+                            <span class="text-danger">*</span>
+
+                        </label>
+
+                        <input type="date"
+                               class="form-control"
+                               th:field="*{joiningDate}">
+
+                    </div>
+
+                    <!-- Salary -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Salary
+
+                        </label>
+
+                        <input type="number"
+                               class="form-control"
+                               min="0"
+                               step="0.01"
+                               th:field="*{salary}"
+                               placeholder="25000">
+
+                    </div>
+
+                    <!-- Subject -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Subject
+                            <span class="text-danger">*</span>
+
+                        </label>
+
+                        <select class="form-select"
+                                th:field="*{subjectId}">
+
+                            <option value="">
+
+                                -- Select Subject --
+
+                            </option>
+
+                            <option th:each="sub : ${subjects}"
+                                    th:value="${sub.id}"
+                                    th:text="${sub.subjectName}">
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- Status -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Status
+
+                        </label>
+
+                        <select class="form-select"
+                                th:field="*{active}">
+
+                            <option th:value="true">
+
+                                Active
+
+                            </option>
+
+                            <option th:value="false">
+
+                                Inactive
+
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- Address -->
+
+                    <div class="col-12">
+
+                        <label class="form-label">
+
+                            Address
+
+                        </label>
+
+                        <textarea
+                                class="form-control"
+                                rows="4"
+                                th:field="*{address}"
+                                placeholder="Enter Complete Address">
+                        </textarea>
+
+                    </div>
+
+                </div>
+
+                <hr class="my-4">
+                                <!-- Action Buttons -->
+
+                <div class="d-flex justify-content-end gap-2">
+
+                    <a th:href="@{/teachers}"
+                       class="btn btn-outline-secondary">
+
+                        <i class="bi bi-arrow-left me-2"></i>
+
+                        Cancel
+
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+
+                        <i class="bi bi-check-circle me-2"></i>
+
+                        <span th:text="${teacher.id == null ? 'Save Teacher' : 'Update Teacher'}">
+                            Save Teacher
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>

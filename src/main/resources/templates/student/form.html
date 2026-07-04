@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <!-- Page Header -->
+
+        <div class="sms-page-header mb-4">
+
+            <div>
+
+                <h2 class="sms-page-title"
+                    th:text="${student.id==null ? 'Add Student' : 'Edit Student'}">
+
+                    Add Student
+
+                </h2>
+
+                <p class="text-secondary mb-0">
+
+                    Create and manage student information.
+
+                </p>
+
+            </div>
+
+            <a th:href="@{/students}"
+               class="btn btn-outline-secondary">
+
+                <i class="bi bi-arrow-left me-2"></i>
+
+                Back
+
+            </a>
+
+        </div>
+
+        <!-- Card -->
+
+        <div class="sms-card">
+
+            <form th:action="@{/students/save}"
+                  th:object="${student}"
+                  method="post">
+
+                <input type="hidden"
+                       th:field="*{id}">
+
+                <div class="row g-4">
+
+                    <!-- Admission No -->
+
+                    <div class="col-md-6"
+                         th:if="${student.id != null}">
+
+                        <label class="form-label">
+
+                            Admission No
+
+                        </label>
+
+                        <input type="text"
+                               class="form-control"
+                               th:value="${student.admissionNo}"
+                               readonly>
+
+                    </div>
+
+                    <!-- Roll Number -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Roll Number
+                            <span class="text-danger">*</span>
+
+                        </label>
+
+                        <input type="number"
+                               class="form-control"
+                               min="1"
+                               th:field="*{rollNo}"
+                               placeholder="Enter Roll Number">
+
+                    </div>
+
+                    <!-- Student Name -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Student Name
+                            <span class="text-danger">*</span>
+
+                        </label>
+
+                        <input type="text"
+                               class="form-control"
+                               th:field="*{studentName}"
+                               placeholder="Enter Student Name">
+
+                        <small class="text-danger"
+                               th:errors="*{studentName}">
+                        </small>
+
+                    </div>
+
+                    <!-- Father Name -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Father Name
+                            <span class="text-danger">*</span>
+
+                        </label>
+
+                        <input type="text"
+                               class="form-control"
+                               th:field="*{fatherName}"
+                               placeholder="Enter Father Name">
+
+                        <small class="text-danger"
+                               th:errors="*{fatherName}">
+                        </small>
+
+                    </div>
+
+                    <!-- Mother Name -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Mother Name
+
+                        </label>
+
+                        <input type="text"
+                               class="form-control"
+                               th:field="*{motherName}"
+                               placeholder="Enter Mother Name">
+
+                    </div>
+
+                    <!-- Gender -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Gender
+
+                        </label>
+
+                        <select class="form-select"
+                                th:field="*{gender}">
+
+                            <option value="">Select Gender</option>
+
+                            <option value="Male">Male</option>
+
+                            <option value="Female">Female</option>
+
+                            <option value="Other">Other</option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- Date of Birth -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Date of Birth
+
+                        </label>
+
+                        <input type="date"
+                               class="form-control"
+                               th:field="*{dateOfBirth}">
+
+                    </div>
+
+                    <!-- Mobile -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Mobile Number
+
+                        </label>
+
+                        <input type="text"
+                               class="form-control"
+                               th:field="*{mobile}"
+                               placeholder="9876543210">
+
+                    </div>
+                                        <!-- Email -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Email
+
+                        </label>
+
+                        <input type="email"
+                               class="form-control"
+                               th:field="*{email}"
+                               placeholder="student@gmail.com">
+
+                        <small class="text-danger"
+                               th:errors="*{email}">
+                        </small>
+
+                    </div>
+
+                    <!-- Class -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Class
+                            <span class="text-danger">*</span>
+
+                        </label>
+
+                        <select class="form-select"
+                                th:field="*{classId}">
+
+                            <option value="">
+
+                                -- Select Class --
+
+                            </option>
+
+                            <option th:each="cls : ${classes}"
+                                    th:value="${cls.id}"
+                                    th:text="${cls.className + ' - ' + cls.section}">
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- Admission Date -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Admission Date
+
+                        </label>
+
+                        <input type="date"
+                               class="form-control"
+                               th:field="*{admissionDate}">
+
+                    </div>
+
+                    <!-- Status -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Status
+
+                        </label>
+
+                        <select class="form-select"
+                                th:field="*{active}">
+
+                            <option th:value="true">
+
+                                Active
+
+                            </option>
+
+                            <option th:value="false">
+
+                                Inactive
+
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- Address -->
+
+                    <div class="col-12">
+
+                        <label class="form-label">
+
+                            Address
+
+                        </label>
+
+                        <textarea class="form-control"
+                                  rows="4"
+                                  th:field="*{address}"
+                                  placeholder="Enter Complete Address">
+                        </textarea>
+
+                    </div>
+
+                </div>
+
+                <hr class="my-4">
+
+                                <!-- Action Buttons -->
+
+                <div class="d-flex justify-content-end gap-2">
+
+                    <a th:href="@{/students}"
+                       class="btn btn-outline-secondary">
+
+                        <i class="bi bi-arrow-left me-2"></i>
+
+                        Cancel
+
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+
+                        <i class="bi bi-check-circle me-2"></i>
+
+                        <span th:text="${student.id == null ? 'Save Student' : 'Update Student'}">
+
+                            Save Student
+
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>

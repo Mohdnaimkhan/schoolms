@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <!-- =========================
+             Page Header
+        ========================== -->
+
+        <div class="sms-page-header mb-4">
+
+            <div>
+
+                <h2 class="sms-page-title">
+
+                    <i class="bi bi-person-workspace me-2"></i>
+
+                    Teachers
+
+                </h2>
+
+                <p class="text-secondary mb-0">
+
+                    Manage all teachers.
+
+                </p>
+
+            </div>
+
+            <a th:href="@{/teachers/add}"
+               class="btn btn-primary">
+
+                <i class="bi bi-plus-circle me-2"></i>
+
+                Add Teacher
+
+            </a>
+
+        </div>
+
+        <!-- =========================
+                Search
+        ========================== -->
+
+        <div class="sms-card mb-4">
+
+            <div class="row">
+
+                <div class="col-lg-4">
+
+                    <input type="text"
+                           class="form-control"
+                           id="searchTeacher"
+                           placeholder="Search Teacher...">
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- =========================
+                Teacher Table
+        ========================== -->
+
+        <div class="sms-card">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead>
+
+                    <tr>
+
+                        <th>#</th>
+
+                        <th>Code</th>
+
+                        <th>Name</th>
+
+                        <th>Mobile</th>
+
+                        <th>Subject</th>
+
+                        <th>Joining</th>
+
+                        <th>Status</th>
+
+                        <th width="170">
+
+                            Action
+
+                        </th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody id="teacherTable">
+
+                    <tr th:each="teacher,stat : ${teachers}">
+
+                        <td th:text="${stat.count}"></td>
+
+                        <td th:text="${teacher.employeeCode}"></td>
+
+                        <td th:text="${teacher.teacherName}"></td>
+
+                        <td th:text="${teacher.mobile}"></td>
+
+                        <td th:text="${teacher.subject.subjectName}"></td>
+
+                        <td th:text="${teacher.joiningDate}"></td>
+
+                        <td>
+
+                            <span class="badge bg-success"
+                                  th:if="${teacher.active}">
+
+                                Active
+
+                            </span>
+
+                            <span class="badge bg-danger"
+                                  th:unless="${teacher.active}">
+
+                                Inactive
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <a th:href="@{'/teachers/edit/' + ${teacher.id}}"
+                               class="btn btn-warning btn-sm">
+
+                                <i class="bi bi-pencil"></i>
+
+                            </a>
+
+                            <a th:href="@{'/teachers/delete/' + ${teacher.id}}"
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('Delete this teacher?')">
+
+                                <i class="bi bi-trash"></i>
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(teachers)}">
+
+                        <td colspan="8"
+                            class="text-center py-5">
+
+                            <i class="bi bi-person-x display-4"></i>
+
+                            <br><br>
+
+                            No Teacher Found
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+<script>
+
+    document.getElementById("searchTeacher")
+        .addEventListener("keyup", function () {
+
+            let value = this.value.toLowerCase();
+
+            document.querySelectorAll("#teacherTable tr")
+                .forEach(row => {
+
+                    row.style.display =
+                        row.innerText.toLowerCase().includes(value)
+                            ? ""
+                            : "none";
+
+                });
+
+        });
+
+</script>
+
+</body>
+
+</html>
