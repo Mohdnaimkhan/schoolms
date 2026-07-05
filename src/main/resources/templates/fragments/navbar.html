@@ -4,20 +4,13 @@
 
     <div class="d-flex align-items-center gap-3">
 
-        <button
-                class="btn btn-outline-light d-lg-none"
-                id="sidebarToggle">
+        <button class="btn btn-outline-light d-lg-none" id="sidebarToggle">
 
             <i class="bi bi-list"></i>
 
         </button>
 
-        <img
-                th:src="@{/images/logo.png}"
-                width="42"
-                height="42"
-                class="rounded-circle"
-                alt="Logo">
+        <img th:src="@{/images/logo.png}" width="42" height="42" class="rounded-circle" alt="Logo">
 
         <div>
 
@@ -41,17 +34,19 @@
 
     <div class="d-flex align-items-center gap-4">
 
-        <div
-                id="currentDateTime"
-                class="text-end small text-secondary">
+        <div id="currentDateTime" class="text-end small text-secondary">
 
         </div>
 
+        <button id="themeToggle" class="btn btn-outline-secondary btn-sm rounded-circle" title="Toggle Theme">
+
+            <i id="themeIcon" class="bi bi-moon-stars-fill"></i>
+
+        </button>
+
         <div class="dropdown">
 
-            <a href="#"
-               class="text-white fs-5"
-               data-bs-toggle="dropdown">
+            <a href="#" class="text-white fs-5" data-bs-toggle="dropdown">
 
                 <i class="bi bi-person-circle"></i>
 

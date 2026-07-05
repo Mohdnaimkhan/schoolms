@@ -17,6 +17,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
+
+
+
     // ============================
     // Live Date & Time
     // ============================
@@ -59,6 +62,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateClock();
 
-    setInterval(updateClock,1000);
+    setInterval(updateClock, 1000);
 
 });
+
+
+
+// ============================
+// Theme Toggle
+// ============================
+
+const themeToggle = document.getElementById("themeToggle");
+const themeIcon = document.getElementById("themeIcon");
+
+const savedTheme = localStorage.getItem("theme");
+
+if (savedTheme === "dark") {
+
+    document.body.classList.add("dark");
+
+    if (themeIcon) {
+        themeIcon.className = "bi bi-sun-fill";
+    }
+
+}
+
+if (themeToggle) {
+
+    themeToggle.addEventListener("click", () => {
+
+        document.body.classList.toggle("dark");
+
+        const dark = document.body.classList.contains("dark");
+
+        if (dark) {
+
+            localStorage.setItem("theme", "dark");
+
+            themeIcon.className = "bi bi-sun-fill";
+
+        } else {
+
+            localStorage.setItem("theme", "light");
+
+            themeIcon.className = "bi bi-moon-stars-fill";
+
+        }
+
+    });
+
+}

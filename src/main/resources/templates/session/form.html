@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <div class="sms-page-header mb-4">
+
+            <div>
+
+                <h2 class="sms-page-title"
+                    th:text="${session.id==null?'Add Session':'Edit Session'}">
+
+                </h2>
+
+                <p class="text-secondary mb-0">
+
+                    Academic Session Information
+
+                </p>
+
+            </div>
+
+            <a th:href="@{/sessions}"
+               class="btn btn-outline-secondary">
+
+                <i class="bi bi-arrow-left me-2"></i>
+
+                Back
+
+            </a>
+
+        </div>
+
+        <div class="sms-card">
+
+            <form th:action="@{/sessions/save}"
+                  th:object="${session}"
+                  method="post">
+
+                <input type="hidden"
+                       th:field="*{id}">
+
+                <div class="row g-4">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Session Name
+                            <span class="text-danger">*</span>
+
+                        </label>
+
+                        <input type="text"
+                               class="form-control"
+                               th:field="*{sessionName}"
+                               placeholder="2025-26">
+
+                        <small class="text-danger"
+                               th:errors="*{sessionName}">
+                        </small>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Status
+
+                        </label>
+
+                        <select class="form-select"
+                                th:field="*{active}">
+
+                            <option th:value="true">
+
+                                Active
+
+                            </option>
+
+                            <option th:value="false">
+
+                                Inactive
+
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-12">
+
+                        <label class="form-label">
+
+                            Description
+
+                        </label>
+
+                        <textarea class="form-control"
+                                  rows="4"
+                                  th:field="*{description}"
+                                  placeholder="Optional description">
+                        </textarea>
+
+                    </div>
+
+                </div>
+
+                <hr class="my-4">
+
+                <div class="d-flex justify-content-end gap-2">
+
+                    <a th:href="@{/sessions}"
+                       class="btn btn-outline-secondary">
+
+                        Cancel
+
+                    </a>
+
+                    <button class="btn btn-primary"
+                            type="submit">
+
+                        <i class="bi bi-check-circle me-2"></i>
+
+                        <span th:text="${session.id==null?'Save Session':'Update Session'}"></span>
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>

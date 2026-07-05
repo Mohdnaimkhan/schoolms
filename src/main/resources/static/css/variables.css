@@ -1,55 +1,151 @@
-/* ==============================
+/* ==========================================================
    GOOGLE FONT
-============================== */
+========================================================== */
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-/* ==============================
-   ROOT VARIABLES
-============================== */
 
-:root {
+/* ==========================================================
+   LIGHT THEME (DEFAULT)
+========================================================== */
 
-    /* Theme Colors */
-    --primary: #2563eb;
-    --primary-hover: #1d4ed8;
+:root{
 
-    --success: #16a34a;
-    --warning: #f59e0b;
-    --danger: #dc2626;
+    /* ========= Brand ========= */
 
-    /* Background */
-    --bg-body: #111827;
-    --bg-sidebar: #0f172a;
-    --bg-navbar: #1f2937;
-    --bg-card: #1f2937;
-    --bg-hover: #273449;
+    --primary:#2563eb;
+    --primary-hover:#1d4ed8;
 
-    /* Text */
-    --text-light: #f9fafb;
-    --text-muted: #9ca3af;
+    --secondary:#64748b;
 
-    /* Border */
-    --border-color: #374151;
+    --success:#22c55e;
 
-    /* Radius */
-    --radius-sm: 8px;
-    --radius-md: 12px;
-    --radius-lg: 16px;
+    --warning:#f59e0b;
 
-    /* Shadow */
-    --shadow-sm: 0 2px 8px rgba(0,0,0,.15);
-    --shadow-md: 0 8px 25px rgba(0,0,0,.25);
+    --danger:#ef4444;
 
-    /* Sidebar */
-    --sidebar-width: 260px;
+    --info:#0ea5e9;
 
-    /* Navbar */
-    --navbar-height: 70px;
 
-    /* Animation */
-    --transition: .25s ease-in-out;
+    /* ========= Background ========= */
 
-    /* Font */
-    --font-family: 'Poppins', sans-serif;
+    --bg-body:#f5f7fb;
+
+    --bg-navbar:#ffffff;
+
+    --bg-sidebar:#ffffff;
+
+    --bg-card:#ffffff;
+
+    --bg-hover:#f1f5f9;
+
+
+    /* ========= Text ========= */
+
+    --text:#111827;
+
+    --text-light:#ffffff;
+
+    --text-muted:#6b7280;
+
+
+    /* ========= Border ========= */
+
+    --border:#e5e7eb;
+
+
+    /* ========= Shadow ========= */
+
+    --shadow-sm:0 2px 8px rgba(15,23,42,.05);
+
+    --shadow-md:0 8px 24px rgba(15,23,42,.08);
+
+    --shadow-lg:0 12px 32px rgba(15,23,42,.12);
+
+
+    /* ========= Radius ========= */
+
+    --radius-sm:8px;
+
+    --radius-md:12px;
+
+    --radius-lg:18px;
+
+
+    /* ========= Layout ========= */
+
+    --sidebar-width:270px;
+
+    --sidebar-collapsed:80px;
+
+    --navbar-height:70px;
+
+    --footer-height:55px;
+
+
+    /* ========= Animation ========= */
+
+    --transition:.3s ease;
+
+
+    /* ========= Font ========= */
+
+    --font-family:'Poppins',sans-serif;
+
+
+    /* ========= Z Index ========= */
+
+    --z-sidebar:1000;
+
+    --z-navbar:1100;
+
+    --z-dropdown:1200;
+
+    --z-modal:1300;
+
+}
+
+
+
+/* ==========================================================
+   DARK THEME
+========================================================== */
+
+body.dark{
+
+    /* ========= Background ========= */
+
+    --bg-body:#111827;
+
+    --bg-navbar:#1f2937;
+
+    --bg-sidebar:#0f172a;
+
+    --bg-card:#1f2937;
+
+    --bg-hover:#273449;
+
+
+    /* ========= Text ========= */
+
+    --text:#f9fafb;
+
+    --text-light:#ffffff;
+
+    --text-muted:#9ca3af;
+
+
+    /* ========= Border ========= */
+
+    --border:#374151;
+
+
+    /* ========= Shadow ========= */
+
+    --shadow-sm:0 2px 10px rgba(0,0,0,.20);
+
+    --shadow-md:0 10px 25px rgba(0,0,0,.30);
+
+    --shadow-lg:0 18px 40px rgba(0,0,0,.40);
 
 }

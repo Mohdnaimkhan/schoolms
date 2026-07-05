@@ -1,4 +1,4 @@
-<aside
+<!-- <aside
         class="sms-sidebar"
         id="sidebar"
         th:fragment="sidebar">
@@ -122,4 +122,432 @@
 
     </ul>
 
-</aside>
+</aside> -->
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="sidebar">
+
+    <aside id="sidebar" class="sms-sidebar">
+
+     
+
+        <!-- ===========================
+         Navigation
+    ============================ -->
+
+        <div class="sidebar-menu">
+
+            <!-- Dashboard -->
+
+            <a th:href="@{/}" class="menu-link">
+
+                <i class="bi bi-grid-1x2-fill"></i>
+
+                <span>
+
+                    Dashboard
+
+                </span>
+
+            </a>
+
+            <!-- =====================
+             School Management
+        ====================== -->
+
+            <div class="menu-title">
+
+                School Management
+
+            </div>
+
+            <div class="accordion" id="sidebarAccordion">
+
+                <div class="accordion-item">
+
+                    <h2 class="accordion-header">
+
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#schoolMenu">
+
+                            <i class="bi bi-building me-2"></i>
+
+                            School
+
+                        </button>
+
+                    </h2>
+
+                    <div id="schoolMenu" class="accordion-collapse collapse show" data-bs-parent="#sidebarAccordion">
+
+                        <div class="accordion-body p-0">
+
+                            <a th:href="@{/settings}" class="submenu-link">
+
+                                <i class="bi bi-gear"></i>
+
+                                School Settings
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- =====================
+                 Academic
+            ====================== -->
+
+                <div class="accordion-item">
+
+                    <h2 class="accordion-header">
+
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#academicMenu">
+
+                            <i class="bi bi-book-half me-2"></i>
+
+                            Academic
+
+                        </button>
+
+                    </h2>
+
+                    <div id="academicMenu" class="accordion-collapse collapse show" data-bs-parent="#sidebarAccordion">
+
+                        <div class="accordion-body p-0">
+
+                            <a th:href="@{/sessions}" class="submenu-link">
+
+                                <i class="bi bi-calendar-event"></i>
+
+                                Academic Session
+
+                            </a>
+
+                            <a th:href="@{/classes}" class="submenu-link">
+
+                                <i class="bi bi-door-open"></i>
+
+                                Classroom
+
+                            </a>
+
+                            <a th:href="@{/subjects}" class="submenu-link">
+
+                                <i class="bi bi-journal-bookmark"></i>
+
+                                Subject
+
+                            </a>
+
+                            <a th:href="@{/teachers}" class="submenu-link">
+
+                                <i class="bi bi-person-workspace"></i>
+
+                                Teacher
+
+                            </a>
+
+                            <a th:href="@{/students}" class="submenu-link">
+
+                                <i class="bi bi-mortarboard"></i>
+
+                                Student
+
+                            </a>
+
+                            <a href="#" class="submenu-link disabled">
+
+                                <i class="bi bi-calendar-check"></i>
+
+                                Attendance
+
+                                <span class="badge bg-warning ms-auto">
+
+                                    Soon
+
+                                </span>
+
+                            </a>
+
+                            <a href="#" class="submenu-link disabled">
+
+                                <i class="bi bi-file-earmark-text"></i>
+
+                                Examination
+
+                                <span class="badge bg-warning ms-auto">
+
+                                    Soon
+
+                                </span>
+
+                            </a>
+
+                            <a href="#" class="submenu-link disabled">
+
+                                <i class="bi bi-award"></i>
+
+                                Result
+
+                                <span class="badge bg-warning ms-auto">
+
+                                    Soon
+
+                                </span>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- =====================
+                 Fees
+            ====================== -->
+
+                <div class="accordion-item">
+
+                    <h2 class="accordion-header">
+
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#feeMenu">
+
+                            <i class="bi bi-cash-stack me-2"></i>
+
+                            Fees
+
+                        </button>
+
+                    </h2>
+
+                    <div id="feeMenu" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
+
+                        <div class="accordion-body p-0">
+
+                            <a href="#" class="submenu-link disabled">
+
+                                <i class="bi bi-wallet2"></i>
+
+                                Fee Structure
+
+                                <span class="badge bg-warning ms-auto">
+                                    Soon
+                                </span>
+
+                            </a>
+
+                            <a href="#" class="submenu-link disabled">
+
+                                <i class="bi bi-cash-coin"></i>
+
+                                Fee Collection
+
+                                <span class="badge bg-warning ms-auto">
+                                    Soon
+                                </span>
+
+                            </a>
+
+                            <a href="#" class="submenu-link disabled">
+
+                                <i class="bi bi-receipt"></i>
+
+                                Expenses
+
+                                <span class="badge bg-warning ms-auto">
+                                    Soon
+                                </span>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- =====================
+                 Reports
+            ====================== -->
+
+                <div class="accordion-item">
+
+                    <h2 class="accordion-header">
+
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#reportMenu">
+
+                            <i class="bi bi-bar-chart-line me-2"></i>
+
+                            Reports
+
+                        </button>
+
+                    </h2>
+
+                    <div id="reportMenu" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
+
+                        <div class="accordion-body p-0">
+
+                            <a href="#" class="submenu-link disabled">
+
+                                <i class="bi bi-people"></i>
+
+                                Student Report
+
+                            </a>
+
+                            <a href="#" class="submenu-link disabled">
+
+                                <i class="bi bi-calendar-check"></i>
+
+                                Attendance Report
+
+                            </a>
+
+                            <a href="#" class="submenu-link disabled">
+
+                                <i class="bi bi-currency-rupee"></i>
+
+                                Fee Report
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- =====================
+                 User Management
+            ====================== -->
+
+                <div class="accordion-item">
+
+                    <h2 class="accordion-header">
+
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#userMenu">
+
+                            <i class="bi bi-people-fill me-2"></i>
+
+                            User Management
+
+                        </button>
+
+                    </h2>
+
+                    <div id="userMenu" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
+
+                        <div class="accordion-body p-0">
+
+                            <a href="#" class="submenu-link disabled">
+
+                                <i class="bi bi-person-gear"></i>
+
+                                Users
+
+                            </a>
+
+                            <a href="#" class="submenu-link disabled">
+
+                                <i class="bi bi-shield-lock"></i>
+
+                                Roles
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- =====================
+                 System
+            ====================== -->
+
+                <div class="accordion-item">
+
+                    <h2 class="accordion-header">
+
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#systemMenu">
+
+                            <i class="bi bi-cpu me-2"></i>
+
+                            System
+
+                        </button>
+
+                    </h2>
+
+                    <div id="systemMenu" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
+
+                        <div class="accordion-body p-0">
+
+                            <a href="#" class="submenu-link disabled">
+
+                                <i class="bi bi-database"></i>
+
+                                Backup
+
+                            </a>
+
+                            <a href="#" class="submenu-link disabled">
+
+                                <i class="bi bi-clock-history"></i>
+
+                                Activity Log
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Logout -->
+
+            <a href="#" class="menu-link text-danger mt-3">
+
+                <i class="bi bi-box-arrow-right"></i>
+
+                <span>
+
+                    Logout
+
+                </span>
+
+            </a>
+
+        </div>
+
+        <!-- Footer -->
+
+        <div class="sidebar-footer">
+
+            <small>
+
+                School ERP v1.0.0
+
+            </small>
+
+        </div>
+
+    </aside>
+
+</th:block>
+
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <div class="sms-page-header mb-4">
+
+            <div>
+
+                <h2 class="sms-page-title">
+
+                    <i class="bi bi-calendar-event me-2"></i>
+
+                    Academic Sessions
+
+                </h2>
+
+                <p class="text-secondary mb-0">
+
+                    Manage academic sessions.
+
+                </p>
+
+            </div>
+
+            <a th:href="@{/sessions/add}"
+               class="btn btn-primary">
+
+                <i class="bi bi-plus-circle me-2"></i>
+
+                Add Session
+
+            </a>
+
+        </div>
+
+        <div class="sms-card">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead>
+
+                    <tr>
+
+                        <th>#</th>
+                        <th>Session</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th width="170">Action</th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    <tr th:each="session,stat : ${sessions}">
+
+                        <td th:text="${stat.count}"></td>
+
+                        <td th:text="${session.sessionName}"></td>
+
+                        <td th:text="${session.description}"></td>
+
+                        <td>
+
+                            <span class="badge bg-success"
+                                  th:if="${session.active}">
+
+                                Active
+
+                            </span>
+
+                            <span class="badge bg-secondary"
+                                  th:unless="${session.active}">
+
+                                Inactive
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <a th:href="@{'/sessions/edit/' + ${session.id}}"
+                               class="btn btn-warning btn-sm">
+
+                                <i class="bi bi-pencil"></i>
+
+                            </a>
+
+                            <a th:href="@{'/sessions/delete/' + ${session.id}}"
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('Delete this session?')">
+
+                                <i class="bi bi-trash"></i>
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(sessions)}">
+
+                        <td colspan="5"
+                            class="text-center py-5">
+
+                            <i class="bi bi-calendar-x display-5"></i>
+
+                            <br><br>
+
+                            No Session Found
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>
