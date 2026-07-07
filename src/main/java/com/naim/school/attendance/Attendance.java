@@ -1,8 +1,8 @@
 package com.naim.school.attendance;
 
 
+import com.naim.school.academicsession.AcademicSession;
 import com.naim.school.classroom.ClassRoom;
-import com.naim.school.session.AcademicSession;
 import com.naim.school.sms.BaseEntity;
 import com.naim.school.student.Student;
 

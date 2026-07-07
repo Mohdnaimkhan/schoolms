@@ -34,7 +34,7 @@
 
             </div>
 
-            <a th:href="@{/sessions/add}"
+            <a th:href="@{/academic-sessions/add}"
                class="btn btn-primary">
 
                 <i class="bi bi-plus-circle me-2"></i>
@@ -67,25 +67,25 @@
 
                     <tbody>
 
-                    <tr th:each="session,stat : ${sessions}">
+                    <tr th:each="s,stat : ${academicSessions}">
 
                         <td th:text="${stat.count}"></td>
 
-                        <td th:text="${session.sessionName}"></td>
+                        <td th:text="${s.sessionName}"></td>
 
-                        <td th:text="${session.description}"></td>
+                        <td th:text="${s.description}"></td>
 
                         <td>
 
                             <span class="badge bg-success"
-                                  th:if="${session.active}">
+                                  th:if="${s.active}">
 
                                 Active
 
                             </span>
 
                             <span class="badge bg-secondary"
-                                  th:unless="${session.active}">
+                                  th:unless="${s.active}">
 
                                 Inactive
 
@@ -95,14 +95,14 @@
 
                         <td>
 
-                            <a th:href="@{'/sessions/edit/' + ${session.id}}"
+                            <a th:href="@{'/academic-sessions/edit/' + ${s.id}}"
                                class="btn btn-warning btn-sm">
 
                                 <i class="bi bi-pencil"></i>
 
                             </a>
 
-                            <a th:href="@{'/sessions/delete/' + ${session.id}}"
+                            <a th:href="@{'/academic-sessions/delete/' + ${s.id}}"
                                class="btn btn-danger btn-sm"
                                onclick="return confirm('Delete this session?')">
 

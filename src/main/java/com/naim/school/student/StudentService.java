@@ -2,7 +2,6 @@ package com.naim.school.student;
 
 import java.util.List;
 
-
 import org.springframework.stereotype.Service;
 
 import com.naim.school.classroom.ClassRoom;
@@ -62,8 +61,8 @@ public class StudentService {
 
         if (student.getClassRoom() != null
                 && repository.existsByRollNoAndClassRoom_Id(
-                student.getRollNo(),
-                student.getClassRoom().getId())) {
+                        student.getRollNo(),
+                        student.getClassRoom().getId())) {
 
             if (student.getId() == null) {
 
@@ -97,5 +96,9 @@ public class StudentService {
 
     }
 
-  
+    public double count() {
+
+        return repository.count();
+
+    }
 }

@@ -1,7 +1,7 @@
 package com.naim.school.attendance;
 
+import com.naim.school.academicsession.AcademicSessionService;
 import com.naim.school.classroom.ClassRoomService;
-import com.naim.school.session.AcademicSessionService;
 import com.naim.school.student.StudentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

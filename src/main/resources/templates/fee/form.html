@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('Fee Form')}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <h5 class="mb-0">
+
+                    Fee Details
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <form
+                        th:action="@{/fees/save}"
+                        th:object="${fee}"
+                        method="post">
+
+                    <input type="hidden" th:field="*{id}">
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">Student</label>
+
+                            <select class="form-select"
+                                    th:field="*{student}">
+
+                                <option value="">Select Student</option>
+
+                                <option
+                                        th:each="student : ${students}"
+                                        th:value="${student.id}"
+                                        th:text="${student.fullName}">
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">Academic Session</label>
+
+                            <select class="form-select"
+                                    th:field="*{academicSession}">
+
+                                <option value="">Select Session</option>
+
+                                <option
+                                        th:each="session : ${sessions}"
+                                        th:value="${session.id}"
+                                        th:text="${session.sessionName}">
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">Fee Type</label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   th:field="*{feeType}">
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">Amount</label>
+
+                            <input type="number"
+                                   class="form-control"
+                                   th:field="*{amount}">
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">Paid Amount</label>
+
+                            <input type="number"
+                                   class="form-control"
+                                   th:field="*{paidAmount}">
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">Payment Date</label>
+
+                            <input type="date"
+                                   class="form-control"
+                                   th:field="*{paymentDate}">
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">Status</label>
+
+                            <select class="form-select"
+                                    th:field="*{status}">
+
+                                <option
+                                        th:each="status : ${statuses}"
+                                        th:value="${status}"
+                                        th:text="${status}">
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-12 mb-3">
+
+                            <label class="form-label">Remarks</label>
+
+                            <textarea class="form-control"
+                                      rows="3"
+                                      th:field="*{remarks}">
+                            </textarea>
+
+                        </div>
+
+                    </div>
+
+                    <button class="btn btn-primary">
+
+                        <i class="bi bi-check-circle me-2"></i>
+
+                        Save
+
+                    </button>
+
+                    <a th:href="@{/fees}"
+                       class="btn btn-secondary">
+
+                        Cancel
+
+                    </a>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>

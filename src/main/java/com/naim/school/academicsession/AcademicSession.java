@@ -1,4 +1,4 @@
-package com.naim.school.session;
+package com.naim.school.academicsession;
 
 
 import com.naim.school.sms.BaseEntity;

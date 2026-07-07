@@ -1,13 +1,17 @@
+// ==========================================
+// APP.JS
+// ==========================================
+
 document.addEventListener("DOMContentLoaded", () => {
 
-    // ============================
+    // ==========================================
     // Sidebar Toggle
-    // ============================
+    // ==========================================
 
     const toggle = document.getElementById("sidebarToggle");
     const sidebar = document.getElementById("sidebar");
 
-    if (toggle) {
+    if (toggle && sidebar) {
 
         toggle.addEventListener("click", () => {
 
@@ -17,46 +21,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-
-
-
-    // ============================
+    // ==========================================
     // Live Date & Time
-    // ============================
+    // ==========================================
 
     const dateTime = document.getElementById("currentDateTime");
 
     function updateClock() {
 
+        if (!dateTime) return;
+
         const now = new Date();
 
-        const options = {
-
+        const date = now.toLocaleDateString("en-IN", {
             weekday: "long",
             day: "2-digit",
             month: "long",
             year: "numeric"
-
-        };
-
-        const date = now.toLocaleDateString("en-IN", options);
+        });
 
         const time = now.toLocaleTimeString("en-IN", {
-
             hour: "2-digit",
             minute: "2-digit",
             second: "2-digit"
-
         });
 
-        if (dateTime) {
-
-            dateTime.innerHTML = `
-                <div>${date}</div>
-                <div>${time}</div>
-            `;
-
-        }
+        dateTime.innerHTML = `
+            <div>${date}</div>
+            <div>${time}</div>
+        `;
 
     }
 
@@ -64,51 +57,52 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setInterval(updateClock, 1000);
 
-});
+    // ==========================================
+    // Theme Toggle
+    // ==========================================
 
+    const themeToggle = document.getElementById("themeToggle");
+    const themeIcon = document.getElementById("themeIcon");
 
+    function setTheme(theme) {
 
-// ============================
-// Theme Toggle
-// ============================
+        if (theme === "dark") {
 
-const themeToggle = document.getElementById("themeToggle");
-const themeIcon = document.getElementById("themeIcon");
+            document.documentElement.classList.add("dark");
 
-const savedTheme = localStorage.getItem("theme");
-
-if (savedTheme === "dark") {
-
-    document.body.classList.add("dark");
-
-    if (themeIcon) {
-        themeIcon.className = "bi bi-sun-fill";
-    }
-
-}
-
-if (themeToggle) {
-
-    themeToggle.addEventListener("click", () => {
-
-        document.body.classList.toggle("dark");
-
-        const dark = document.body.classList.contains("dark");
-
-        if (dark) {
-
-            localStorage.setItem("theme", "dark");
-
-            themeIcon.className = "bi bi-sun-fill";
+            if (themeIcon) {
+                themeIcon.className = "bi bi-sun-fill";
+            }
 
         } else {
 
-            localStorage.setItem("theme", "light");
+            document.documentElement.classList.remove("dark");
 
-            themeIcon.className = "bi bi-moon-stars-fill";
+            if (themeIcon) {
+                themeIcon.className = "bi bi-moon-stars-fill";
+            }
 
         }
 
-    });
+        localStorage.setItem("theme", theme);
 
-}
+    }
+
+    const savedTheme = localStorage.getItem("theme") || "light";
+
+    setTheme(savedTheme);
+
+    if (themeToggle) {
+
+        themeToggle.addEventListener("click", () => {
+
+            const isDark =
+                document.documentElement.classList.contains("dark");
+
+            setTheme(isDark ? "light" : "dark");
+
+        });
+
+    }
+
+});

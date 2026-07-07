@@ -9,13 +9,11 @@
 
     <!-- Bootstrap -->
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Bootstrap Icons -->
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
-          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
 
@@ -24,5 +22,18 @@
     <!-- Favicon (Dynamic Later) -->
 
     <link rel="icon" th:href="@{/images/favicon.ico}">
+    <script>
+        (() => {
+
+            const theme = localStorage.getItem("theme");
+
+            if (theme === "dark") {
+
+                document.documentElement.classList.add("dark");
+
+            }
+
+        })();
+    </script>
 
 </head>

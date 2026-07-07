@@ -1,4 +1,4 @@
-package com.naim.school.session;
+package com.naim.school.academicsession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/sessions")
+@RequestMapping("/academic-sessions")
 public class AcademicSessionController {
 
     private final AcademicSessionService service;
@@ -21,9 +21,9 @@ public class AcademicSessionController {
     public String list(Model model) {
 
         model.addAttribute("pageTitle", "Academic Sessions");
-        model.addAttribute("sessions", service.getAllSessions());
+        model.addAttribute("academicSessions", service.getAllSessions());
 
-        return "session/list";
+        return "academicsession/list";
 
     }
 
@@ -31,9 +31,9 @@ public class AcademicSessionController {
     public String add(Model model) {
 
         model.addAttribute("pageTitle", "Add Session");
-        model.addAttribute("session", new AcademicSession());
+        model.addAttribute("academicSession", new AcademicSession());
 
-        return "session/form";
+        return "academicsession/form";
 
     }
 
@@ -42,25 +42,25 @@ public class AcademicSessionController {
                        Model model) {
 
         model.addAttribute("pageTitle", "Edit Session");
-        model.addAttribute("session", service.getById(id));
+        model.addAttribute("academicSession", service.getById(id));
 
-        return "session/form";
+        return "academicsession/form";
 
     }
 
     @PostMapping("/save")
-    public String save(@Valid @ModelAttribute("session") AcademicSession session,
+    public String save(@Valid @ModelAttribute("academicSession") AcademicSession session,
                        BindingResult result) {
 
         if (result.hasErrors()) {
 
-            return "session/form";
+            return "academicsession/form";
 
         }
 
         service.save(session);
 
-        return "redirect:/sessions";
+        return "redirect:/academic-sessions";
 
     }
 
@@ -69,7 +69,7 @@ public class AcademicSessionController {
 
         service.delete(id);
 
-        return "redirect:/sessions";
+        return "redirect:/academic-sessions";
 
     }
 
