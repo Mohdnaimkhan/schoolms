@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('Attendance Form')}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <h5 class="mb-0">
+
+                    Mark Attendance
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <form
+                        th:action="@{/attendance/save}"
+                        th:object="${attendance}"
+                        method="post">
+
+                    <input type="hidden"
+                           th:field="*{id}">
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+
+                                Student
+
+                            </label>
+
+                            <select class="form-select"
+                                    th:field="*{student}">
+
+                                <option value="">
+
+                                    Select Student
+
+                                </option>
+
+                                <option
+                                        th:each="student : ${students}"
+                                        th:value="${student.id}"
+                                        th:text="${student.fullName}">
+
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+
+                                Classroom
+
+                            </label>
+
+                            <select class="form-select"
+                                    th:field="*{classroom}">
+
+                                <option value="">
+
+                                    Select Classroom
+
+                                </option>
+
+                                <option
+                                        th:each="classroom : ${classrooms}"
+                                        th:value="${classroom.id}"
+                                        th:text="${classroom.name}">
+
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+
+                                Academic Session
+
+                            </label>
+
+                            <select class="form-select"
+                                    th:field="*{academicSession}">
+
+                                <option value="">
+
+                                    Select Session
+
+                                </option>
+
+                                <option
+                                        th:each="session : ${sessions}"
+                                        th:value="${session.id}"
+                                        th:text="${session.sessionName}">
+
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+
+                                Attendance Date
+
+                            </label>
+
+                            <input type="date"
+                                   class="form-control"
+                                   th:field="*{attendanceDate}">
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+
+                                Status
+
+                            </label>
+
+                            <select class="form-select"
+                                    th:field="*{status}">
+
+                                <option
+                                        th:each="status : ${statuses}"
+                                        th:value="${status}"
+                                        th:text="${status}">
+
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+
+                                Remarks
+
+                            </label>
+
+                            <textarea class="form-control"
+                                      rows="3"
+                                      th:field="*{remarks}"></textarea>
+
+                        </div>
+
+                    </div>
+
+                    <button class="btn btn-primary"
+                            type="submit">
+
+                        Save
+
+                    </button>
+
+                    <a th:href="@{/attendance}"
+                       class="btn btn-secondary">
+
+                        Cancel
+
+                    </a>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>
