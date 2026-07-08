@@ -2,6 +2,7 @@ package com.naim.school.subject;
 
 import java.util.List;
 
+
 import org.springframework.stereotype.Service;
 
 
@@ -61,6 +62,10 @@ public class SubjectService {
 
         repository.deleteById(id);
 
+    }
+
+    public long count() {
+        return repository.count();
     }
 
 }

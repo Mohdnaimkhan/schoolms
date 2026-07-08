@@ -52,4 +52,8 @@ public class FeeService {
         return feeRepository.existsByReceiptNo(receiptNo);
     }
 
+    public List<Fee> findTop5ByOrderByIdDesc() {
+       return feeRepository.findTop5ByOrderByIdDesc();
+    }
+
 }

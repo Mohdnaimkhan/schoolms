@@ -2,7 +2,6 @@ package com.naim.school.classroom;
 
 import java.util.List;
 
-
 import org.springframework.stereotype.Service;
 
 
@@ -88,6 +87,10 @@ public class ClassRoomService {
 
         repository.deleteById(id);
 
+    }
+
+    public long  count() {
+        return repository.count();
     }
 
   

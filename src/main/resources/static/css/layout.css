@@ -553,3 +553,415 @@ ul{
     color:#fff;
 
 }
+
+/* ==========================================================
+   DASHBOARD
+========================================================== */
+
+/* ===========================
+   Banner
+=========================== */
+
+.dashboard-banner{
+
+    background:linear-gradient(135deg,var(--primary),#4f8df7);
+
+    color:#fff;
+
+    padding:30px;
+
+    border-radius:18px;
+
+    box-shadow:var(--shadow-md);
+
+    margin-bottom:30px;
+
+}
+
+.dashboard-title{
+
+    font-size:2rem;
+
+    font-weight:700;
+
+    margin-bottom:10px;
+
+}
+
+.dashboard-subtitle{
+
+    opacity:.9;
+
+    margin:0;
+
+}
+
+.dashboard-session{
+
+    background:rgba(255,255,255,.15);
+
+    padding:18px;
+
+    border-radius:14px;
+
+    backdrop-filter:blur(8px);
+
+}
+
+.dashboard-session h4{
+
+    margin:8px 0;
+
+    font-weight:700;
+
+}
+
+.dashboard-session small{
+
+    color:#fff;
+
+}
+
+
+/* ===========================
+   Summary Cards
+=========================== */
+
+.dashboard-card{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    background:var(--bg-card);
+
+    border:1px solid var(--border);
+
+    border-radius:16px;
+
+    padding:22px;
+
+    color:var(--text);
+
+    transition:.3s;
+
+    box-shadow:var(--shadow-sm);
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.dashboard-card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:var(--shadow-lg);
+
+    color:var(--text);
+
+}
+
+.dashboard-card-icon{
+
+    width:65px;
+
+    height:65px;
+
+    border-radius:16px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:#fff;
+
+    font-size:28px;
+
+    flex-shrink:0;
+
+}
+
+.dashboard-card-content{
+
+    flex:1;
+
+}
+
+.dashboard-card-content small{
+
+    color:var(--text-muted);
+
+    font-size:.85rem;
+
+}
+
+.dashboard-card-content h2{
+
+    margin:6px 0;
+
+    font-size:2rem;
+
+    font-weight:700;
+
+    color:var(--text);
+
+}
+
+.dashboard-card-content span{
+
+    color:var(--text-muted);
+
+    font-size:.85rem;
+
+}
+
+.dashboard-card-arrow{
+
+    font-size:28px;
+
+    color:var(--primary);
+
+    transition:.3s;
+
+}
+
+.dashboard-card:hover .dashboard-card-arrow{
+
+    transform:translateX(6px);
+
+}
+
+
+/* ===========================
+   Widgets
+=========================== */
+
+.dashboard-widget{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    background:var(--bg-card);
+
+    border:1px solid var(--border);
+
+    border-radius:16px;
+
+    padding:20px;
+
+    color:var(--text);
+
+    transition:.3s;
+
+    box-shadow:var(--shadow-sm);
+
+}
+
+.dashboard-widget:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:var(--shadow-md);
+
+}
+
+.widget-icon{
+
+    width:58px;
+
+    height:58px;
+
+    border-radius:14px;
+
+    color:#fff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:24px;
+
+}
+
+.widget-content{
+
+    flex:1;
+
+}
+
+.widget-content small{
+
+    color:var(--text-muted);
+
+}
+
+.widget-content h3{
+
+    margin:5px 0;
+
+    font-size:1.7rem;
+
+    color:var(--text);
+
+}
+
+
+/* ===========================
+   Quick Actions
+=========================== */
+
+.dashboard-action{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:12px;
+
+    height:120px;
+
+    border-radius:16px;
+
+    background:var(--bg-card);
+
+    border:1px solid var(--border);
+
+    color:var(--text);
+
+    transition:.3s;
+
+    box-shadow:var(--shadow-sm);
+
+}
+
+.dashboard-action:hover{
+
+    background:var(--primary);
+
+    color:#fff;
+
+    transform:translateY(-5px);
+
+    box-shadow:var(--shadow-lg);
+
+}
+
+.dashboard-action i{
+
+    font-size:34px;
+
+}
+
+.dashboard-action span{
+
+    font-weight:600;
+
+}
+
+
+/* ===========================
+   Dashboard Tables
+=========================== */
+
+.dashboard-table .card{
+
+    border:none;
+
+    border-radius:16px;
+
+    overflow:hidden;
+
+}
+
+.dashboard-table .card-header{
+
+    background:var(--bg-card);
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.dashboard-table table{
+
+    margin-bottom:0;
+
+}
+
+.dashboard-table tbody tr{
+
+    transition:.2s;
+
+}
+
+.dashboard-table tbody tr:hover{
+
+    background:var(--bg-hover);
+
+}
+
+
+/* ===========================
+   Card Header
+=========================== */
+
+.card-header{
+
+    background:var(--bg-card);
+
+    color:var(--text);
+
+    border-bottom:1px solid var(--border);
+
+}
+
+
+/* ===========================
+   Mobile
+=========================== */
+
+@media(max-width:768px){
+
+    .dashboard-banner{
+
+        text-align:center;
+
+    }
+
+    .dashboard-session{
+
+        margin-top:20px;
+
+    }
+
+    .dashboard-card{
+
+        flex-direction:column;
+
+        text-align:center;
+
+    }
+
+    .dashboard-widget{
+
+        flex-direction:column;
+
+        text-align:center;
+
+    }
+
+}

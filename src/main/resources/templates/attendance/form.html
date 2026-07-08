@@ -58,7 +58,7 @@
                                 <option
                                         th:each="student : ${students}"
                                         th:value="${student.id}"
-                                        th:text="${student.fullName}">
+                                        th:text="${student.StudentName}">
 
                                 </option>
 
@@ -86,7 +86,7 @@
                                 <option
                                         th:each="classroom : ${classrooms}"
                                         th:value="${classroom.id}"
-                                        th:text="${classroom.name}">
+                                        th:text="${classroom.className}">
 
                                 </option>
 
@@ -112,9 +112,9 @@
                                 </option>
 
                                 <option
-                                        th:each="session : ${sessions}"
-                                        th:value="${session.id}"
-                                        th:text="${session.sessionName}">
+                                        th:each="s : ${academic}"
+                                        th:value="${s.id}"
+                                        th:text="${s.sessionName}">
 
                                 </option>
 

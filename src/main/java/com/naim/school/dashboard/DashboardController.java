@@ -1,17 +1,106 @@
 package com.naim.school.dashboard;
 
-import jakarta.servlet.http.HttpServletRequest;
+import com.naim.school.academicsession.AcademicSession;
+import com.naim.school.academicsession.AcademicSessionService;
+import com.naim.school.attendance.Attendance;
+import com.naim.school.attendance.AttendanceService;
+import com.naim.school.classroom.ClassRoomService;
+import com.naim.school.fee.Fee;
+import com.naim.school.fee.FeeService;
+import com.naim.school.student.Student;
+import com.naim.school.student.StudentService;
+import com.naim.school.subject.SubjectService;
+import com.naim.school.teacher.TeacherService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.List;
+
 @Controller
+@RequiredArgsConstructor
 public class DashboardController {
 
-    @GetMapping("/")
-    public String dashboard(HttpServletRequest request, Model model) {
+    private final StudentService studentService;
 
-        model.addAttribute("currentPath", request.getRequestURI());
+    private final TeacherService teacherService;
+
+    private final ClassRoomService classRoomService;
+
+    private final SubjectService subjectService;
+
+    private final FeeService feeService;
+
+    private final AttendanceService attendanceService;
+
+    private final AcademicSessionService academicSessionService;
+
+    @GetMapping("/")
+    public String dashboard(Model model) {
+
+        /* ===========================
+           COUNTS
+        =========================== */
+
+        model.addAttribute("studentCount",
+                studentService.getActiveStudents().size());
+
+        model.addAttribute("teacherCount",
+                teacherService.getActiveTeachers().size());
+
+        model.addAttribute("classRoomCount",
+                classRoomService.getActiveClasses().size());
+
+        model.addAttribute("subjectCount",
+                subjectService.getAllSubjects().size());
+
+
+
+        /* ===========================
+           CURRENT SESSION
+        =========================== */
+
+        AcademicSession currentSession =
+                academicSessionService.findCurrentSession().orElse(null);
+
+        model.addAttribute("currentSession", currentSession);
+
+
+
+        /* ===========================
+           RECENT STUDENTS
+        =========================== */
+
+        List<Student> recentStudents =
+                studentService.findTop5ByOrderByIdDesc();
+
+        model.addAttribute("recentStudents", recentStudents);
+
+
+
+        /* ===========================
+           RECENT FEES
+        =========================== */
+
+        List<Fee> recentFees =
+                feeService.findTop5ByOrderByIdDesc();
+
+        model.addAttribute("recentFees", recentFees);
+
+
+
+        /* ===========================
+           RECENT ATTENDANCE
+        =========================== */
+
+        List<Attendance> recentAttendance =
+                attendanceService.findTop5ByOrderByIdDesc();
+
+        model.addAttribute("recentAttendance",
+                recentAttendance);
+
+
 
         return "dashboard/index";
 

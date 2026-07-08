@@ -12,4 +12,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     boolean existsByRollNoAndClassRoom_Id(Integer rollNo, Long classId);
 
+    List<Student> findTop5ByOrderByIdDesc();
+
 }

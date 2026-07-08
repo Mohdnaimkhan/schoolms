@@ -96,9 +96,13 @@ public class StudentService {
 
     }
 
-    public double count() {
+    public long count() {
 
         return repository.count();
 
+    }
+
+    public List<Student> findTop5ByOrderByIdDesc() {
+        return repository.findTop5ByOrderByIdDesc();
     }
 }

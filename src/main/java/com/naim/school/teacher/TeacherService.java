@@ -2,6 +2,7 @@ package com.naim.school.teacher;
 
 import java.util.List;
 
+
 import org.springframework.stereotype.Service;
 
 import com.naim.school.subject.SubjectRepository;
@@ -72,6 +73,10 @@ public class TeacherService {
 
         repository.deleteById(id);
 
+    }
+
+    public long count() {
+       return repository.count();
     }
 
 }

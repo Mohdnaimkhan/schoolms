@@ -1,7 +1,7 @@
 package com.naim.school.academicsession;
 
 import java.util.List;
-
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -55,6 +55,11 @@ public class AcademicSessionService {
 
         repository.deleteById(id);
 
+    }
+
+    public Optional<AcademicSession> findCurrentSession() {
+   
+        return repository.findByActiveTrue();
     }
 
 

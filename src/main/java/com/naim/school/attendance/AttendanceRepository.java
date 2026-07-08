@@ -36,4 +36,6 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
             AcademicSession academicSession
     );
 
+    List<Attendance> findTop5ByOrderByIdDesc();
+
 }

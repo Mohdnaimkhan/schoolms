@@ -84,4 +84,9 @@ public class AttendanceService {
         );
     }
 
+    public List<Attendance> findTop5ByOrderByIdDesc() {
+      
+      return attendanceRepository.findTop5ByOrderByIdDesc();
+    }
+
 }

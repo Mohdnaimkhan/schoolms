@@ -19,4 +19,6 @@ public interface FeeRepository extends JpaRepository<Fee, Long> {
 
     boolean existsByReceiptNo(String receiptNo);
 
+    List<Fee> findTop5ByOrderByIdDesc();
+
 }

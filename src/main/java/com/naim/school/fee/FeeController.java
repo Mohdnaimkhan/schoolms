@@ -42,7 +42,7 @@ public class FeeController {
 
         model.addAttribute("students", studentService.getAllStudents());
 
-        model.addAttribute("sessions", academicSessionService.getAllSessions());
+        model.addAttribute("academic", academicSessionService.getAllSessions());
 
         model.addAttribute("statuses", FeeStatus.values());
 
@@ -61,7 +61,7 @@ public class FeeController {
 
             model.addAttribute("students", studentService.getAllStudents());
 
-            model.addAttribute("sessions", academicSessionService.getAllSessions());
+            model.addAttribute("academic-session", academicSessionService.getAllSessions());
 
             model.addAttribute("statuses", FeeStatus.values());
 
@@ -88,7 +88,7 @@ public class FeeController {
 
         model.addAttribute("students", studentService.getAllStudents());
 
-        model.addAttribute("sessions", academicSessionService.getAllSessions());
+        model.addAttribute("academic-session", academicSessionService.getAllSessions());
 
         model.addAttribute("statuses", FeeStatus.values());
 
