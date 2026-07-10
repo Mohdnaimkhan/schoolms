@@ -1,46 +1,46 @@
 package com.naim.school.sms;
 
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-
-import lombok.RequiredArgsConstructor;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/settings")
 @RequiredArgsConstructor
 public class SchoolSettingController {
 
-    private final SchoolSettingService schoolSettingService;
+    private final SchoolSettingService service;
 
-    /**
-     * Open Settings Page
-     */
-    @GetMapping("/settings")
-    public String settings(Model model) {
+    @GetMapping
+    public String index(Model model) {
 
-        model.addAttribute("pageTitle", "School Settings");
-        model.addAttribute("setting", schoolSettingService.getSettings());
+        SchoolSetting setting = service.getSetting();
+
+        if (setting == null) {
+            setting = new SchoolSetting();
+        }
+
+        model.addAttribute("setting", setting);
 
         return "school/settings";
     }
 
-    /**
-     * Save Settings
-     */
-    @PostMapping("/settings/save")
-    public String saveSettings(
-            @ModelAttribute SchoolSetting setting,
-            RedirectAttributes redirectAttributes) {
+    @PostMapping("/save")
+    public String save(@Valid @ModelAttribute("setting") SchoolSetting setting,
+                       BindingResult result) {
 
-        schoolSettingService.save(setting);
+        if (result.hasErrors()) {
+            return "school/settings";
+        }
 
-        redirectAttributes.addFlashAttribute(
-                "success",
-                "School settings saved successfully.");
+        if (setting.getId() == null) {
+            service.save(setting);
+        } else {
+            service.update(setting.getId(), setting);
+        }
 
         return "redirect:/settings";
     }
