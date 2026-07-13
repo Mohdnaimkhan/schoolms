@@ -1,227 +1,595 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+<head th:replace="~{fragments/head :: head('Students')}"></head>
 
 <body>
 
-<div th:replace="~{fragments/navbar :: navbar}"></div>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
-<main class="sms-content">
+    <main class="sms-content">
 
-    <div class="container-fluid">
+        <!-- Flash Message -->
 
-        <!-- Page Header -->
+        <div class="container-fluid mt-3">
 
-        <div class="sms-page-header mb-4">
+            <div th:if="${success}" class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
 
-            <div>
+                <i class="bi bi-check-circle-fill me-2"></i>
 
-                <h2 class="sms-page-title">
+                <span th:text="${success}"></span>
 
-                    <i class="bi bi-mortarboard-fill me-2"></i>
-
-                    Students
-
-                </h2>
-
-                <p class="text-secondary mb-0">
-
-                    Manage all student records.
-
-                </p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert">
+                </button>
 
             </div>
 
-            <a th:href="@{/students/add}"
-               class="btn btn-primary">
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
 
-                <i class="bi bi-plus-circle me-2"></i>
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                <span th:text="${error}"></span>
 
-                Add Student
+                <button type="button" class="btn-close" data-bs-dismiss="alert">
+                </button>
 
-            </a>
+            </div>
 
         </div>
 
-        <!-- Search -->
+        <div class="container-fluid">
 
-        <div class="sms-card mb-4">
+            <!-- ===========================
+                PAGE HEADER
+        ============================ -->
 
-            <div class="row">
+            <div class="d-flex justify-content-between align-items-center mb-4">
 
-                <div class="col-lg-4">
+                <div>
 
-                    <input type="text"
-                           id="searchStudent"
-                           class="form-control"
-                           placeholder="Search Student...">
+                    <h3 class="fw-bold mb-1">
+                        <i class="bi bi-people-fill text-primary"></i>
+                        Student Management
+                    </h3>
+
+                    <small class="text-secondary">
+                        Manage Student Records
+                    </small>
+
+                </div>
+
+                <a th:href="@{/students/add}" class="btn btn-primary">
+
+                    <i class="bi bi-plus-circle"></i>
+                    New Admission
+
+                </a>
+
+            </div>
+
+            <!-- ===========================
+                DASHBOARD
+        ============================ -->
+
+            <div class="row g-4 mb-4">
+
+                <div class="col-xl-3 col-md-6">
+
+                    <div class="card shadow-sm h-100">
+
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between">
+
+                                <div>
+
+                                    <small class="text-muted">
+                                        Total Students
+                                    </small>
+
+                                    <h3 class="fw-bold mt-2" th:text="${totalStudents}">
+                                        0
+                                    </h3>
+
+                                </div>
+
+                                <div>
+
+                                    <i class="bi bi-people-fill
+                                          text-primary fs-1"></i>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-xl-3 col-md-6">
+
+                    <div class="card shadow-sm h-100">
+
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between">
+
+                                <div>
+
+                                    <small class="text-muted">
+                                        Active Students
+                                    </small>
+
+                                    <h3 class="fw-bold mt-2" th:text="${activeStudents}">
+                                        0
+                                    </h3>
+
+                                </div>
+
+                                <div>
+
+                                    <i class="bi bi-person-check-fill
+                                          text-success fs-1"></i>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-xl-3 col-md-6">
+
+                    <div class="card shadow-sm h-100">
+
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between">
+
+                                <div>
+
+                                    <small class="text-muted">
+                                        Boys
+                                    </small>
+
+                                    <h3 class="fw-bold mt-2" th:text="${boys}">
+                                        0
+                                    </h3>
+
+                                </div>
+
+                                <div>
+
+                                    <i class="bi bi-gender-male
+                                          text-info fs-1"></i>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-xl-3 col-md-6">
+
+                    <div class="card shadow-sm h-100">
+
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between">
+
+                                <div>
+
+                                    <small class="text-muted">
+                                        Girls
+                                    </small>
+
+                                    <h3 class="fw-bold mt-2" th:text="${girls}">
+                                        0
+                                    </h3>
+
+                                </div>
+
+                                <div>
+
+                                    <i class="bi bi-gender-female
+                                          text-danger fs-1"></i>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- ===========================
+                SEARCH & FILTER
+        ============================ -->
+
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-header">
+
+                    <i class="bi bi-funnel-fill me-2"></i>
+
+                    Search & Filters
+
+                </div>
+
+                <div class="card-body">
+
+                    <form th:action="@{/students}" method="get">
+
+                        <div class="row g-3">
+
+                            <!-- Search -->
+
+                            <div class="col-lg-4">
+
+                                <label class="form-label">
+                                    Search Student
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+
+                                        <i class="bi bi-search"></i>
+
+                                    </span>
+
+                                    <input type="text" name="keyword" class="form-control"
+                                        placeholder="Admission No / Roll No / Name / Mobile"
+                                        th:value="${param.keyword}">
+
+                                </div>
+
+                            </div>
+
+                            <!-- Academic Session -->
+
+                            <div class="col-lg-2">
+
+                                <label class="form-label">
+
+                                    Academic Session
+
+                                </label>
+
+                                <select name="sessionId" class="form-select">
+
+                                    <option value="">
+
+                                        All
+
+                                    </option>
+
+                                    <option th:each="s : ${academicSessions}" th:value="${s.id}" th:text="${s.name}"
+                                        th:selected="${param.sessionId==s.id}">
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                            <!-- Class -->
+
+                            <div class="col-lg-2">
+
+                                <label class="form-label">
+
+                                    Class
+
+                                </label>
+
+                                <select name="classId" class="form-select">
+
+                                    <option value="">
+
+                                        All
+
+                                    </option>
+
+                                    <option th:each="c : ${classRooms}" th:value="${c.id}" th:text="${c.className}"
+                                        th:selected="${param.classId==c.id}">
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                            <!-- Status -->
+
+                            <div class="col-lg-2">
+
+                                <label class="form-label">
+
+                                    Status
+
+                                </label>
+
+                                <select name="active" class="form-select">
+
+                                    <option value="">
+                                        All
+                                    </option>
+
+                                    <option value="true">
+                                        Active
+                                    </option>
+
+                                    <option value="false">
+                                        Inactive
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                            <!-- Buttons -->
+
+                            <div class="col-lg-2 d-flex align-items-end">
+
+                                <button class="btn btn-primary w-100">
+
+                                    <i class="bi bi-search"></i>
+
+                                    Search
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </form>
 
                 </div>
 
             </div>
 
-        </div>
+            <!-- ===========================
+                STUDENT TABLE
+        ============================ -->
+            <div class="card shadow-sm">
 
-        <!-- Student Table -->
+                <div class="card-header d-flex justify-content-between align-items-center">
 
-        <div class="sms-card">
+                    <span>
 
-            <div class="table-responsive">
+                        <i class="bi bi-table"></i>
 
-                <table class="table table-hover align-middle">
+                        Student List
 
-                    <thead>
+                    </span>
 
-                    <tr>
+                    <span class="badge bg-primary" th:text="${#lists.size(students)} + ' Records'">
+                        0 Records
+                    </span>
 
-                        <th>#</th>
+                </div>
 
-                        <th>Admission No</th>
+                <div class="card-body p-0">
 
-                        <th>Roll No</th>
+                    <div class="table-responsive">
 
-                        <th>Student Name</th>
+                        <table class="table table-hover table-striped align-middle mb-0">
 
-                        <th>Father Name</th>
+                            <thead class="table-light">
 
-                        <th>Class</th>
+                                <tr>
 
-                        <th>Mobile</th>
+                                    <th width="60">#</th>
 
-                        <th>Status</th>
+                                    <th width="90">
+                                        Photo
+                                    </th>
 
-                        <th width="170">
+                                    <th>
+                                        Student
+                                    </th>
 
-                            Action
+                                    <th>
+                                        Admission
+                                    </th>
 
-                        </th>
+                                    <th>
+                                        Roll
+                                    </th>
 
-                    </tr>
+                                    <th>
+                                        Class
+                                    </th>
 
-                    </thead>
+                                    <th>
+                                        Mobile
+                                    </th>
 
-                    <tbody id="studentTable">
+                                    <th>
+                                        Status
+                                    </th>
 
-                    <tr th:each="student,stat : ${students}">
+                                    <th class="text-center" width="270">
+                                        Action
+                                    </th>
 
-                        <td th:text="${stat.count}"></td>
+                                </tr>
 
-                        <td th:text="${student.admissionNo}"></td>
+                            </thead>
 
-                        <td th:text="${student.rollNo}"></td>
+                            <tbody>
 
-                        <td th:text="${student.studentName}"></td>
+                                <tr th:if="${#lists.isEmpty(students)}">
 
-                        <td th:text="${student.fatherName}"></td>
+                                    <td colspan="9" class="text-center py-5">
 
-                        <td>
+                                        <i class="bi bi-database-x fs-1 text-muted"></i>
 
-                            <span th:if="${student.classRoom != null}"
-                                  th:text="${student.classRoom.className + ' - ' + student.classRoom.section}">
-                            </span>
+                                        <br>
 
-                            <span th:unless="${student.classRoom != null}">
-                                -
-                            </span>
+                                        No Student Found
 
-                        </td>
+                                    </td>
 
-                        <td th:text="${student.mobile}"></td>
+                                </tr>
 
-                        <td>
+                                <tr th:each="student,stat : ${students}">
 
-                            <span class="badge bg-success"
-                                  th:if="${student.active}">
+                                    <td th:text="${stat.count}"></td>
 
-                                Active
+                                    <td>
 
-                            </span>
+                                        <img th:if="${student.photo!=null}"
+                                            th:src="@{'/uploads/students/'+${student.photo}}" class="rounded"
+                                            style="width:55px;height:65px;object-fit:cover;">
 
-                            <span class="badge bg-danger"
-                                  th:unless="${student.active}">
+                                        <img th:if="${student.photo==null}" th:src="@{/images/no-image.png}"
+                                            class="rounded" style="width:55px;height:65px;object-fit:cover;">
 
-                                Inactive
+                                    </td>
 
-                            </span>
+                                    <td>
 
-                        </td>
+                                        <div class="fw-semibold" th:text="${student.fullName}">
+                                        </div>
 
-                        <td>
+                                        <small class="text-muted" th:text="${student.gender}">
+                                        </small>
 
-                            <a th:href="@{'/students/edit/' + ${student.id}}"
-                               class="btn btn-warning btn-sm">
+                                    </td>
 
-                                <i class="bi bi-pencil"></i>
+                                    <td th:text="${student.admissionNo}"></td>
 
-                            </a>
+                                    <td th:text="${student.rollNumber}"></td>
 
-                            <a th:href="@{'/students/delete/' + ${student.id}}"
-                               class="btn btn-danger btn-sm"
-                               onclick="return confirm('Delete this student?')">
+                                    <td th:text="${student.classRoom.className}"></td>
 
-                                <i class="bi bi-trash"></i>
+                                    <td th:text="${student.mobile}"></td>
 
-                            </a>
+                                    <td>
 
-                        </td>
+                                        <span th:if="${student.active}" class="badge bg-success">
 
-                    </tr>
+                                            Active
 
-                    <tr th:if="${#lists.isEmpty(students)}">
+                                        </span>
 
-                        <td colspan="9"
-                            class="text-center py-5">
+                                        <span th:unless="${student.active}" class="badge bg-danger">
 
-                            <i class="bi bi-person-x display-4"></i>
+                                            Inactive
 
-                            <br><br>
+                                        </span>
 
-                            No Student Found
+                                    </td>
 
-                        </td>
+                                    <td class="text-center">
 
-                    </tr>
+                                        <div class="d-flex justify-content-center flex-wrap gap-2">
 
-                    </tbody>
+                                            <!-- View -->
 
-                </table>
+                                            <a th:href="@{/students/view/{id}(id=${student.id})}"
+                                                class="btn btn-sm btn-outline-info" title="View">
+
+
+                                                View
+
+                                            </a>
+
+                                            <!-- Edit -->
+
+                                            <a th:href="@{/students/form(id=${student.id})}"
+                                                class="btn btn-sm btn-outline-warning" title="Edit">
+
+
+                                                Edit
+
+                                            </a>
+
+                                            <!-- Print -->
+
+                                            <a th:href="@{/students/print/{id}(id=${student.id})}" target="_blank"
+                                                class="btn btn-sm btn-outline-success" title="Print">
+
+
+                                                Print
+
+                                            </a>
+
+                                            <!-- Delete -->
+
+                                            <a th:href="@{/students/delete/{id}(id=${student.id})}"
+                                                class="btn btn-sm btn-outline-danger" title="Delete"
+                                                onclick="return confirm('Are you sure you want to delete this student?');">
+
+
+                                                Delete
+
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
 
             </div>
 
+
+
+
         </div>
 
-    </div>
 
-</main>
 
-<div th:replace="~{fragments/footer :: footer}"></div>
 
-<div th:replace="~{fragments/scripts :: scripts}"></div>
 
-<script>
 
-document.getElementById("searchStudent")
-.addEventListener("keyup", function(){
 
-    let value = this.value.toLowerCase();
+    </main>
 
-    document.querySelectorAll("#studentTable tr")
-    .forEach(function(row){
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
-        row.style.display =
-            row.innerText.toLowerCase().includes(value)
-            ? ""
-            : "none";
+    <div th:replace="~{fragments/scripts :: scripts}"></div>
 
-    });
+    <script>
 
-});
+        // Auto Hide Alerts
 
-</script>
+        setTimeout(function () {
+
+            const alerts = document.querySelectorAll(".alert");
+
+            alerts.forEach(function (alert) {
+
+                bootstrap.Alert.getOrCreateInstance(alert).close();
+
+            });
+
+        }, 3000);
+
+    </script>
 
 </body>
 

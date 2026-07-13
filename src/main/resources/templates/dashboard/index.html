@@ -572,7 +572,8 @@
 
                     <div class="table-responsive">
 
-                        <table class="table table-hover align-middle mb-0">
+                        <!-- <table class="table table-hover align-middle mb-0"> -->
+                            <table class="table sms-table align-middle mb-0">
 
                             <thead>
 
@@ -603,7 +604,7 @@
 
                                     </td>
 
-                                    <td th:text="${student.studentName}">
+                                    <td th:text="${student.fullName}">
 
                                         Student
 
@@ -697,7 +698,7 @@
 
                                     </td>
 
-                                    <td th:text="${fee.student.StudentName}">
+                                    <td th:text="${fee.student.fullName}">
 
                                         Student
 
@@ -783,7 +784,7 @@
 
                         <tr th:each="attendance : ${recentAttendance}">
 
-                            <td th:text="${attendance.student.studentName}">
+                            <td th:text="${attendance.student.fullName}">
 
                                 Student
 

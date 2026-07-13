@@ -11,31 +11,30 @@ import java.util.Optional;
 
 public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
 
-    List<Attendance> findByAttendanceDate(LocalDate attendanceDate);
+        List<Attendance> findByAttendanceDate(LocalDate attendanceDate);
 
-    List<Attendance> findByClassroom(ClassRoom classroom);
+        List<Attendance> findByClassroom(ClassRoom classroom);
 
-    List<Attendance> findByAcademicSession(AcademicSession academicSession);
+        List<Attendance> findByAcademicSession(AcademicSession academicSession);
 
-    List<Attendance> findByStudent(Student student);
+        List<Attendance> findByStudent(Student student);
 
-    List<Attendance> findByClassroomAndAttendanceDate(
-            ClassRoom classroom,
-            LocalDate attendanceDate
-    );
+        List<Attendance> findByClassroomAndAttendanceDate(
+                        ClassRoom classroom,
+                        LocalDate attendanceDate);
 
-    Optional<Attendance> findByStudentAndAttendanceDateAndAcademicSession(
-            Student student,
-            LocalDate attendanceDate,
-            AcademicSession academicSession
-    );
+        Optional<Attendance> findByStudentAndAttendanceDateAndAcademicSession(
+                        Student student,
+                        LocalDate attendanceDate,
+                        AcademicSession academicSession);
 
-    boolean existsByStudentAndAttendanceDateAndAcademicSession(
-            Student student,
-            LocalDate attendanceDate,
-            AcademicSession academicSession
-    );
+        boolean existsByStudentAndAttendanceDateAndAcademicSession(
+                        Student student,
+                        LocalDate attendanceDate,
+                        AcademicSession academicSession);
 
-    List<Attendance> findTop5ByOrderByIdDesc();
+        List<Attendance> findTop5ByOrderByIdDesc();
+
+        long countByAttendanceDate(LocalDate attendanceDate);
 
 }

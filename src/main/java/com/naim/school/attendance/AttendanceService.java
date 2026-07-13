@@ -3,6 +3,8 @@ package com.naim.school.attendance;
 import com.naim.school.academicsession.AcademicSession;
 import com.naim.school.classroom.ClassRoom;
 import com.naim.school.student.Student;
+
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -87,6 +89,10 @@ public class AttendanceService {
     public List<Attendance> findTop5ByOrderByIdDesc() {
       
       return attendanceRepository.findTop5ByOrderByIdDesc();
+    }
+
+    public long countByAttendanceDate(LocalDate now) {
+       return attendanceRepository.countByAttendanceDate(now);
     }
 
 }
