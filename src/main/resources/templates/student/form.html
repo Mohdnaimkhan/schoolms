@@ -5,9 +5,15 @@
 
 <body>
 
+    <!-- Navbar -->
     <div th:replace="~{fragments/navbar :: navbar}"></div>
 
+    <!-- Sidebar -->
     <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <!-- ===============================
+         Main Content
+    ================================ -->
 
     <main class="sms-content">
 
@@ -18,148 +24,230 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
 
                 <div>
-                    <h3 class="fw-bold mb-0">
-                        <i class="bi bi-person-vcard-fill text-primary"></i>
+
+                    <h3 class="fw-bold mb-1">
+
+                        <i class="bi bi-person-vcard-fill text-primary me-2"></i>
+
                         Student Admission
+
                     </h3>
-                    <small class="text-muted">
+
+                    <p class="text-muted mb-0">
+
                         Add / Edit Student Information
-                    </small>
+
+                    </p>
+
                 </div>
 
                 <a th:href="@{/students}" class="btn btn-outline-secondary">
-                    <i class="bi bi-arrow-left"></i>
+
+                    <i class="bi bi-arrow-left-circle me-1"></i>
+
                     Back
+
                 </a>
 
             </div>
 
-            <!-- Form -->
+            <!-- ===============================
+                 Student Form
+            ================================ -->
 
-            <form th:action="@{/students/save}" th:object="${student}" method="post" enctype="multipart/form-data">
+            <form th:action="@{/students/save}" th:object="${student}" method="post" enctype="multipart/form-data"
+                novalidate>
 
-                <input type="hidden" th:field="*{id}" />
+                <input type="hidden" th:field="*{id}">
 
-                <!-- ==========================
-                 Admission Details
-            =========================== -->
+                <!-- =====================================
+                     Admission Information
+                ====================================== -->
 
                 <div class="card shadow-sm mb-4">
 
                     <div class="card-header fw-bold">
+
                         <i class="bi bi-mortarboard-fill me-2"></i>
-                        Admission Details
+
+                        Admission Information
+
                     </div>
 
                     <div class="card-body">
 
                         <div class="row g-3">
 
-                            <div class="col-md-3">
+                            <!-- Admission Number -->
+
+                            <div class="col-lg-3 col-md-6">
 
                                 <label class="form-label">
+
                                     Admission No
+
                                 </label>
 
-                                <input type="text" th:field="*{admissionNo}" class="form-control" readonly>
+                                <input type="text" class="form-control" th:field="*{admissionNo}" readonly>
 
                             </div>
 
-                            <div class="col-md-3">
+                            <!-- Roll Number -->
+
+                            <div class="col-lg-3 col-md-6">
 
                                 <label class="form-label">
+
                                     Roll Number
+
                                 </label>
 
-                                <input type="text" th:field="*{rollNumber}" class="form-control" readonly>
+                                <input type="text" class="form-control" th:field="*{rollNumber}" readonly>
 
                             </div>
 
-                            <div class="col-md-3">
+                            <!-- Academic Session -->
+
+                            <div class="col-lg-3 col-md-6">
 
                                 <label class="form-label">
+
                                     Academic Session
                                     <span class="text-danger">*</span>
+
                                 </label>
 
-                                <select class="form-select" th:field="*{academicSession}">
+                                <select th:field="*{academicSession}" class="form-select required">
 
                                     <option value="">
+
                                         Select Session
+
                                     </option>
 
                                     <option th:each="s : ${academicSessions}" th:value="${s.id}"
                                         th:text="${s.sessionName}">
+
                                     </option>
 
                                 </select>
 
-                            </div>
+                                <div class="invalid-feedback" th:errors="*{academicSession}">
 
-                            <div class="col-md-3">
-
-                                <label class="form-label">
-                                    Class
-                                    <span class="text-danger">*</span>
-                                </label>
-
-                                <select class="form-select" th:field="*{classRoom}">
-
-                                    <option value="">
-                                        Select Class
-                                    </option>
-
-                                    <option th:each="cls : ${classRooms}" th:value="${cls.id}"
-                                        th:text="${cls.className}">
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-                            <div class="col-md-3">
-
-                                <label class="form-label">
-                                    Admission Date
-                                    <span class="text-danger"></span>
-
-                                </label>
-
-                                <input type="date" class="form-control" th:field="*{admissionDate}">
-                                <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('admissionDate')}"
-                                    th:errors="*{admissionDate}">
                                 </div>
 
                             </div>
 
-                            <div class="col-md-3">
+                            <!-- Class -->
+
+                            <div class="col-lg-3 col-md-6">
 
                                 <label class="form-label">
-                                    Admission Type
+
+                                    Class
+                                    <span class="text-danger">*</span>
+
                                 </label>
 
-                                <select class="form-select" th:field="*{admissionType}">
+                                <select th:field="*{classRoom}" class="form-select required">
 
-                                    <option th:each="type : ${admissionTypes}" th:value="${type}" th:text="${type}">
+                                    <option value="">
+
+                                        Select Class
+
+                                    </option>
+
+                                    <option th:each="classRoom : ${classRooms}" th:value="${classRoom.id}"
+                                        th:text="${classRoom.className}">
+
                                     </option>
 
                                 </select>
+
+                                <div class="invalid-feedback" th:errors="*{classRoom}">
+
+                                </div>
+
+                            </div>
+                            <!-- Admission Date -->
+
+                            <div class="col-lg-4 col-md-6">
+
+                                <label class="form-label">
+
+                                    Admission Date
+                                    <span class="text-danger">*</span>
+
+                                </label>
+
+                                <input type="date" th:field="*{admissionDate}" class="form-control required">
+
+                                <div class="invalid-feedback" th:errors="*{admissionDate}">
+
+                                </div>
 
                             </div>
 
-                            <div class="col-md-3">
+                            <!-- Admission Type -->
+
+                            <div class="col-lg-4 col-md-6">
 
                                 <label class="form-label">
-                                    Status
+
+                                    Admission Type
+                                    <span class="text-danger">*</span>
+
                                 </label>
 
-                                <select class="form-select" th:field="*{status}">
+                                <select th:field="*{admissionType}" class="form-select required">
 
-                                    <option th:each="status : ${studentStatuses}" th:value="${status}"
-                                        th:text="${status}">
+                                    <option value="">
+
+                                        Select Admission Type
+
+                                    </option>
+
+                                    <option th:each="type : ${admissionTypes}" th:value="${type}" th:text="${type}">
+
                                     </option>
 
                                 </select>
+
+                                <div class="invalid-feedback" th:errors="*{admissionType}">
+
+                                </div>
+
+                            </div>
+
+                            <!-- Student Status -->
+
+                            <div class="col-lg-4 col-md-6">
+
+                                <label class="form-label">
+
+                                    Student Status
+                                    <span class="text-danger">*</span>
+
+                                </label>
+
+                                <select th:field="*{status}" class="form-select required">
+
+                                    <option value="">
+
+                                        Select Status
+
+                                    </option>
+
+                                    <option th:each="status : ${studentStatuses}" th:value="${status}"
+                                        th:text="${status}">
+
+                                    </option>
+
+                                </select>
+
+                                <div class="invalid-feedback" th:errors="*{status}">
+
+                                </div>
 
                             </div>
 
@@ -169,98 +257,178 @@
 
                 </div>
 
-                <!-- ==========================
-                 Student Details
-            =========================== -->
+                <!-- =====================================
+                     Student Information
+                     (Next Part)
+                ====================================== -->
+
+                <!-- =====================================
+     Student Information
+====================================== -->
 
                 <div class="card shadow-sm mb-4">
 
                     <div class="card-header fw-bold">
+
                         <i class="bi bi-person-fill me-2"></i>
-                        Student Details
+
+                        Student Information
+
                     </div>
 
                     <div class="card-body">
 
                         <div class="row">
 
-                            <!-- Left -->
+                            <!-- ==========================
+                 Student Photo
+            ========================== -->
+
+                            <div class="col-lg-3 text-center mb-4">
+
+                                <img id="photoPreview"
+                                    th:src="${student.photo != null} ? @{/uploads/students/{img}(img=${student.photo})} : @{/images/no-image.png}"
+                                    class="img-thumbnail rounded mb-3"
+                                    style="width:180px;height:210px;object-fit:cover;">
+
+                                <input type="file" name="photoFile" id="photoFile" accept="image/*"
+                                    class="form-control">
+
+                                <small class="text-muted">
+
+                                    JPG, PNG (Max 2 MB)
+
+                                </small>
+
+                            </div>
+
+                            <!-- ==========================
+                 Student Details
+            ========================== -->
 
                             <div class="col-lg-9">
 
                                 <div class="row g-3">
 
-                                    <div class="col-md-6">
+                                    <!-- Full Name -->
+
+                                    <div class="col-lg-6">
 
                                         <label class="form-label">
-                                            Full Name
+
+                                            Student Name
                                             <span class="text-danger">*</span>
+
                                         </label>
 
-                                        <input type="text" class="form-control" th:field="*{fullName}"
-                                            placeholder="Enter Full Name">
+                                        <input type="text" th:field="*{fullName}"
+                                            class="form-control name-input required" maxlength="150"
+                                            placeholder="Enter Student Name">
+
+                                        <div class="invalid-feedback" th:errors="*{fullName}">
+                                        </div>
 
                                     </div>
 
-                                    <div class="col-md-3">
+                                    <!-- Gender -->
+
+                                    <div class="col-lg-3">
 
                                         <label class="form-label">
+
                                             Gender
+                                            <span class="text-danger">*</span>
+
                                         </label>
 
-                                        <select class="form-select" th:field="*{gender}">
+                                        <select th:field="*{gender}" class="form-select required">
 
                                             <option value="">
-                                                Select
+
+                                                Select Gender
+
                                             </option>
 
-                                            <option th:each="g : ${genders}" th:value="${g}" th:text="${g}">
+                                            <option th:each="gender : ${genders}" th:value="${gender}"
+                                                th:text="${gender}">
                                             </option>
 
                                         </select>
 
-                                    </div>
-
-                                    <div class="col-md-3">
-
-                                        <label class="form-label">
-                                            Date of Birth
-                                        </label>
-
-                                        <input type="date" class="form-control" th:field="*{dateOfBirth}">
+                                        <div class="invalid-feedback" th:errors="*{gender}">
+                                        </div>
 
                                     </div>
 
-                                    <div class="col-md-3">
+                                    <!-- Blood Group -->
+
+                                    <div class="col-lg-3">
 
                                         <label class="form-label">
+
                                             Blood Group
+
                                         </label>
+
                                         <select th:field="*{bloodGroup}" class="form-select">
-                                            <option value="">Select Blood Group</option>
-                                            <option th:each="bg : ${bloodGroups}" th:value="${bg}"
-                                                th:text="${bg.displayName}">
+
+                                            <option value="">
+
+                                                Select Blood Group
+
                                             </option>
+
+                                            <option th:each="bg : ${bloodGroups}" th:value="${bg}" th:text="${bg}">
+                                            </option>
+
                                         </select>
 
                                     </div>
+                                    <!-- Date of Birth -->
 
-                                </div>
+                                    <div class="col-lg-4">
 
-                            </div>
+                                        <label class="form-label">
 
-                            <!-- Right Photo -->
+                                            Date of Birth
+                                            <span class="text-danger">*</span>
 
-                            <div class="col-lg-3">
+                                        </label>
 
-                                <div class="text-center">
+                                        <input type="date" th:field="*{dateOfBirth}" class="form-control required">
 
-                                    <img id="photoPreview"
-                                        th:src="${student.photo!=null} ? @{'/uploads/students/' + ${student.photo}} : @{/images/no-image.png}"
-                                        class="img-thumbnail mb-3" style="width:120px;height:150px;object-fit:cover;">
+                                        <div class="invalid-feedback" th:errors="*{dateOfBirth}">
+                                        </div>
 
-                                    <input type="file" class="form-control" id="photoFile" name="photoFile"
-                                        accept="image/*">
+                                    </div>
+
+                                    <!-- Admission Number -->
+
+                                    <div class="col-lg-4">
+
+                                        <label class="form-label">
+
+                                            Admission Number
+
+                                        </label>
+
+                                        <input type="text" th:field="*{admissionNo}" class="form-control" readonly>
+
+                                    </div>
+
+                                    <!-- Roll Number -->
+
+                                    <div class="col-lg-4">
+
+                                        <label class="form-label">
+
+                                            Roll Number
+
+                                        </label>
+
+                                        <input type="text" th:field="*{rollNumber}" class="form-control" readonly>
+
+                                    </div>
 
                                 </div>
 
@@ -271,53 +439,83 @@
                     </div>
 
                 </div>
-                <!-- ==========================
-                 Parent Details
-            =========================== -->
+
+                <!-- =====================================
+     Parent Information
+     (Next Part)
+====================================== -->
+                <!-- =====================================
+     Parent Information
+====================================== -->
 
                 <div class="card shadow-sm mb-4">
 
                     <div class="card-header fw-bold">
+
                         <i class="bi bi-people-fill me-2"></i>
-                        Parent Details
+
+                        Parent Information
+
                     </div>
 
                     <div class="card-body">
 
                         <div class="row g-3">
 
-                            <div class="col-md-4">
+                            <!-- Father Name -->
+
+                            <div class="col-lg-4 col-md-6">
 
                                 <label class="form-label">
+
                                     Father Name
                                     <span class="text-danger">*</span>
+
                                 </label>
 
-                                <input type="text" class="form-control" th:field="*{fatherName}"
-                                    placeholder="Enter Father Name">
+                                <input type="text" th:field="*{fatherName}" class="form-control name-input required"
+                                    maxlength="150" placeholder="Enter Father Name">
+
+                                <div class="invalid-feedback" th:errors="*{fatherName}">
+                                </div>
 
                             </div>
 
-                            <div class="col-md-4">
+                            <!-- Mother Name -->
+
+                            <div class="col-lg-4 col-md-6">
 
                                 <label class="form-label">
+
                                     Mother Name
+
                                 </label>
 
-                                <input type="text" class="form-control" th:field="*{motherName}"
-                                    placeholder="Enter Mother Name">
+                                <input type="text" th:field="*{motherName}" class="form-control name-input"
+                                    maxlength="150" placeholder="Enter Mother Name">
+
+                                <div class="invalid-feedback" th:errors="*{motherName}">
+                                </div>
 
                             </div>
 
-                            <div class="col-md-4">
+                            <!-- Mobile Number -->
+
+                            <div class="col-lg-4 col-md-6">
 
                                 <label class="form-label">
+
                                     Mobile Number
-                                    <span class="text-danger">*</span>
+
                                 </label>
 
-                                <input type="text" class="form-control" maxlength="10" th:field="*{mobile}"
-                                    placeholder="Enter Mobile Number">
+                                <input type="text" id="mobile" th:field="*{mobile}"
+                                    class="form-control mobile-input duplicate-check" maxlength="11"
+                                    placeholder="98765 43210" data-check-url="/students/check/mobile"
+                                    th:attr="data-id=*{id}">
+
+                                <div class="invalid-feedback" th:errors="*{mobile}">
+                                </div>
 
                             </div>
 
@@ -327,41 +525,63 @@
 
                 </div>
 
-                <!-- ==========================
-                 Contact Details
-            =========================== -->
+                <!-- =====================================
+     Contact Information
+     (Next Part)
+====================================== -->
+                <!-- =====================================
+     Contact Information
+====================================== -->
 
                 <div class="card shadow-sm mb-4">
 
                     <div class="card-header fw-bold">
+
                         <i class="bi bi-telephone-fill me-2"></i>
-                        Contact Details
+
+                        Contact Information
+
                     </div>
 
                     <div class="card-body">
 
                         <div class="row g-3">
 
-                            <div class="col-md-6">
+                            <!-- Email -->
+
+                            <div class="col-lg-6 col-md-6">
 
                                 <label class="form-label">
+
                                     Email Address
+
                                 </label>
 
-                                <input type="email" class="form-control" th:field="*{email}"
-                                    placeholder="Enter Email Address">
+                                <input type="email" th:field="*{email}" class="form-control email-input duplicate-check"
+                                    maxlength="100" placeholder="example@gmail.com"
+                                    data-check-url="/students/check/email" th:attr="data-id=*{id}">
+
+                                <div class="invalid-feedback" th:errors="*{email}">
+                                </div>
 
                             </div>
 
-                            <div class="col-md-6">
+                            <!-- Address -->
+
+                            <div class="col-lg-6 col-md-6">
 
                                 <label class="form-label">
+
                                     Address
+
                                 </label>
 
-                                <textarea class="form-control" rows="3" th:field="*{address}"
+                                <textarea th:field="*{address}" class="form-control" rows="3" maxlength="500"
                                     placeholder="Enter Full Address"></textarea>
 
+                                <div class="invalid-feedback" th:errors="*{address}">
+                                </div>
+
                             </div>
 
                         </div>
@@ -370,85 +590,113 @@
 
                 </div>
 
-                <!-- ==========================
-                 Other Details
-            =========================== -->
+                <!-- =====================================
+     Other Information
+     (Next Part)
+====================================== -->
+                <!-- =====================================
+     Other Information
+====================================== -->
 
                 <div class="card shadow-sm mb-4">
 
                     <div class="card-header fw-bold">
-                        <i class="bi bi-info-circle-fill me-2"></i>
-                        Other Details
+
+                        <i class="bi bi-card-checklist me-2"></i>
+
+                        Other Information
+
                     </div>
 
                     <div class="card-body">
 
                         <div class="row g-3">
 
-                            <div class="col-md-3">
+                            <!-- Aadhaar Number -->
+
+                            <div class="col-lg-4 col-md-6">
 
                                 <label class="form-label">
+
                                     Aadhaar Number
+
                                 </label>
 
-                                <input type="text" class="form-control" maxlength="12" th:field="*{aadharNumber}"
-                                    placeholder="Enter Aadhaar Number">
+                                <input type="text" th:field="*{aadharNumber}"
+                                    class="form-control aadhaar-input duplicate-check" maxlength="14"
+                                    placeholder="1234 5678 9012" data-check-url="/students/check/aadhaar"
+                                    th:attr="data-id=*{id}">
+
+                                <div class="invalid-feedback" th:errors="*{aadharNumber}">
+                                </div>
 
                             </div>
 
-                            <div class="col-md-3">
+                            <!-- Religion -->
+
+                            <div class="col-lg-4 col-md-6">
 
                                 <label class="form-label">
+
                                     Religion
+
                                 </label>
 
                                 <select th:field="*{religion}" class="form-select">
-                                    <option value="">Select Religion</option>
+
+                                    <option value="">
+
+                                        Select Religion
+
+                                    </option>
+
                                     <option th:each="religion : ${religions}" th:value="${religion}"
-                                        th:text="${religion.displayName}">
+                                        th:text="${religion}">
                                     </option>
+
                                 </select>
 
                             </div>
 
-                            <div class="col-md-3">
+                            <!-- Category -->
+
+                            <div class="col-lg-4 col-md-6">
 
                                 <label class="form-label">
+
                                     Category
+
                                 </label>
 
-                                Category
                                 <select th:field="*{category}" class="form-select">
-                                    <option value="">Select Category</option>
-                                    <option th:each="category : ${categories}" th:value="${category}"
-                                        th:text="${category.displayName}">
+
+                                    <option value="">
+
+                                        Select Category
+
                                     </option>
+
+                                    <option th:each="category : ${categories}" th:value="${category}"
+                                        th:text="${category}">
+                                    </option>
+
                                 </select>
 
                             </div>
 
-                            <div class="col-md-3 d-flex align-items-end">
+                            <!-- Remarks -->
 
-                                <div class="form-check form-switch">
-
-                                    <input class="form-check-input" type="checkbox" th:field="*{active}">
-
-                                    <label class="form-check-label">
-                                        Active Student
-                                    </label>
-
-                                </div>
-
-                            </div>
-
-                            <div class="col-md-12">
+                            <div class="col-12">
 
                                 <label class="form-label">
+
                                     Remarks
+
                                 </label>
 
-                                <textarea class="form-control" rows="4" th:field="*{remarks}"
-                                    placeholder="Remarks"></textarea>
+                                <textarea th:field="*{remarks}" class="form-control" rows="4" maxlength="500"
+                                    placeholder="Enter Remarks (Optional)">
+                </textarea>
 
                             </div>
 
@@ -457,28 +705,42 @@
                     </div>
 
                 </div>
-                <!-- ==========================
-                 Form Buttons
-            =========================== -->
+
+                <!-- =====================================
+     Form Buttons
+====================================== -->
 
                 <div class="card shadow-sm">
 
-                    <div class="card-body text-center">
+                    <div class="card-body">
 
-                        <button type="submit" class="btn btn-primary me-2">
-                            <i class="bi bi-check-circle"></i>
-                            Save
-                        </button>
+                        <div class="d-flex justify-content-end gap-2 flex-wrap">
 
-                        <button type="reset" class="btn btn-warning me-2">
-                            <i class="bi bi-arrow-clockwise"></i>
-                            Reset
-                        </button>
+                            <a th:href="@{/students}" class="btn btn-outline-secondary">
 
-                        <a th:href="@{/students}" class="btn btn-secondary">
-                            <i class="bi bi-arrow-left"></i>
-                            Back
-                        </a>
+                                <i class="bi bi-arrow-left-circle me-1"></i>
+
+                                Back
+
+                            </a>
+
+                            <button type="reset" class="btn btn-warning">
+
+                                <i class="bi bi-arrow-counterclockwise me-1"></i>
+
+                                Reset
+
+                            </button>
+
+                            <button type="submit" class="btn btn-primary">
+
+                                <i class="bi bi-check-circle me-1"></i>
+
+                                Save Student
+
+                            </button>
+
+                        </div>
 
                     </div>
 
@@ -490,28 +752,13 @@
 
     </main>
 
+    <!-- Footer -->
+
     <div th:replace="~{fragments/footer :: footer}"></div>
 
+    <!-- Scripts -->
+
     <div th:replace="~{fragments/scripts :: scripts}"></div>
-
-    <script>
-
-        const photoInput = document.getElementById('photoFile');
-        const photoPreview = document.getElementById('photoPreview');
-
-        photoInput.addEventListener('change', function () {
-
-            const file = this.files[0];
-
-            if (file) {
-
-                photoPreview.src = URL.createObjectURL(file);
-
-            }
-
-        });
-
-    </script>
 
 </body>
 

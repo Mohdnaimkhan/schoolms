@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.naim.school.sms.Constants;
 import com.naim.school.sms.FileStorageService;
 import com.naim.school.sms.NumberGenerator;
 
@@ -64,6 +65,18 @@ public class StudentService {
 
     public void save(Student student, MultipartFile photoFile) {
 
+        /* Email Normalize */
+
+        if (student.getEmail() != null) {
+
+            student.setEmail(
+                    student.getEmail()
+                            .trim()
+                            .toLowerCase()
+            );
+
+        }
+
         /*
          * ==========================
          * EDIT MODE
@@ -89,8 +102,9 @@ public class StudentService {
                 if (oldStudent.getPhoto() != null) {
 
                     fileStorageService.delete(
-                            "students",
-                            oldStudent.getPhoto());
+                            Constants.STUDENT_FOLDER,
+                            oldStudent.getPhoto()
+                    );
 
                 }
 
@@ -165,8 +179,9 @@ public class StudentService {
         if (student.getPhoto() != null) {
 
             fileStorageService.delete(
-                    "students",
-                    student.getPhoto());
+                    Constants.STUDENT_FOLDER,
+                    student.getPhoto()
+            );
 
         }
 
@@ -198,7 +213,8 @@ public class StudentService {
 
         return repository.countByAdmissionDateBetween(
                 firstDay,
-                lastDay);
+                lastDay
+        );
 
     }
 
@@ -219,4 +235,71 @@ public class StudentService {
         return repository.countByGender(Gender.FEMALE);
 
     }
+
+    /*
+     * ==========================================================
+     * DUPLICATE CHECK
+     * ==========================================================
+     */
+
+    public boolean existsMobile(String mobile, Long id) {
+
+        if (mobile == null || mobile.isBlank()) {
+
+            return false;
+
+        }
+
+        mobile = mobile.replaceAll("\\s+", "");
+
+        if (id == null) {
+
+            return repository.existsByMobile(mobile);
+
+        }
+
+        return repository.existsByMobileAndIdNot(mobile, id);
+
+    }
+
+    public boolean existsAadhaar(String aadhaarNumber, Long id) {
+
+        if (aadhaarNumber == null || aadhaarNumber.isBlank()) {
+
+            return false;
+
+        }
+
+        aadhaarNumber = aadhaarNumber.replaceAll("\\s+", "");
+
+        if (id == null) {
+
+            return repository.existsByAadharNumber(aadhaarNumber);
+
+        }
+
+        return repository.existsByAadharNumberAndIdNot(aadhaarNumber, id);
+
+    }
+
+    public boolean existsEmail(String email, Long id) {
+
+        if (email == null || email.isBlank()) {
+
+            return false;
+
+        }
+
+        email = email.trim().toLowerCase();
+
+        if (id == null) {
+
+            return repository.existsByEmail(email);
+
+        }
+
+        return repository.existsByEmailAndIdNot(email, id);
+
+    }
+
 }
