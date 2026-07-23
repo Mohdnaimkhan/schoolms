@@ -4,6 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.WebDataBinder;
+import java.beans.PropertyEditorSupport;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -21,6 +23,19 @@ public class StudentController {
     private final StudentService studentService;
     private final AcademicSessionService academicSessionService;
     private final ClassRoomService classRoomService;
+
+    @InitBinder
+    void normalizeStudentFields(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, "mobile", new WhitespaceRemovingEditor());
+        binder.registerCustomEditor(String.class, "aadharNumber", new WhitespaceRemovingEditor());
+    }
+
+    private static class WhitespaceRemovingEditor extends PropertyEditorSupport {
+        @Override
+        public void setAsText(String text) {
+            setValue(text == null ? null : text.replaceAll("\\s+", ""));
+        }
+    }
 
     /*
      * ==========================================================

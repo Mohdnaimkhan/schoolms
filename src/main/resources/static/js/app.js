@@ -91,9 +91,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // Bootstrap Tooltip
   // ==========================================
 
-  document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((element) => {
-    new bootstrap.Tooltip(element);
-  });
+  if (window.bootstrap) {
+    document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((element) => {
+      new bootstrap.Tooltip(element);
+    });
+  }
 
   // ==========================================
   // Delete Confirmation

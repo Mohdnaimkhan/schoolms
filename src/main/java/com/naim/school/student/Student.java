@@ -36,10 +36,12 @@ public class Student extends BaseEntity {
    @Column(name = "roll_number", length = 20)
    private String rollNumber;
 
+   @NotNull(message = "Academic session is required.")
    @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "academic_session_id", nullable = false)
    private AcademicSession academicSession;
 
+   @NotNull(message = "Classroom is required.")
    @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "classroom_id", nullable = false)
    private ClassRoom classRoom;
@@ -48,10 +50,12 @@ public class Student extends BaseEntity {
    @Column(name = "admission_date", nullable = false)
    private LocalDate admissionDate;
 
+   @NotNull(message = "Admission type is required.")
    @Enumerated(EnumType.STRING)
    @Column(nullable = false)
    private AdmissionType admissionType = AdmissionType.NEW;
 
+   @NotNull(message = "Student status is required.")
    @Enumerated(EnumType.STRING)
    @Column(nullable = false)
    private StudentStatus status = StudentStatus.ACTIVE;

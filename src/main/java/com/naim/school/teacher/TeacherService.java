@@ -47,12 +47,10 @@ public class TeacherService {
 
     public void save(Teacher teacher) {
 
-        if (teacher.getSubjectId() != null) {
-
-            teacher.setSubject(
-                    subjectRepository.findById(teacher.getSubjectId())
-                            .orElse(null));
-        }
+        teacher.setSubject(teacher.getSubjectId() == null
+                ? null
+                : subjectRepository.findById(teacher.getSubjectId())
+                        .orElseThrow(() -> new RuntimeException("Subject not found.")));
 
         if (teacher.getId() == null) {
 

@@ -33,7 +33,7 @@
 
                     </h3>
 
-                    <p class="text-muted mb-0">
+                    <p class="text-secondary mb-0">
 
                         Add / Edit Student Information
 
@@ -64,92 +64,102 @@
                      Admission Information
                 ====================================== -->
 
-                <div class="card shadow-sm mb-4">
+                <!-- ==========================================================
+     Admission Information
+========================================================== -->
+
+                <div class="card shadow-sm  mb-4">
 
                     <div class="card-header fw-bold">
+
+
 
                         <i class="bi bi-mortarboard-fill me-2"></i>
 
                         Admission Information
 
+
+
                     </div>
 
-                    <div class="card-body">
+                    <div class="card-body p-4">
 
-                        <div class="row g-3">
+                        <div class="row g-4">
 
-                            <!-- Admission Number -->
+                            <!-- Admission No -->
 
-                            <div class="col-lg-3 col-md-6">
+                            <div class="col-lg-6">
 
-                                <label class="form-label">
+                                <label class="form-label fw-semibold">
 
-                                    Admission No
+                                    Admission Number
 
                                 </label>
 
-                                <input type="text" class="form-control" th:field="*{admissionNo}" readonly>
+                                <input type="text" th:field="*{admissionNo}" class="form-control" readonly>
 
                             </div>
 
                             <!-- Roll Number -->
 
-                            <div class="col-lg-3 col-md-6">
+                            <div class="col-lg-6">
 
-                                <label class="form-label">
+                                <label class="form-label fw-semibold">
 
                                     Roll Number
 
                                 </label>
 
-                                <input type="text" class="form-control" th:field="*{rollNumber}" readonly>
+                                <input type="text" th:field="*{rollNumber}" class="form-control" readonly>
 
                             </div>
 
                             <!-- Academic Session -->
 
-                            <div class="col-lg-3 col-md-6">
+                            <div class="col-lg-6">
 
-                                <label class="form-label">
+                                <label class="form-label fw-semibold">
 
                                     Academic Session
+
                                     <span class="text-danger">*</span>
 
                                 </label>
 
-                                <select th:field="*{academicSession}" class="form-select required">
+                                <select th:field="*{academicSession}" class="form-select required"
+                                    th:classappend="${#fields.hasErrors('academicSession')} ? 'is-invalid' : ''">
 
                                     <option value="">
 
-                                        Select Session
+                                        Select Academic Session
 
                                     </option>
 
                                     <option th:each="s : ${academicSessions}" th:value="${s.id}"
                                         th:text="${s.sessionName}">
-
                                     </option>
 
                                 </select>
 
                                 <div class="invalid-feedback" th:errors="*{academicSession}">
-
                                 </div>
 
                             </div>
 
                             <!-- Class -->
 
-                            <div class="col-lg-3 col-md-6">
+                            <div class="col-lg-6">
 
-                                <label class="form-label">
+                                <label class="form-label fw-semibold">
 
                                     Class
+
                                     <span class="text-danger">*</span>
 
                                 </label>
 
-                                <select th:field="*{classRoom}" class="form-select required">
+                                <select th:field="*{classRoom}" class="form-select required"
+                                    th:classappend="${#fields.hasErrors('classRoom')} ? 'is-invalid' : ''">
 
                                     <option value="">
 
@@ -157,49 +167,51 @@
 
                                     </option>
 
-                                    <option th:each="classRoom : ${classRooms}" th:value="${classRoom.id}"
-                                        th:text="${classRoom.className}">
-
+                                    <option th:each="room : ${classRooms}" th:value="${room.id}"
+                                        th:text="${room.className}">
                                     </option>
 
                                 </select>
 
                                 <div class="invalid-feedback" th:errors="*{classRoom}">
-
                                 </div>
 
                             </div>
+
                             <!-- Admission Date -->
 
-                            <div class="col-lg-4 col-md-6">
+                            <div class="col-lg-4">
 
-                                <label class="form-label">
+                                <label class="form-label fw-semibold">
 
                                     Admission Date
+
                                     <span class="text-danger">*</span>
 
                                 </label>
 
-                                <input type="date" th:field="*{admissionDate}" class="form-control required">
+                                <input type="date" th:field="*{admissionDate}" class="form-control required"
+                                    th:classappend="${#fields.hasErrors('admissionDate')} ? 'is-invalid' : ''">
 
                                 <div class="invalid-feedback" th:errors="*{admissionDate}">
-
                                 </div>
 
                             </div>
 
                             <!-- Admission Type -->
 
-                            <div class="col-lg-4 col-md-6">
+                            <div class="col-lg-4">
 
-                                <label class="form-label">
+                                <label class="form-label fw-semibold">
 
                                     Admission Type
+
                                     <span class="text-danger">*</span>
 
                                 </label>
 
-                                <select th:field="*{admissionType}" class="form-select required">
+                                <select th:field="*{admissionType}" class="form-select required"
+                                    th:classappend="${#fields.hasErrors('admissionType')} ? 'is-invalid' : ''">
 
                                     <option value="">
 
@@ -208,29 +220,29 @@
                                     </option>
 
                                     <option th:each="type : ${admissionTypes}" th:value="${type}" th:text="${type}">
-
                                     </option>
 
                                 </select>
 
                                 <div class="invalid-feedback" th:errors="*{admissionType}">
-
                                 </div>
 
                             </div>
 
-                            <!-- Student Status -->
+                            <!-- Status -->
 
-                            <div class="col-lg-4 col-md-6">
+                            <div class="col-lg-4">
 
-                                <label class="form-label">
+                                <label class="form-label fw-semibold">
 
                                     Student Status
+
                                     <span class="text-danger">*</span>
 
                                 </label>
 
-                                <select th:field="*{status}" class="form-select required">
+                                <select th:field="*{status}" class="form-select required"
+                                    th:classappend="${#fields.hasErrors('status')} ? 'is-invalid' : ''">
 
                                     <option value="">
 
@@ -240,13 +252,11 @@
 
                                     <option th:each="status : ${studentStatuses}" th:value="${status}"
                                         th:text="${status}">
-
                                     </option>
 
                                 </select>
 
                                 <div class="invalid-feedback" th:errors="*{status}">
-
                                 </div>
 
                             </div>
@@ -257,10 +267,7 @@
 
                 </div>
 
-                <!-- =====================================
-                     Student Information
-                     (Next Part)
-                ====================================== -->
+
 
                 <!-- =====================================
      Student Information
@@ -278,27 +285,37 @@
 
                     <div class="card-body">
 
-                        <div class="row">
+                        <div class="row g-4">
 
                             <!-- ==========================
                  Student Photo
             ========================== -->
 
-                            <div class="col-lg-3 text-center mb-4">
+                            <div class="col-lg-3">
 
-                                <img id="photoPreview"
-                                    th:src="${student.photo != null} ? @{/uploads/students/{img}(img=${student.photo})} : @{/images/no-image.png}"
-                                    class="img-thumbnail rounded mb-3"
-                                    style="width:180px;height:210px;object-fit:cover;">
+                                <label class="form-label fw-semibold">
 
-                                <input type="file" name="photoFile" id="photoFile" accept="image/*"
-                                    class="form-control">
+                                    Student Photo
 
-                                <small class="text-muted">
+                                </label>
 
-                                    JPG, PNG (Max 2 MB)
+                                <div class="text-center">
 
-                                </small>
+                                    <img id="photoPreview" th:src="${student.photo != null}
+                         ? @{/uploads/students/{img}(img=${student.photo})}
+                         : @{/images/no-image.png}" class="img-thumbnail mb-3"
+                                        style="width:180px;height:220px;object-fit:cover;">
+
+                                    <input type="file" id="photoFile" name="photoFile" accept="image/*"
+                                        class="form-control">
+
+                                    <small class="text-muted">
+
+                                        JPG, PNG (Max 2 MB)
+
+                                    </small>
+
+                                </div>
 
                             </div>
 
@@ -310,9 +327,9 @@
 
                                 <div class="row g-3">
 
-                                    <!-- Full Name -->
+                                    <!-- Student Name -->
 
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-8">
 
                                         <label class="form-label">
 
@@ -323,6 +340,7 @@
 
                                         <input type="text" th:field="*{fullName}"
                                             class="form-control name-input required" maxlength="150"
+                                            th:classappend="${#fields.hasErrors('fullName')} ? 'is-invalid' : ''"
                                             placeholder="Enter Student Name">
 
                                         <div class="invalid-feedback" th:errors="*{fullName}">
@@ -332,7 +350,7 @@
 
                                     <!-- Gender -->
 
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
 
                                         <label class="form-label">
 
@@ -341,7 +359,8 @@
 
                                         </label>
 
-                                        <select th:field="*{gender}" class="form-select required">
+                                        <select th:field="*{gender}" class="form-select required"
+                                            th:classappend="${#fields.hasErrors('gender')} ? 'is-invalid' : ''">
 
                                             <option value="">
 
@@ -360,9 +379,28 @@
 
                                     </div>
 
+                                    <!-- Date of Birth -->
+
+                                    <div class="col-lg-6">
+
+                                        <label class="form-label">
+
+                                            Date of Birth
+                                            <span class="text-danger">*</span>
+
+                                        </label>
+
+                                        <input type="date" th:field="*{dateOfBirth}" class="form-control required"
+                                            th:classappend="${#fields.hasErrors('dateOfBirth')} ? 'is-invalid' : ''">
+
+                                        <div class="invalid-feedback" th:errors="*{dateOfBirth}">
+                                        </div>
+
+                                    </div>
+
                                     <!-- Blood Group -->
 
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-6">
 
                                         <label class="form-label">
 
@@ -382,51 +420,6 @@
                                             </option>
 
                                         </select>
-
-                                    </div>
-                                    <!-- Date of Birth -->
-
-                                    <div class="col-lg-4">
-
-                                        <label class="form-label">
-
-                                            Date of Birth
-                                            <span class="text-danger">*</span>
-
-                                        </label>
-
-                                        <input type="date" th:field="*{dateOfBirth}" class="form-control required">
-
-                                        <div class="invalid-feedback" th:errors="*{dateOfBirth}">
-                                        </div>
-
-                                    </div>
-
-                                    <!-- Admission Number -->
-
-                                    <div class="col-lg-4">
-
-                                        <label class="form-label">
-
-                                            Admission Number
-
-                                        </label>
-
-                                        <input type="text" th:field="*{admissionNo}" class="form-control" readonly>
-
-                                    </div>
-
-                                    <!-- Roll Number -->
-
-                                    <div class="col-lg-4">
-
-                                        <label class="form-label">
-
-                                            Roll Number
-
-                                        </label>
-
-                                        <input type="text" th:field="*{rollNumber}" class="form-control" readonly>
 
                                     </div>
 
@@ -474,6 +467,7 @@
                                 </label>
 
                                 <input type="text" th:field="*{fatherName}" class="form-control name-input required"
+                                    th:classappend="${#fields.hasErrors('fatherName')} ? 'is-invalid' : ''"
                                     maxlength="150" placeholder="Enter Father Name">
 
                                 <div class="invalid-feedback" th:errors="*{fatherName}">
@@ -511,6 +505,7 @@
 
                                 <input type="text" id="mobile" th:field="*{mobile}"
                                     class="form-control mobile-input duplicate-check" maxlength="11"
+                                    th:classappend="${#fields.hasErrors('mobile')} ? 'is-invalid' : ''"
                                     placeholder="98765 43210" data-check-url="/students/check/mobile"
                                     th:attr="data-id=*{id}">
 
@@ -558,6 +553,7 @@
                                 </label>
 
                                 <input type="email" th:field="*{email}" class="form-control email-input duplicate-check"
+                                    th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''"
                                     maxlength="100" placeholder="example@gmail.com"
                                     data-check-url="/students/check/email" th:attr="data-id=*{id}">
 
@@ -624,6 +620,7 @@
 
                                 <input type="text" th:field="*{aadharNumber}"
                                     class="form-control aadhaar-input duplicate-check" maxlength="14"
+                                    th:classappend="${#fields.hasErrors('aadharNumber')} ? 'is-invalid' : ''"
                                     placeholder="1234 5678 9012" data-check-url="/students/check/aadhaar"
                                     th:attr="data-id=*{id}">
 

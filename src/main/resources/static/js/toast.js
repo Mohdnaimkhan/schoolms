@@ -15,6 +15,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function initializeAlerts() {
 
+    if (!window.bootstrap) {
+        return;
+    }
+
     document.querySelectorAll(".alert").forEach(alert => {
 
         setTimeout(() => {

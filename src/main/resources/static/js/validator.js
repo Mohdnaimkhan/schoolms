@@ -23,7 +23,7 @@ function initializeValidation() {
 
             let valid = true;
 
-            clearErrors();
+            clearValidationErrors();
 
             /*
             ==========================================================
@@ -35,7 +35,7 @@ function initializeValidation() {
 
                 if (field.value.trim() === "") {
 
-                    showError(field, "This field is required.");
+                    showValidationError(field, "This field is required.");
 
                     valid = false;
 
@@ -55,7 +55,7 @@ function initializeValidation() {
 
                 if (value !== "" && !/^[6-9]\d{9}$/.test(value)) {
 
-                    showError(field, "Enter valid 10 digit mobile number.");
+                    showValidationError(field, "Enter valid 10 digit mobile number.");
 
                     valid = false;
 
@@ -80,7 +80,7 @@ function initializeValidation() {
 
                     if (!pattern.test(value)) {
 
-                        showError(field, "Enter valid email address.");
+                        showValidationError(field, "Enter valid email address.");
 
                         valid = false;
 
@@ -102,7 +102,7 @@ function initializeValidation() {
 
                 if (value !== "" && value.length !== 12) {
 
-                    showError(field, "Aadhaar must contain 12 digits.");
+                    showValidationError(field, "Aadhaar must contain 12 digits.");
 
                     valid = false;
 
@@ -110,17 +110,9 @@ function initializeValidation() {
 
             });
 
-            /*
-            ==========================================================
-            Stop Submit
-            ==========================================================
-            */
-
-            if (!valid) {
-
-                e.preventDefault();
-
-            }
+            // Keep the client-side feedback, but allow the request to reach the
+            // server. Server-side validation is authoritative and prevents a
+            // stale or incomplete browser script from trapping the Save button.
 
         });
 
@@ -132,7 +124,7 @@ function initializeValidation() {
 // Show Error
 // ==========================================================
 
-function showError(field, message) {
+function showValidationError(field, message) {
 
     field.classList.add("is-invalid");
 
@@ -156,7 +148,7 @@ function showError(field, message) {
 // Clear Errors
 // ==========================================================
 
-function clearErrors() {
+function clearValidationErrors() {
 
     document.querySelectorAll(".is-invalid").forEach(field => {
 

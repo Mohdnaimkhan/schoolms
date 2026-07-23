@@ -70,7 +70,7 @@ async function checkDuplicate(input) {
 
         if (exists) {
 
-            showError(input, "Already Exists");
+            showDuplicateError(input, "Already Exists");
 
         } else {
 
@@ -80,7 +80,7 @@ async function checkDuplicate(input) {
 
     } catch (e) {
 
-        showError(input, "Unable to Check");
+        showDuplicateError(input, "Unable to Check");
 
     }
 
@@ -118,7 +118,7 @@ function showSuccess(input, message) {
 // Error
 // ==========================================
 
-function showError(input, message) {
+function showDuplicateError(input, message) {
 
     let div = getStatusDiv(input);
 
