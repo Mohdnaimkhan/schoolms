@@ -24,14 +24,14 @@ public class SchoolSettingService {
 
         if (optional.isPresent()) {
             return optional.get();
-        }
+        }                  
 
         return SchoolSetting.builder()
                 .theme("dark")
                 .currency("INR")
                 .currencySymbol("₹")
                 .timeZone("Asia/Kolkata")
-                .dateFormat("dd-MM-yyyy")
+                .dateFormat("yyyy-mm-dd")
                 .build();
     }
 

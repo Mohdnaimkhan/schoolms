@@ -18,204 +18,207 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class StudentController {
 
-    private final StudentService studentService;
-    private final AcademicSessionService academicSessionService;
-    private final ClassRoomService classRoomService;
+        private final StudentService studentService;
+        private final AcademicSessionService academicSessionService;
+        private final ClassRoomService classRoomService;
 
-    /*
-     * ==========================================================
-     * STUDENT LIST
-     * ==========================================================
-     */
+        /*
+         * ==========================================================
+         * STUDENT LIST
+         * ==========================================================
+         */
 
-    @GetMapping
-    public String list(Model model) {
+        @GetMapping
+        public String list(Model model) {
 
-        model.addAttribute("students", studentService.getAllStudents());
-        model.addAttribute("totalStudents", studentService.count());
-        model.addAttribute("activeStudents", studentService.countActiveStudents());
-        model.addAttribute("boys", studentService.countBoys());
-        model.addAttribute("girls", studentService.countGirls());
+                model.addAttribute("students", studentService.getAllStudents());
+                model.addAttribute("totalStudents", studentService.count());
+                model.addAttribute("activeStudents", studentService.countActiveStudents());
+                model.addAttribute("boys", studentService.countBoys());
+                model.addAttribute("girls", studentService.countGirls());
 
-        return "student/list";
-    }
-
-    /*
-     * ==========================================================
-     * ADD + EDIT FORM
-     * ==========================================================
-     */
-
-    @GetMapping("/add")
-    public String form(@RequestParam(required = false) Long id,
-            Model model) {
-
-        Student student = (id == null)
-                ? new Student()
-                : studentService.getById(id);
-        System.out.println("Admission Date = " + student.getAdmissionDate());
-        System.out.println("DOB = " + student.getDateOfBirth());
-
-        model.addAttribute("student", student);
-        model.addAttribute("religions", Religion.values());
-        model.addAttribute("categories", Category.values());
-        model.addAttribute("bloodGroups", BloodGroup.values());
-
-        loadFormData(model);
-
-        return "student/form";
-    }
-
-    /*
-     * ==========================================================
-     * SAVE
-     * ==========================================================
-     */
-
-    @PostMapping("/save")
-    public String save(
-            @Valid @ModelAttribute("student") Student student,
-            BindingResult result,
-            @RequestParam(value = "photoFile", required = false) MultipartFile photoFile,
-            RedirectAttributes redirectAttributes,
-            Model model) {
-
-        if (result.hasErrors()) {
-
-            result.getFieldErrors()
-                    .forEach(error -> System.out.println(error.getField() + " -> " + error.getDefaultMessage()));
-
-            model.addAttribute("religions", Religion.values());
-            model.addAttribute("categories", Category.values());
-            model.addAttribute("bloodGroups", BloodGroup.values());
-
-            loadFormData(model);
-
-            return "student/form";
+                return "student/list";
         }
 
-        studentService.save(student, photoFile);
+        /*
+         * ==========================================================
+         * ADD + EDIT FORM
+         * ==========================================================
+         */
 
-        redirectAttributes.addFlashAttribute(
-                "success",
-                "Student saved successfully.");
+        @GetMapping("/add")
+        public String form(@RequestParam(required = false) Long id,
+                        Model model) {
 
-        return "redirect:/students";
-    }
+                Student student = (id == null)
+                                ? new Student()
+                                : studentService.getById(id);
+                System.out.println("Admission Date = " + student.getAdmissionDate());
+                System.out.println("DOB = " + student.getDateOfBirth());
+                 System.out.println("Admission Date Class = " + student.getAdmissionDate().getClass());
 
-    /*
-     * ==========================================================
-     * VIEW
-     * ==========================================================
-     */
+                model.addAttribute("student", student);
+                model.addAttribute("religions", Religion.values());
+                model.addAttribute("categories", Category.values());
+                model.addAttribute("bloodGroups", BloodGroup.values());
 
-    @GetMapping("/view/{id}")
-    public String view(@PathVariable Long id,
-            Model model) {
+                loadFormData(model);
 
-        model.addAttribute(
-                "student",
-                studentService.getById(id));
+                return "student/form";
+        }
 
-        return "student/view";
-    }
+        /*
+         * ==========================================================
+         * SAVE
+         * ==========================================================
+         */
 
-    /*
-     * ==========================================================
-     * PRINT
-     * ==========================================================
-     */
+        @PostMapping("/save")
+        public String save(
+                        @Valid @ModelAttribute("student") Student student,
+                        BindingResult result,
+                        @RequestParam(value = "photoFile", required = false) MultipartFile photoFile,
+                        RedirectAttributes redirectAttributes,
+                        Model model) {
 
-    @GetMapping("/print/{id}")
-    public String print(@PathVariable Long id,
-            Model model) {
+                if (result.hasErrors()) {
 
-        model.addAttribute(
-                "student",
-                studentService.getById(id));
+                        result.getFieldErrors()
+                                        .forEach(error -> System.out.println(
+                                                        error.getField() + " -> " + error.getDefaultMessage()));
+                       
 
-        return "student/print";
-    }
+                        model.addAttribute("religions", Religion.values());
+                        model.addAttribute("categories", Category.values());
+                        model.addAttribute("bloodGroups", BloodGroup.values());
 
-    /*
-     * ==========================================================
-     * DELETE
-     * ==========================================================
-     */
+                        loadFormData(model);
 
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id,
-            RedirectAttributes redirectAttributes) {
+                        return "student/form";
+                }
 
-        studentService.delete(id);
+                studentService.save(student, photoFile);
 
-        redirectAttributes.addFlashAttribute(
-                "success",
-                "Student deleted successfully.");
+                redirectAttributes.addFlashAttribute(
+                                "success",
+                                "Student saved successfully.");
 
-        return "redirect:/students";
-    }
+                return "redirect:/students";
+        }
 
-    /*
-     * ==========================================================
-     * DUPLICATE CHECK
-     * ==========================================================
-     */
+        /*
+         * ==========================================================
+         * VIEW
+         * ==========================================================
+         */
 
-    @GetMapping("/check/mobile")
-    @ResponseBody
-    public boolean checkMobile(
-            @RequestParam String value,
-            @RequestParam(required = false) Long id) {
+        @GetMapping("/view/{id}")
+        public String view(@PathVariable Long id,
+                        Model model) {
 
-        return studentService.existsMobile(value, id);
-    }
+                model.addAttribute(
+                                "student",
+                                studentService.getById(id));
 
-    @GetMapping("/check/aadhaar")
-    @ResponseBody
-    public boolean checkAadhaar(
-            @RequestParam String value,
-            @RequestParam(required = false) Long id) {
+                return "student/view";
+        }
 
-        return studentService.existsAadhaar(value, id);
-    }
+        /*
+         * ==========================================================
+         * PRINT
+         * ==========================================================
+         */
 
-    @GetMapping("/check/email")
-    @ResponseBody
-    public boolean checkEmail(
-            @RequestParam String value,
-            @RequestParam(required = false) Long id) {
+        @GetMapping("/print/{id}")
+        public String print(@PathVariable Long id,
+                        Model model) {
 
-        return studentService.existsEmail(value, id);
-    }
+                model.addAttribute(
+                                "student",
+                                studentService.getById(id));
 
-    /*
-     * ==========================================================
-     * LOAD FORM DATA
-     * ==========================================================
-     */
+                return "student/print";
+        }
 
-    private void loadFormData(Model model) {
+        /*
+         * ==========================================================
+         * DELETE
+         * ==========================================================
+         */
 
-        model.addAttribute(
-                "academicSessions",
-                academicSessionService.getAllSessions());
+        @GetMapping("/delete/{id}")
+        public String delete(@PathVariable Long id,
+                        RedirectAttributes redirectAttributes) {
 
-        model.addAttribute(
-                "classRooms",
-                classRoomService.getAllClasses());
+                studentService.delete(id);
 
-        model.addAttribute(
-                "genders",
-                Gender.values());
+                redirectAttributes.addFlashAttribute(
+                                "success",
+                                "Student deleted successfully.");
 
-        model.addAttribute(
-                "studentStatuses",
-                StudentStatus.values());
+                return "redirect:/students";
+        }
 
-        model.addAttribute(
-                "admissionTypes",
-                AdmissionType.values());
-    }
+        /*
+         * ==========================================================
+         * DUPLICATE CHECK
+         * ==========================================================
+         */
+
+        @GetMapping("/check/mobile")
+        @ResponseBody
+        public boolean checkMobile(
+                        @RequestParam String value,
+                        @RequestParam(required = false) Long id) {
+
+                return studentService.existsMobile(value, id);
+        }
+
+        @GetMapping("/check/aadhaar")
+        @ResponseBody
+        public boolean checkAadhaar(
+                        @RequestParam String value,
+                        @RequestParam(required = false) Long id) {
+
+                return studentService.existsAadhaar(value, id);
+        }
+
+        @GetMapping("/check/email")
+        @ResponseBody
+        public boolean checkEmail(
+                        @RequestParam String value,
+                        @RequestParam(required = false) Long id) {
+
+                return studentService.existsEmail(value, id);
+        }
+
+        /*
+         * ==========================================================
+         * LOAD FORM DATA
+         * ==========================================================
+         */
+
+        private void loadFormData(Model model) {
+
+                model.addAttribute(
+                                "academicSessions",
+                                academicSessionService.getAllSessions());
+
+                model.addAttribute(
+                                "classRooms",
+                                classRoomService.getAllClasses());
+
+                model.addAttribute(
+                                "genders",
+                                Gender.values());
+
+                model.addAttribute(
+                                "studentStatuses",
+                                StudentStatus.values());
+
+                model.addAttribute(
+                                "admissionTypes",
+                                AdmissionType.values());
+        }
 
 }
