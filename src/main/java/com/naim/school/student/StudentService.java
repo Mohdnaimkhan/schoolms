@@ -67,15 +67,7 @@ public class StudentService {
 
         /* Email Normalize */
 
-        if (student.getEmail() != null) {
-
-            student.setEmail(
-                    student.getEmail()
-                            .trim()
-                            .toLowerCase()
-            );
-
-        }
+        normalize(student);
 
         /*
          * ==========================
@@ -103,8 +95,7 @@ public class StudentService {
 
                     fileStorageService.delete(
                             Constants.STUDENT_FOLDER,
-                            oldStudent.getPhoto()
-                    );
+                            oldStudent.getPhoto());
 
                 }
 
@@ -180,8 +171,7 @@ public class StudentService {
 
             fileStorageService.delete(
                     Constants.STUDENT_FOLDER,
-                    student.getPhoto()
-            );
+                    student.getPhoto());
 
         }
 
@@ -213,8 +203,7 @@ public class StudentService {
 
         return repository.countByAdmissionDateBetween(
                 firstDay,
-                lastDay
-        );
+                lastDay);
 
     }
 
@@ -299,6 +288,22 @@ public class StudentService {
         }
 
         return repository.existsByEmailAndIdNot(email, id);
+
+    }
+
+    private void normalize(Student student) {
+
+        if (student.getMobile() != null) {
+            student.setMobile(student.getMobile().replaceAll("\\s+", ""));
+        }
+
+        if (student.getAadharNumber() != null) {
+            student.setAadharNumber(student.getAadharNumber().replaceAll("\\s+", ""));
+        }
+
+        if (student.getEmail() != null) {
+            student.setEmail(student.getEmail().trim().toLowerCase());
+        }
 
     }
 

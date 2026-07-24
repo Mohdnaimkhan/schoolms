@@ -552,10 +552,9 @@
 
                                 </label>
 
-                                <input type="email" th:field="*{email}" class="form-control email-input duplicate-check"
+                                <input type="email" th:field="*{email}" class="form-control email-input "
                                     th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''"
-                                    maxlength="100" placeholder="example@gmail.com"
-                                    data-check-url="/students/check/email" th:attr="data-id=*{id}">
+                                    maxlength="100" placeholder="example@gmail.com" th:attr="data-id=*{id}">
 
                                 <div class="invalid-feedback" th:errors="*{email}">
                                 </div>
