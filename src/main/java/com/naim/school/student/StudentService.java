@@ -65,9 +65,18 @@ public class StudentService {
 
     public void save(Student student, MultipartFile photoFile) {
 
-        /* Email Normalize */
-
+        // Normalize
         normalize(student);
+
+        // Aadhaar Duplicate Check
+        if (student.getAadharNumber() != null
+                && !student.getAadharNumber().isBlank()
+                && repository.existsByAadharNumberAndIdNot(
+                        student.getAadharNumber(),
+                        student.getId())) {
+
+            throw new IllegalArgumentException("Aadhaar Number already exists.");
+        }
 
         /*
          * ==========================
@@ -79,16 +88,14 @@ public class StudentService {
 
             Student oldStudent = getById(student.getId());
 
-            // Keep old photo
-
+            // Keep Old Photo
             if (photoFile == null || photoFile.isEmpty()) {
 
                 student.setPhoto(oldStudent.getPhoto());
 
             }
 
-            // Upload new photo
-
+            // Upload New Photo
             else {
 
                 if (oldStudent.getPhoto() != null) {
@@ -100,11 +107,7 @@ public class StudentService {
                 }
 
                 student.setPhoto(
-
-                        fileStorageService.uploadStudentPhoto(photoFile)
-
-                );
-
+                        fileStorageService.uploadStudentPhoto(photoFile));
             }
 
         }
@@ -118,45 +121,25 @@ public class StudentService {
         else {
 
             // Upload Photo
-
             if (photoFile != null && !photoFile.isEmpty()) {
 
                 student.setPhoto(
-
-                        fileStorageService.uploadStudentPhoto(photoFile)
-
-                );
-
+                        fileStorageService.uploadStudentPhoto(photoFile));
             }
 
             // Admission Number
-
             student.setAdmissionNo(
-
-                    numberGenerator.generateAdmissionNo()
-
-            );
+                    numberGenerator.generateAdmissionNo());
 
             // Roll Number
-
             student.setRollNumber(
-
                     numberGenerator.generateRollNo(
-
                             student.getAcademicSession().getId(),
-
-                            student.getClassRoom().getId()
-
-                    )
-
-            );
-
+                            student.getClassRoom().getId()));
         }
 
         repository.save(student);
-
     }
-
     /*
      * ==========================================================
      * DELETE
@@ -294,11 +277,17 @@ public class StudentService {
     private void normalize(Student student) {
 
         if (student.getMobile() != null) {
-            student.setMobile(student.getMobile().replaceAll("\\s+", ""));
+
+            String mobile = student.getMobile().replaceAll("\\s+", "");
+
+            student.setMobile(mobile.isBlank() ? null : mobile);
         }
 
         if (student.getAadharNumber() != null) {
-            student.setAadharNumber(student.getAadharNumber().replaceAll("\\s+", ""));
+
+            String aadhar = student.getAadharNumber().replaceAll("\\s+", "");
+
+            student.setAadharNumber(aadhar.isBlank() ? null : aadhar);
         }
 
         if (student.getEmail() != null) {

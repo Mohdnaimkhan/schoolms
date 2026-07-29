@@ -92,9 +92,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
 
   if (window.bootstrap) {
-    document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((element) => {
-      new bootstrap.Tooltip(element);
-    });
+    document
+      .querySelectorAll('[data-bs-toggle="tooltip"]')
+      .forEach((element) => {
+        new bootstrap.Tooltip(element);
+      });
   }
 
   // ==========================================
@@ -127,5 +129,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function disable(element) {
     element.disabled = true;
+
+    // ==========================================
+    // Flatpickr Date Picker
+    // ==========================================
+
+    if (window.flatpickr) {
+      flatpickr(".date-picker", {
+        dateFormat: "d-m-Y",
+
+        altInput: false,
+
+        allowInput: true,
+
+        disableMobile: true,
+      });
+    }
   }
 });

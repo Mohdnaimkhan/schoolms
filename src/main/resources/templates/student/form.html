@@ -64,10 +64,6 @@
                      Admission Information
                 ====================================== -->
 
-                <!-- ==========================================================
-     Admission Information
-========================================================== -->
-
                 <div class="card shadow-sm  mb-4">
 
                     <div class="card-header fw-bold">
@@ -191,6 +187,7 @@
                                 </label>
 
                                 <input type="date" th:field="*{admissionDate}" class="form-control required"
+                                    placeholder="dd-MM-yyyy"
                                     th:classappend="${#fields.hasErrors('admissionDate')} ? 'is-invalid' : ''">
 
                                 <div class="invalid-feedback" th:errors="*{admissionDate}">
@@ -553,8 +550,8 @@
                                 </label>
 
                                 <input type="email" th:field="*{email}" class="form-control email-input "
-                                    th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''"
-                                    maxlength="100" placeholder="example@gmail.com" th:attr="data-id=*{id}">
+                                    th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''" maxlength="100"
+                                    placeholder="example@gmail.com" th:attr="data-id=*{id}">
 
                                 <div class="invalid-feedback" th:errors="*{email}">
                                 </div>
