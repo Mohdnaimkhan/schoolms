@@ -387,7 +387,9 @@
 
                                         </label>
 
-                                        <input type="date" th:field="*{dateOfBirth}" class="form-control required"
+                                        <input type="date"
+                                            th:value="${#temporals.format(student.dateOfBirth,'yyyy-MM-dd')}"
+                                            th:field="*{dateOfBirth}" class="form-control required"
                                             th:classappend="${#fields.hasErrors('dateOfBirth')} ? 'is-invalid' : ''">
 
                                         <div class="invalid-feedback" th:errors="*{dateOfBirth}">
