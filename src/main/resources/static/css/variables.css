@@ -11,7 +11,7 @@
 :root {
 
     /* ======================================================
-       BRAND COLORS
+       BRAND
     ====================================================== */
 
     --primary: #2563eb;
@@ -28,30 +28,31 @@
        BACKGROUND
     ====================================================== */
 
-    --bg-body: #f5f7fb;
-    --bg-navbar: #ffffff;
-    --bg-sidebar: #ffffff;
-    --bg-card: #ffffff;
-    --bg-hover: #f1f5f9;
-    --bg-overlay: rgba(15, 23, 42, .45);
+    --bg-body: #edf2f7;
+    --bg-navbar: #f8fafc;
+    --bg-sidebar: #f6f8fb;
+    --bg-card: #fcfcfd;
+    --bg-hover: #e9eef5;
+
+    --bg-overlay: rgba(15,23,42,.40);
 
     /* ======================================================
        TEXT
     ====================================================== */
 
-    --text: #111827;
+    --text: #1f2937;
     --text-primary: #111827;
     --text-secondary: #6b7280;
-    --text-muted: #9ca3af;
+    --text-muted: #94a3b8;
     --text-light: #ffffff;
 
     /* ======================================================
        BORDER
     ====================================================== */
 
-    --border: #e5e7eb;
-    --border-light: #f1f5f9;
-    --border-dark: #cbd5e1;
+    --border: #d8e0ea;
+    --border-light: #e8edf4;
+    --border-dark: #c7d0db;
 
     --border-color: var(--border);
 
@@ -59,9 +60,9 @@
        SHADOW
     ====================================================== */
 
-    --shadow-sm: 0 2px 8px rgba(15,23,42,.05);
-    --shadow-md: 0 8px 24px rgba(15,23,42,.08);
-    --shadow-lg: 0 14px 36px rgba(15,23,42,.12);
+    --shadow-sm: 0 2px 6px rgba(15,23,42,.05);
+    --shadow-md: 0 8px 18px rgba(15,23,42,.08);
+    --shadow-lg: 0 14px 30px rgba(15,23,42,.10);
 
     /* ======================================================
        RADIUS
@@ -69,9 +70,9 @@
 
     --radius-xs: 4px;
     --radius-sm: 8px;
-    --radius-md: 12px;
-    --radius-lg: 18px;
-    --radius-xl: 24px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 20px;
     --radius-round: 50%;
 
     /* ======================================================
@@ -118,33 +119,34 @@
        TABLE
     ====================================================== */
 
-    --table-bg: #ffffff;
+    --table-bg: #fcfcfd;
+
     --table-header-bg: #2563eb;
     --table-header-text: #ffffff;
 
-    --table-row-bg: #ffffff;
+    --table-row-bg: #fcfcfd;
     --table-row-hover: #eef5ff;
 
-    --table-border: #dee2e6;
+    --table-border: #d8e0ea;
 
     /* ======================================================
        FORM
     ====================================================== */
 
-    --input-bg: #ffffff;
-    --input-text: #111827;
-    --input-placeholder: #9ca3af;
+    --input-bg: #fdfdfd;
+    --input-text: #1f2937;
+    --input-placeholder: #94a3b8;
 
-    --input-border: #d1d5db;
+    --input-border: #d2d9e3;
     --input-focus: #2563eb;
 
-    --input-disabled: #f3f4f6;
+    --input-disabled: #eef2f7;
 
     /* ======================================================
        BUTTON
     ====================================================== */
 
-    --btn-radius: 10px;
+    --btn-radius: 8px;
     --btn-padding-y: .55rem;
     --btn-padding-x: 1rem;
 
@@ -152,42 +154,42 @@
        BADGE
     ====================================================== */
 
-    --badge-radius: 30px;
+    --badge-radius: 20px;
 
     /* ======================================================
        ALERT
     ====================================================== */
 
-    --alert-radius: 12px;
+    --alert-radius: 10px;
 
     /* ======================================================
        DROPDOWN
     ====================================================== */
 
-    --dropdown-bg: #ffffff;
-    --dropdown-hover: #f1f5f9;
-    --dropdown-border: #e5e7eb;
+    --dropdown-bg: #fcfcfd;
+    --dropdown-hover: #edf3fa;
+    --dropdown-border: #d8e0ea;
 
     /* ======================================================
        MODAL
     ====================================================== */
 
-    --modal-bg: #ffffff;
-    --modal-header: #f8fafc;
-    --modal-footer: #f8fafc;
+    --modal-bg: #fcfcfd;
+    --modal-header: #f7f9fc;
+    --modal-footer: #f7f9fc;
 
     /* ======================================================
        PAGINATION
     ====================================================== */
 
-    --pagination-bg: #ffffff;
+    --pagination-bg: #fcfcfd;
     --pagination-hover: #eef5ff;
 
     /* ======================================================
        SCROLLBAR
     ====================================================== */
 
-    --scrollbar-bg: #e5e7eb;
+    --scrollbar-bg: #d9e2ec;
     --scrollbar-thumb: #94a3b8;
 
     /* ======================================================
