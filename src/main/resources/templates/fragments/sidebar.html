@@ -92,7 +92,7 @@
 
                     </h2>
 
-                    <div id="academicMenu" class="accordion-collapse collapse show" data-bs-parent="#sidebarAccordion">
+                    <div id="academicMenu" class="accordion-collapse collapse " data-bs-parent="#sidebarAccordion">
 
                         <div class="accordion-body p-0">
 
@@ -109,6 +109,13 @@
                                 <i class="bi bi-door-open"></i>
 
                                 Classroom
+
+                            </a>
+                              <a th:href="@{/sections}" class="submenu-link">
+
+                                <i class="bi bi-diagram-3"></i>
+
+                                Section
 
                             </a>
 
@@ -205,7 +212,7 @@
 
                                 <i class="bi bi-wallet2"></i>
 
-                                Fee 
+                                Fee Structure
 
                             </a>
 
@@ -252,7 +259,7 @@
 
                             <i class="bi bi-bar-chart-line me-2"></i>
 
-                            Reports
+                           Reports
 
                         </button>
 
@@ -283,6 +290,13 @@
                                 <i class="bi bi-currency-rupee"></i>
 
                                 Fee Report
+
+                            </a>
+                             <a href="#" class="submenu-link disabled">
+
+                                <i class="bi bi-file-earmark-text"></i>
+
+                                Examination Report
 
                             </a>
 
@@ -350,7 +364,7 @@
 
                             <i class="bi bi-cpu me-2"></i>
 
-                            System
+                            Settings    
 
                         </button>
 
@@ -359,6 +373,13 @@
                     <div id="systemMenu" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
 
                         <div class="accordion-body p-0">
+                             <a href="#" class="submenu-link disabled">
+
+                                <i class="bi bi-sliders"></i>
+
+                                General Settings 
+
+                            </a>
 
                             <a href="#" class="submenu-link disabled">
 
@@ -373,6 +394,20 @@
                                 <i class="bi bi-clock-history"></i>
 
                                 Activity Log
+
+                            </a>
+                             <a href="#" class="submenu-link disabled">
+
+                                <i class="bi bi-palette"></i>
+
+                                Theme Settings
+
+                            </a>
+                             <a th:href="@{/about}" class="submenu-link ">
+
+                                <i class="bi bi-info-circle"></i>
+
+                                About 
 
                             </a>
 
@@ -400,17 +435,7 @@
 
         </div>
 
-        <!-- Footer -->
-
-        <div class="sidebar-footer">
-
-            <small>
-
-                School ERP v1.0.0
-
-            </small>
-
-        </div>
+       
 
     </aside>
 

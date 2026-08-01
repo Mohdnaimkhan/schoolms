@@ -8,6 +8,7 @@ import com.naim.school.classroom.ClassRoomService;
 import com.naim.school.fee.Fee;
 import com.naim.school.fee.FeeService;
 import com.naim.school.fee.FeeStatus;
+import com.naim.school.sms.AppInfo;
 import com.naim.school.student.Student;
 import com.naim.school.student.StudentService;
 import com.naim.school.subject.SubjectService;
@@ -129,5 +130,21 @@ public class DashboardController {
                 return "dashboard/index";
 
         }
+        /*
+         * =========================================
+         * About
+         * =========================================
+         */
 
+        @GetMapping("/about")
+        public String about(Model model) {
+
+                model.addAttribute("appName", AppInfo.APP_NAME);
+                model.addAttribute("version", AppInfo.VERSION);
+                model.addAttribute("releaseDate", AppInfo.RELEASE_DATE);
+                model.addAttribute("lastUpdated", AppInfo.LAST_UPDATED);
+                model.addAttribute("developer", AppInfo.DEVELOPER);
+
+                return "about/about";
+        }
 }

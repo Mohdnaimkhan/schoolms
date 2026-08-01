@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('About')}"></head>
+
+<body>
+
+    <!-- Navbar -->
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <!-- Main Content -->
+    <main class="sms-content">
+
+        <div class="container-fluid ">
+
+            <!-- ===========================
+             Page Header
+        =========================== -->
+
+            <div class="d-flex justify-content-between align-items-center mb-4 ">
+
+                <div>
+
+                    <h3 class="fw-bold mb-1">
+
+                        <i class="bi bi-info-circle-fill text-primary me-2"></i>
+
+                        About
+
+                    </h3>
+
+                    <p class="text-secondary mb-0">
+
+                        School Management System Information
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- Breadcrumb -->
+
+            <nav class="mb-4 ">
+
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item">
+
+                        <a th:href="@{/}">
+
+                            Dashboard
+
+                        </a>
+
+                    </li>
+
+                    <li class="breadcrumb-item">
+
+                        Settings
+
+                    </li>
+
+                    <li class="breadcrumb-item active">
+
+                        About
+
+                    </li>
+
+                </ol>
+
+            </nav>
+
+            <!-- ===========================
+             About Card
+        =========================== -->
+
+            <div class="sms-card mb-4 p-3">
+
+                <div class="row align-items-center">
+
+                    <div class="col-lg-2 text-center">
+
+                        <img th:src="@{/images/logo.png}" class="img-fluid" style="max-height:110px;">
+
+                    </div>
+
+                    <div class="col-lg-10">
+
+                        <h3 th:text="${appName}" class="fw-bold">
+
+                        </h3>
+
+                        <p class="text-secondary mb-2">
+
+                            Professional School ERP Solution
+
+                        </p>
+
+                        <span class="badge bg-success ">
+
+                            Simple • Fast • Secure • Scalable
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ===========================
+             Version & Developer
+        =========================== -->
+
+            <div class="row ">
+
+                <!-- Version -->
+
+                <div class="col-lg-6 mb-4 ">
+
+                    <div class="sms-card h-100 p-3">
+
+                        <h5 class="fw-bold mb-4">
+
+                            <i class="bi bi-tag-fill text-primary me-2"></i>
+
+                            Version Information
+
+                        </h5>
+
+                        <table class="table table-borderless">
+
+                            <tr>
+
+                                <th width="180">
+
+                                    Current Version
+
+                                </th>
+
+                                <td>
+
+                                    <span class="badge bg-primary">
+
+                                       <span th:text="${version}"></span>
+
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>
+
+                                    Release Date
+
+                                </th>
+
+                                <td>
+
+                                  <span th:text="${releaseDate}"></span>
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>
+
+                                    Last Updated
+
+                                </th>
+
+                                <td>
+
+                                    <span th:text="${lastUpdated}"></span>
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>
+
+                                    Status
+
+                                </th>
+
+                                <td>
+
+                                    <span class="badge bg-success">
+
+                                        Stable
+
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+                <!-- Developer -->
+
+                <div class="col-lg-6 mb-4">
+
+                    <div class="sms-card h-100 p-3">
+
+                        <h5 class="fw-bold mb-4">
+
+                            <i class="bi bi-person-badge-fill text-success me-2"></i>
+
+                            Developer Information
+
+                        </h5>
+
+                        <table class="table table-borderless">
+
+                            <tr>
+
+                                <th width="180">
+
+                                    Developer
+
+                                </th>
+
+                                <td>
+
+                                    <span th:text="${developer}"></span>
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>
+
+                                    Product
+
+                                </th>
+
+                                <td th:text="${appName}">
+
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>
+
+                                    Type
+
+                                </th>
+
+                                <td>
+
+                                    Desktop & Cloud Ready
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>
+
+                                    License
+
+                                </th>
+
+                                <td>
+
+                                    Commercial
+
+                                </td>
+
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- ===========================
+             Technology Stack
+        =========================== -->
+
+            <div class="sms-card mb-4 p-3">
+
+                <h5 class="fw-bold mb-4">
+
+                    <i class="bi bi-cpu-fill text-primary me-2"></i>
+
+                    Technology Stack
+
+                </h5>
+
+                <div class="row">
+
+                    <div class="col-md-3 mb-3">
+
+                        <div class="border rounded text-center p-3 h-100">
+
+                            <i class="bi bi-cup-hot-fill fs-1 text-danger"></i>
+
+                            <h6 class="mt-3 fw-bold">Java</h6>
+
+                            <small class="text-muted">
+
+                                Java 21
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+
+                        <div class="border rounded text-center p-3 h-100">
+
+                            <i class="bi bi-layers-fill fs-1 text-success"></i>
+
+                            <h6 class="mt-3 fw-bold">
+
+                                Spring Boot
+
+                            </h6>
+
+                            <small class="text-muted">
+
+                                Backend Framework
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+
+                        <div class="border rounded text-center p-3 h-100">
+
+                            <i class="bi bi-bootstrap-fill fs-1 text-purple"></i>
+
+                            <h6 class="mt-3 fw-bold">
+
+                                Bootstrap 5
+
+                            </h6>
+
+                            <small class="text-muted">
+
+                                Responsive UI
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+
+                        <div class="border rounded text-center p-3 h-100">
+
+                            <i class="bi bi-database-fill fs-1 text-warning"></i>
+
+                            <h6 class="mt-3 fw-bold">
+
+                                MySQL
+
+                            </h6>
+
+                            <small class="text-muted">
+
+                                Database
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ===========================
+             Features
+        =========================== -->
+
+            <div class="sms-card mb-4 p-3">
+
+                <h5 class="fw-bold mb-4">
+
+                    <i class="bi bi-check2-square text-success me-2"></i>
+
+                    Features
+
+                </h5>
+
+                <div class="row">
+
+                    <div class="col-md-4">
+
+                        <ul class="list-group list-group-flush">
+
+                            <li class="list-group-item">
+
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                                School Profile
+
+                            </li>
+
+                            <li class="list-group-item">
+
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                                Academic Session
+
+                            </li>
+
+                            <li class="list-group-item">
+
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                                Classroom
+
+                            </li>
+
+                            <li class="list-group-item">
+
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                                Section
+
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <ul class="list-group list-group-flush">
+
+                            <li class="list-group-item">
+
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                                Student Management
+
+                            </li>
+
+                            <li class="list-group-item">
+
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                                Teacher Management
+
+                            </li>
+
+                            <li class="list-group-item">
+
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                                Subject Management
+
+                            </li>
+
+                            <li class="list-group-item">
+
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                                Attendance
+
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <ul class="list-group list-group-flush">
+
+                            <li class="list-group-item">
+
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                                Fee Management
+
+                            </li>
+
+                            <li class="list-group-item">
+
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                                Reports
+
+                            </li>
+
+                            <li class="list-group-item">
+
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                                User Management
+
+                            </li>
+
+                            <li class="list-group-item">
+
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                                Backup System
+
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ===========================
+             System Information
+        =========================== -->
+
+            <div class="sms-card mb-4 p-3">
+
+                <h5 class="fw-bold mb-4">
+
+                    <i class="bi bi-pc-display text-info me-2"></i>
+
+                    System Information
+
+                </h5>
+
+                <table class="table table-bordered align-middle">
+
+                    <tbody>
+
+                        <tr>
+
+                            <th width="250">
+
+                                Application Name
+
+                            </th>
+
+                            <td th:text="${appName}">
+
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                Application Version
+
+                            </th>
+
+                            <td>
+
+                               <span th:text="${version}"></span>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                Database
+
+                            </th>
+
+                            <td>
+
+                                MySQL
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                Framework
+
+                            </th>
+
+                            <td>
+
+                                Spring Boot + Thymeleaf
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                User Interface
+
+                            </th>
+
+                            <td>
+
+                                Bootstrap 5
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                Theme
+
+                            </th>
+
+                            <td>
+
+                                Dark / Light
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                Platform
+
+                            </th>
+
+                            <td>
+
+                                Desktop & Cloud Ready
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+            <!-- ===========================
+             Changelog
+        =========================== -->
+
+            <div class="sms-card mb-4 p-3">
+
+                <h5 class="fw-bold mb-4">
+
+                    <i class="bi bi-clock-history text-warning me-2"></i>
+
+                    Version History
+
+                </h5>
+
+                <div class="table-responsive ">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th style="width:120px;">Version</th>
+                                <th style="width:180px;">Release Date</th>
+                                <th>Description</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>
+
+                                    <span class="badge bg-primary">
+
+                                       <span th:text="${version}"></span>
+
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                   <span th:text="${releaseDate}"></span>
+
+                                </td>
+
+                                <td>
+
+                                    Initial Release with School Profile, Student, Teacher,
+                                    Academic Session, Classroom and Dashboard.
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ===========================
+             Future Updates
+        =========================== -->
+
+            <div class="sms-card mb-4 p-3">
+
+                <h5 class="fw-bold mb-4">
+
+                    <i class="bi bi-lightbulb-fill text-success me-2"></i>
+
+                    Upcoming Features
+
+                </h5>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+
+                        <ul class="list-group list-group-flush">
+
+                            <li class="list-group-item">
+
+                                <i class="bi bi-arrow-right-circle-fill text-primary me-2"></i>
+
+                                Examination Module
+
+                            </li>
+
+                            <li class="list-group-item">
+
+                                <i class="bi bi-arrow-right-circle-fill text-primary me-2"></i>
+
+                                Result Module
+
+                            </li>
+
+                            <li class="list-group-item">
+
+                                <i class="bi bi-arrow-right-circle-fill text-primary me-2"></i>
+
+                                Fee Collection
+
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <ul class="list-group list-group-flush">
+
+                            <li class="list-group-item">
+
+                                <i class="bi bi-arrow-right-circle-fill text-primary me-2"></i>
+
+                                Reports
+
+                            </li>
+
+                            <li class="list-group-item">
+
+                                <i class="bi bi-arrow-right-circle-fill text-primary me-2"></i>
+
+                                Cloud Version
+
+                            </li>
+
+                            <li class="list-group-item">
+
+                                <i class="bi bi-arrow-right-circle-fill text-primary me-2"></i>
+
+                                Multi School Support
+
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ===========================
+             Footer Note
+        =========================== -->
+
+            
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <!-- Scripts -->
+
+    <div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>
