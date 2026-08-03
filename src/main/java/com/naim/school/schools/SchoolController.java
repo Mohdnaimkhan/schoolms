@@ -33,6 +33,8 @@ public class SchoolController {
         }
 
         model.addAttribute("school", school);
+        model.addAttribute("pageTitle", "School Profile");
+
 
         return "settings/school-profile";
 

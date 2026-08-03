@@ -1,29 +1,38 @@
 package com.naim.school.academicsession;
 
+import java.time.LocalDate;
 
 import com.naim.school.sms.BaseEntity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import lombok.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
-@Entity
-@Table(name = "academic_sessions")
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Entity
+@Table(name = "academic_sessions")
 public class AcademicSession extends BaseEntity {
 
     @NotBlank(message = "Session Name is required")
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 20)
     private String sessionName;
 
-    @Builder.Default
-    private Boolean active = false;
+    @NotNull(message = "Start Date is required")
+    @Column(nullable = false)
+    private LocalDate startDate;
 
-    @Column(length = 300)
+    // NULL until session is closed
+    private LocalDate endDate;
+
+    @Column(nullable = false)
+    private Boolean currentSession = false;
+
+    @Column(length = 500)
     private String description;
 
 }

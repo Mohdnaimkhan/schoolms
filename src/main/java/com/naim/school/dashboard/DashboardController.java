@@ -92,7 +92,7 @@ public class DashboardController {
                  * ===========================
                  */
 
-                AcademicSession currentSession = academicSessionService.findCurrentSession().orElse(null);
+                AcademicSession currentSession = academicSessionService.getCurrentSession();
 
                 model.addAttribute("currentSession", currentSession);
 
