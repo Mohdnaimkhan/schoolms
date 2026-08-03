@@ -7,6 +7,8 @@ import com.naim.school.attendance.AttendanceService;
 import com.naim.school.classroom.ClassRoomService;
 import com.naim.school.fee.Fee;
 import com.naim.school.fee.FeeService;
+import com.naim.school.fee.FeeStatus;
+import com.naim.school.sms.AppInfo;
 import com.naim.school.student.Student;
 import com.naim.school.student.StudentService;
 import com.naim.school.subject.SubjectService;
@@ -16,94 +18,133 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class DashboardController {
 
-    private final StudentService studentService;
+        private final StudentService studentService;
 
-    private final TeacherService teacherService;
+        private final TeacherService teacherService;
 
-    private final ClassRoomService classRoomService;
+        private final ClassRoomService classRoomService;
 
-    private final SubjectService subjectService;
+        private final SubjectService subjectService;
 
-    private final FeeService feeService;
+        private final FeeService feeService;
 
-    private final AttendanceService attendanceService;
+        private final AttendanceService attendanceService;
 
-    private final AcademicSessionService academicSessionService;
+        private final AcademicSessionService academicSessionService;
 
-    @GetMapping("/")
-    public String dashboard(Model model) {
+        @GetMapping("/")
+        public String dashboard(Model model) {
 
-        /* ===========================
-           COUNTS
-        =========================== */
+                /*
+                 * ===========================
+                 * COUNTS
+                 * ===========================
+                 */
 
-        model.addAttribute("studentCount",
-                studentService.getActiveStudents().size());
+                model.addAttribute("studentCount",
+                                studentService.getActiveStudents().size());
 
-        model.addAttribute("teacherCount",
-                teacherService.getActiveTeachers().size());
+                model.addAttribute("teacherCount",
+                                teacherService.getActiveTeachers().size());
 
-        model.addAttribute("classRoomCount",
-                classRoomService.getActiveClasses().size());
+                model.addAttribute("classRoomCount",
+                                classRoomService.getActiveClasses().size());
 
-        model.addAttribute("subjectCount",
-                subjectService.getAllSubjects().size());
+                model.addAttribute("subjectCount",
+                                subjectService.getAllSubjects().size());
 
+                /*
+                 * ===========================
+                 * Today
+                 * ===========================
+                 */
 
+                model.addAttribute(
+                                "todayAttendance",
+                                attendanceService.countByAttendanceDate(LocalDate.now()));
 
-        /* ===========================
-           CURRENT SESSION
-        =========================== */
+                BigDecimal todayCollection = feeService.findByPaymentDate(LocalDate.now())
+                                .stream()
+                                .map(Fee::getPaidAmount)
+                                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        AcademicSession currentSession =
-                academicSessionService.findCurrentSession().orElse(null);
+                model.addAttribute("todayCollection", todayCollection);
+                model.addAttribute(
+                                "pendingFees",
+                                feeService.countByStatus(FeeStatus.PENDING));
+                LocalDate firstDay = LocalDate.now().withDayOfMonth(1);
+                LocalDate lastDay = LocalDate.now();
 
-        model.addAttribute("currentSession", currentSession);
+                model.addAttribute(
+                                "newAdmissions",
+                                studentService.countByAdmissionDateBetween(firstDay, lastDay));
+                /*
+                 * ===========================
+                 * CURRENT SESSION
+                 * ===========================
+                 */
 
+                AcademicSession currentSession = academicSessionService.findCurrentSession().orElse(null);
 
+                model.addAttribute("currentSession", currentSession);
 
-        /* ===========================
-           RECENT STUDENTS
-        =========================== */
+                /*
+                 * ===========================
+                 * RECENT STUDENTS
+                 * ===========================
+                 */
 
-        List<Student> recentStudents =
-                studentService.findTop5ByOrderByIdDesc();
+                List<Student> recentStudents = studentService.findTop5ByOrderByIdDesc();
 
-        model.addAttribute("recentStudents", recentStudents);
+                model.addAttribute("recentStudents", recentStudents);
 
+                /*
+                 * ===========================
+                 * RECENT FEES
+                 * ===========================
+                 */
 
+                List<Fee> recentFees = feeService.findTop5ByOrderByIdDesc();
 
-        /* ===========================
-           RECENT FEES
-        =========================== */
+                model.addAttribute("recentFees", recentFees);
 
-        List<Fee> recentFees =
-                feeService.findTop5ByOrderByIdDesc();
+                /*
+                 * ===========================
+                 * RECENT ATTENDANCE
+                 * ===========================
+                 */
 
-        model.addAttribute("recentFees", recentFees);
+                List<Attendance> recentAttendance = attendanceService.findTop5ByOrderByIdDesc();
 
+                model.addAttribute("recentAttendance",
+                                recentAttendance);
 
+                return "dashboard/index";
 
-        /* ===========================
-           RECENT ATTENDANCE
-        =========================== */
+        }
+        /*
+         * =========================================
+         * About
+         * =========================================
+         */
 
-        List<Attendance> recentAttendance =
-                attendanceService.findTop5ByOrderByIdDesc();
+        @GetMapping("/about")
+        public String about(Model model) {
 
-        model.addAttribute("recentAttendance",
-                recentAttendance);
+                model.addAttribute("appName", AppInfo.APP_NAME);
+                model.addAttribute("version", AppInfo.VERSION);
+                model.addAttribute("releaseDate", AppInfo.RELEASE_DATE);
+                model.addAttribute("lastUpdated", AppInfo.LAST_UPDATED);
+                model.addAttribute("developer", AppInfo.DEVELOPER);
 
-
-
-        return "dashboard/index";
-
-    }
-
+                return "about/about";
+        }
 }

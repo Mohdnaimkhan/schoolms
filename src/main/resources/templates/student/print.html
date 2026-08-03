@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('Student Print')}"></head>
+
+<body>
+
+    <div class="container my-4">
+
+        <div class="text-end mb-3 d-print-none">
+
+            <button class="btn btn-primary" onclick="window.print()">
+                <i class="bi bi-printer"></i>
+                Print
+            </button>
+
+            <a th:href="@{/students/view/{id}(id=${student.id})}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i>
+                Back
+            </a>
+
+        </div>
+
+        <div class="card shadow">
+
+            <div class="card-body p-4">
+
+                <!-- ===========================
+                    SCHOOL HEADER
+            ============================ -->
+
+                <div class="row align-items-center border-bottom pb-3 mb-4">
+
+                    <div class="col-2 text-center">
+
+                        <img th:src="@{/images/logo.png}" style="width:90px;">
+
+                    </div>
+
+                    <div class="col-8 text-center">
+
+                        <h2 class="fw-bold mb-1">
+                            ABC PUBLIC SCHOOL
+                        </h2>
+
+                        <div>
+                            School Address Here
+                        </div>
+
+                        <div>
+                            Phone : 9876543210 |
+                            Email : school@email.com
+                        </div>
+
+                    </div>
+
+                    <div class="col-2 text-end">
+
+                        <img th:if="${student.photo!=null}" th:src="@{'/uploads/students/' + ${student.photo}}"
+                            class="img-thumbnail" style="width:120px;height:150px;object-fit:cover;">
+
+                        <img th:if="${student.photo==null}" th:src="@{/images/no-image.png}" class="img-thumbnail"
+                            style="width:120px;height:150px;object-fit:cover;">
+
+                    </div>
+
+                </div>
+
+                <!-- ===========================
+                    STUDENT INFORMATION
+            ============================ -->
+
+                <h5 class="border-bottom pb-2 mb-3">
+                    Student Information
+                </h5>
+
+                <table class="table table-bordered">
+
+                    <tbody>
+
+                        <tr>
+
+                            <th width="20%">Admission No</th>
+                            <td width="30%" th:text="${student.admissionNo}">
+                            </td>
+
+                            <th width="20%">Roll Number</th>
+                            <td width="30%" th:text="${student.rollNumber}">
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Full Name</th>
+
+                            <td th:text="${student.fullName}">
+                            </td>
+
+                            <th>Gender</th>
+
+                            <td th:text="${student.gender}">
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Date of Birth</th>
+
+                            <td th:text="${student.dateOfBirth}">
+                            </td>
+
+                            <th>Blood Group</th>
+
+                            <td th:text="${student.bloodGroup}">
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Admission Date</th>
+
+                            <td th:text="${student.admissionDate}">
+                            </td>
+
+                            <th>Status</th>
+
+                            <td th:text="${student.status}">
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Academic Session</th>
+
+                            <td th:text="${student.academicSession.sessionName}">
+                            </td>
+
+                            <th>Class</th>
+
+                            <td th:text="${student.classRoom.className}">
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+                <!-- Parent Information starts in Part 2 -->
+                <!-- ===========================
+                    PARENT INFORMATION
+            ============================ -->
+
+                <h5 class="border-bottom pb-2 mt-4 mb-3">
+                    Parent Information
+                </h5>
+
+                <table class="table table-bordered">
+
+                    <tbody>
+
+                        <tr>
+
+                            <th width="20%">Father Name</th>
+                            <td width="30%" th:text="${student.fatherName}">
+                            </td>
+
+                            <th width="20%">Mother Name</th>
+                            <td width="30%" th:text="${student.motherName}">
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Mobile</th>
+                            <td th:text="${student.mobile}"></td>
+
+                            <th>Email</th>
+                            <td th:text="${student.email ?: '-'}"></td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+                <!-- ===========================
+                    CONTACT INFORMATION
+            ============================ -->
+
+                <h5 class="border-bottom pb-2 mt-4 mb-3">
+                    Contact Information
+                </h5>
+
+                <table class="table table-bordered">
+
+                    <tbody>
+
+                        <tr>
+
+                            <th width="20%">Address</th>
+
+                            <td colspan="3" th:text="${student.address ?: '-'}">
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+                <!-- ===========================
+                    OTHER INFORMATION
+            ============================ -->
+
+                <h5 class="border-bottom pb-2 mt-4 mb-3">
+                    Other Information
+                </h5>
+
+                <table class="table table-bordered">
+
+                    <tbody>
+
+                        <tr>
+
+                            <th width="20%">Aadhaar Number</th>
+                            <td width="30%" th:text="${student.aadharNumber ?: '-'}">
+                            </td>
+
+                            <th width="20%">Religion</th>
+                            <td width="30%" th:text="${student.religion ?: '-'}">
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Category</th>
+                            <td th:text="${student.category ?: '-'}"></td>
+
+                            <th>Admission Type</th>
+                            <td th:text="${student.admissionType}"></td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Remarks</th>
+
+                            <td colspan="3" th:text="${student.remarks ?: '-'}">
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+                <!-- Signature Section -->
+
+                <div class="row mt-5 text-center">
+
+                    <div class="col-4">
+
+                        <div style="margin-top:60px;border-top:1px solid #000;">
+                            Parent Signature
+                        </div>
+
+                    </div>
+
+                    <div class="col-4">
+
+                        <div style="margin-top:60px;border-top:1px solid #000;">
+                            Class Teacher
+                        </div>
+
+                    </div>
+
+                    <div class="col-4">
+
+                        <div style="margin-top:60px;border-top:1px solid #000;">
+                            Principal
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- ===========================
+                    FOOTER
+            ============================ -->
+
+                <div class="row mt-5">
+
+                    <div class="col-md-6">
+
+                        <small class="text-muted">
+                            Print Date :
+                            <span id="printDate"></span>
+                        </small>
+
+                    </div>
+
+                    <div class="col-md-6 text-end">
+
+                        <small class="text-muted">
+                            Generated by School Management System
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <style>
+        @media print {
+
+            body {
+                background: #fff !important;
+            }
+
+            .btn {
+                display: none !important;
+            }
+
+            .card {
+                border: none !important;
+                box-shadow: none !important;
+            }
+
+            .container {
+                max-width: 100% !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            table {
+                font-size: 13px;
+            }
+
+            h2,
+            h4,
+            h5 {
+                color: #000 !important;
+            }
+
+            img {
+                page-break-inside: avoid;
+            }
+
+        }
+    </style>
+
+    <script>
+
+        document.getElementById("printDate").innerHTML =
+            new Date().toLocaleString();
+
+    </script>
+
+</body>
+
+</html>

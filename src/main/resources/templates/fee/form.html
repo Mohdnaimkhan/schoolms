@@ -55,11 +55,7 @@
 
                     <input type="hidden" th:field="*{id}">
 
-                    <form th:action="@{/fees/save}" th:object="${fee}" method="post">
-
-                        <input type="hidden" th:field="*{id}">
-
-                        <div class="row">
+                    <div class="row">
 
                             <div class="col-md-6 mb-3">
 
@@ -94,7 +90,7 @@
                                     </option>
 
                                     <option th:each="student : ${students}" th:value="${student.id}"
-                                        th:text="${student.studentName}">
+                                        th:text="${student.fullName}">
                                     </option>
 
                                 </select>
@@ -212,7 +208,7 @@
 
                         </div>
 
-                    </form>
+                    </div>
                 </form>
 
             </div>

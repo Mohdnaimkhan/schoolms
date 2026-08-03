@@ -375,7 +375,7 @@
 
                     <div class="widget-content">
 
-                        <small>Pending Fees</small>
+                        <small>Pending <br> Fees</small>
 
                         <h3 th:text="${pendingFees != null ? pendingFees : 0}">
 
@@ -383,7 +383,7 @@
 
                         </h3>
 
-                        <span>Pending Records</span>
+                        <span>Pending  Records</span>
 
                     </div>
 
@@ -407,7 +407,7 @@
 
                     <div class="widget-content">
 
-                        <small>New Admissions</small>
+                        <small> New  <br> Admissions</small>
 
                         <h3 th:text="${newAdmissions != null ? newAdmissions : 0}">
 
@@ -415,7 +415,7 @@
 
                         </h3>
 
-                        <span>This Month</span>
+                        <span>This <br> Month</span>
 
                     </div>
 
@@ -572,7 +572,8 @@
 
                     <div class="table-responsive">
 
-                        <table class="table table-hover align-middle mb-0">
+                        <!-- <table class="table table-hover align-middle mb-0"> -->
+                            <table class="table sms-table align-middle mb-0">
 
                             <thead>
 
@@ -603,13 +604,13 @@
 
                                     </td>
 
-                                    <td th:text="${student.studentName}">
+                                    <td th:text="${student.fullName}">
 
                                         Student
 
                                     </td>
 
-                                    <td th:text="${student.classRoom.ClassName}">
+                                    <td th:text="${student.classRoom.className}">
 
                                         Class
 
@@ -697,7 +698,7 @@
 
                                     </td>
 
-                                    <td th:text="${fee.student.StudentName}">
+                                    <td th:text="${fee.student.fullName}">
 
                                         Student
 
@@ -783,7 +784,7 @@
 
                         <tr th:each="attendance : ${recentAttendance}">
 
-                            <td th:text="${attendance.student.studentName}">
+                            <td th:text="${attendance.student.fullName}">
 
                                 Student
 

@@ -53,7 +53,8 @@ public class AttendanceController {
             Model model
     ) {
 
-        if (attendanceService.existsByStudentAndAttendanceDateAndAcademicSession(
+        if (attendance.getStudent() != null && attendance.getAttendanceDate() != null
+                && attendance.getAcademicSession() != null && attendanceService.existsByStudentAndAttendanceDateAndAcademicSession(
                 attendance.getStudent(),
                 attendance.getAttendanceDate(),
                 attendance.getAcademicSession())) {
@@ -72,7 +73,7 @@ public class AttendanceController {
 
             model.addAttribute("classrooms", classroomService.getAllClasses());
 
-            model.addAttribute("sessions", academicSessionService.getAllSessions());
+            model.addAttribute("academic", academicSessionService.getAllSessions());
 
             model.addAttribute("statuses", AttendanceStatus.values());
 

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('Student Details')}"></head>
+
+<body>
+
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <main class="sms-content">
+
+        <div class="container-fluid">
+
+            <!-- Page Header -->
+
+            <div class="sms-page-header">
+
+                <div>
+
+                    <h3 class="sms-page-title">
+                        <i class="bi bi-person-vcard-fill text-primary"></i>
+                        Student Details
+                    </h3>
+
+                    <div class="sms-breadcrumb">
+                        Dashboard / Students / View
+                    </div>
+
+                </div>
+
+                <div>
+
+                    <a th:href="@{/students/add(id=${student.id})}" class="btn btn-warning me-2">
+                        <i class="bi bi-pencil-square"></i>
+                        Edit
+                    </a>
+
+                    <a th:href="@{/students/print/{id}(id=${student.id})}" class="btn btn-success me-2">
+                        <i class="bi bi-printer"></i>
+                        Print
+                    </a>
+
+                    <a th:href="@{/students}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i>
+                        Back
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- Student Profile -->
+
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-body">
+
+                    <div class="row">
+
+                        <!-- Photo -->
+
+                        <div class="col-lg-3 text-center">
+
+                            <img th:if="${student.photo!=null}" th:src="@{'/uploads/students/' + ${student.photo}}"
+                                class="img-thumbnail mb-3" style="width:140px;height:170px;object-fit:cover;">
+
+                            <img th:if="${student.photo==null}" th:src="@{/images/no-image.png}"
+                                class="img-thumbnail mb-3" style="width:140px;height:170px;object-fit:cover;">
+
+                            <h5 class="fw-bold mb-1" th:text="${student.fullName}">
+                            </h5>
+
+                            <span class="badge bg-success" th:if="${student.active}">
+                                Active
+                            </span>
+
+                            <span class="badge bg-danger" th:unless="${student.active}">
+                                Inactive
+                            </span>
+
+                        </div>
+
+                        <!-- Basic Details -->
+
+                        <div class="col-lg-9">
+
+                            <div class="row g-3">
+
+                                <div class="col-md-4">
+
+                                    <label class="fw-semibold">
+                                        Admission No
+                                    </label>
+
+                                    <div th:text="${student.admissionNo}"></div>
+
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <label class="fw-semibold">
+                                        Roll Number
+                                    </label>
+
+                                    <div th:text="${student.rollNumber}"></div>
+
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <label class="fw-semibold">
+                                        Admission Date
+                                    </label>
+
+                                    <div th:text="${student.admissionDate}"></div>
+
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <label class="fw-semibold">
+                                        Academic Session
+                                    </label>
+
+                                    <div th:text="${student.academicSession.sessionName}"></div>
+
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <label class="fw-semibold">
+                                        Class
+                                    </label>
+
+                                    <div th:text="${student.classRoom.className}"></div>
+
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <label class="fw-semibold">
+                                        Admission Type
+                                    </label>
+
+                                    <div th:text="${student.admissionType}"></div>
+
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <label class="fw-semibold">
+                                        Status
+                                    </label>
+
+                                    <div th:text="${student.status}"></div>
+
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <label class="fw-semibold">
+                                        Gender
+                                    </label>
+
+                                    <div th:text="${student.gender}"></div>
+
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <label class="fw-semibold">
+                                        Date of Birth
+                                    </label>
+
+                                    <div th:text="${student.dateOfBirth}"></div>
+
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <label class="fw-semibold">
+                                        Blood Group
+                                    </label>
+
+                                    <div th:text="${student.bloodGroup}"></div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ==========================
+             Parent Information
+        =========================== -->
+
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-header fw-bold">
+                    <i class="bi bi-people-fill me-2"></i>
+                    Parent Information
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-4">
+                            <label class="fw-semibold">Father Name</label>
+                            <div th:text="${student.fatherName}">-</div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="fw-semibold">Mother Name</label>
+                            <div th:text="${student.motherName}">-</div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="fw-semibold">Mobile Number</label>
+                            <div th:text="${student.mobile}">-</div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ==========================
+             Contact Information
+        =========================== -->
+
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-header fw-bold">
+                    <i class="bi bi-telephone-fill me-2"></i>
+                    Contact Information
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+                            <label class="fw-semibold">Email Address</label>
+                            <div th:text="${student.email} ?: '-'"></div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="fw-semibold">Address</label>
+                            <div th:text="${student.address} ?: '-'"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ==========================
+             Other Information
+        =========================== -->
+
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-header fw-bold">
+                    <i class="bi bi-info-circle-fill me-2"></i>
+                    Other Information
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-3">
+                            <label class="fw-semibold">Aadhaar Number</label>
+                            <div th:text="${student.aadharNumber} ?: '-'"></div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="fw-semibold">Religion</label>
+                            <div th:text="${student.religion} ?: '-'"></div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="fw-semibold">Category</label>
+                            <div th:text="${student.category} ?: '-'"></div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="fw-semibold">Remarks</label>
+                            <div th:text="${student.remarks} ?: '-'"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>

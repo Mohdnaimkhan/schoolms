@@ -42,13 +42,10 @@ public class SubjectService {
             if (subject.getSubjectCode() == null
                     || subject.getSubjectCode().isBlank()) {
 
-                subject.setSubjectCode(
-
-                        subject.getSubjectName()
-                                .substring(0, 3)
-                                .toUpperCase()
-
-                );
+                String normalizedName = subject.getSubjectName().trim();
+                subject.setSubjectCode(normalizedName
+                        .substring(0, Math.min(3, normalizedName.length()))
+                        .toUpperCase());
 
             }
 

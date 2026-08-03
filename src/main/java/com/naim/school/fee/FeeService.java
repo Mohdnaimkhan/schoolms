@@ -2,8 +2,11 @@ package com.naim.school.fee;
 
 import com.naim.school.academicsession.AcademicSession;
 import com.naim.school.student.Student;
+
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,6 +57,14 @@ public class FeeService {
 
     public List<Fee> findTop5ByOrderByIdDesc() {
        return feeRepository.findTop5ByOrderByIdDesc();
+    }
+
+    public Collection<Fee> findByPaymentDate(LocalDate now) {
+      return feeRepository.findByPaymentDate(now);
+    }
+
+    public long countByStatus(FeeStatus pending) {
+       return feeRepository.countByStatus(pending);
     }
 
 }

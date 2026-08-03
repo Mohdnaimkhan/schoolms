@@ -57,11 +57,18 @@ public class FeeController {
             Model model
     ) {
 
+        if (fee.getAmount() != null && fee.getPaidAmount() != null) {
+            if (fee.getPaidAmount().compareTo(fee.getAmount()) > 0) {
+                result.rejectValue("paidAmount", "invalid", "Paid amount cannot exceed the total amount.");
+            }
+            fee.setDueAmount(fee.getAmount().subtract(fee.getPaidAmount()));
+        }
+
         if (result.hasErrors()) {
 
             model.addAttribute("students", studentService.getAllStudents());
 
-            model.addAttribute("academic-session", academicSessionService.getAllSessions());
+            model.addAttribute("academic", academicSessionService.getAllSessions());
 
             model.addAttribute("statuses", FeeStatus.values());
 
@@ -88,7 +95,7 @@ public class FeeController {
 
         model.addAttribute("students", studentService.getAllStudents());
 
-        model.addAttribute("academic-session", academicSessionService.getAllSessions());
+        model.addAttribute("academic", academicSessionService.getAllSessions());
 
         model.addAttribute("statuses", FeeStatus.values());
 
