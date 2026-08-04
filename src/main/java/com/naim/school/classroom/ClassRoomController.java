@@ -2,7 +2,6 @@ package com.naim.school.classroom;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
@@ -10,83 +9,88 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/classes")
+@RequestMapping("/classrooms")
 public class ClassRoomController {
 
     private final ClassRoomService service;
 
-    /**
-     * Class List
+    /*
+     * ==========================================
+     * LIST
+     * ==========================================
      */
+
     @GetMapping
     public String list(Model model) {
 
-        model.addAttribute("pageTitle", "Class Room");
-
-        model.addAttribute("classes", service.getAllClasses());
+        model.addAttribute("pageTitle", "Class Rooms");
+        model.addAttribute("classRooms", service.getAllClassRooms());
 
         return "classroom/list";
+
     }
 
-    /**
-     * Add Form
+    /*
+     * ==========================================
+     * ADD
+     * ==========================================
      */
+
     @GetMapping("/add")
     public String add(Model model) {
 
         model.addAttribute("pageTitle", "Add Class");
-
         model.addAttribute("classRoom", new ClassRoom());
 
         return "classroom/form";
+
     }
 
-    /**
-     * Edit Form
+    /*
+     * ==========================================
+     * EDIT
+     * ==========================================
      */
+
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Long id,
                        Model model) {
 
         model.addAttribute("pageTitle", "Edit Class");
-
         model.addAttribute("classRoom", service.getById(id));
 
         return "classroom/form";
+
     }
 
-    /**
-     * Save / Update
+    /*
+     * ==========================================
+     * SAVE
+     * ==========================================
      */
+
     @PostMapping("/save")
-    public String save(@Valid @ModelAttribute("classRoom") ClassRoom classRoom,
-                       BindingResult result,
-                       Model model) {
-
-        if (result.hasErrors()) {
-
-            model.addAttribute("pageTitle",
-                    classRoom.getId() == null
-                            ? "Add Class"
-                            : "Edit Class");
-
-            return "classroom/form";
-        }
+    public String save(@Valid @ModelAttribute ClassRoom classRoom) {
 
         service.save(classRoom);
 
-        return "redirect:/classes";
+        return "redirect:/classrooms";
+
     }
 
-    /**
-     * Delete
+    /*
+     * ==========================================
+     * CHANGE STATUS
+     * ==========================================
      */
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
 
-        service.delete(id);
+    @GetMapping("/status/{id}")
+    public String changeStatus(@PathVariable Long id) {
 
-        return "redirect:/classes";
+        service.changeStatus(id);
+
+        return "redirect:/classrooms";
+
     }
 
 }

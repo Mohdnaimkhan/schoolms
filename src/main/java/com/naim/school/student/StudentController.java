@@ -219,7 +219,7 @@ public class StudentController {
 
                 model.addAttribute(
                                 "classRooms",
-                                classRoomService.getAllClasses());
+                                classRoomService.getAllClassRooms());
 
                 model.addAttribute(
                                 "genders",

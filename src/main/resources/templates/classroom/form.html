@@ -7,16 +7,13 @@
 <body>
 
 <div th:replace="~{fragments/navbar :: navbar}"></div>
-
 <div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
 <main class="sms-content">
 
     <div class="container-fluid">
 
-        <!-- ==========================
-                Page Header
-        =========================== -->
+        <!-- Page Header -->
 
         <div class="sms-page-header mb-4">
 
@@ -24,18 +21,17 @@
 
                 <h2 class="sms-page-title"
                     th:text="${classRoom.id == null ? 'Add Class' : 'Edit Class'}">
-
                 </h2>
 
                 <p class="text-secondary mb-0">
 
-                    Create or update classroom information.
+                    Manage Class Information
 
                 </p>
 
             </div>
 
-            <a th:href="@{/classes}"
+            <a th:href="@{/classrooms}"
                class="btn btn-outline-secondary">
 
                 <i class="bi bi-arrow-left me-2"></i>
@@ -46,202 +42,135 @@
 
         </div>
 
-        <!-- ==========================
-                Form Card
-        =========================== -->
+        <!-- Card -->
 
         <div class="sms-card">
 
-            <form th:action="@{/classes/save}"
-                  th:object="${classRoom}"
-                  method="post">
+            <div class="p-3">
 
-                <input type="hidden" th:field="*{id}">
+                <form th:action="@{/classrooms/save}"
+                      th:object="${classRoom}"
+                      method="post">
 
-                <div class="row g-4">
+                    <input type="hidden"
+                           th:field="*{id}">
 
-                    <!-- Class Name -->
+                    <div class="row g-4">
 
-                    <div class="col-md-6">
+                        <!-- Class Name -->
 
-                        <label class="form-label">
+                        <div class="col-md-6">
 
-                            Class Name
+                            <label class="form-label fw-semibold">
 
-                            <span class="text-danger">*</span>
+                                Class Name
 
-                        </label>
+                                <span class="text-danger">*</span>
 
-                        <input
-                                type="text"
-                                class="form-control"
-                                th:field="*{className}"
-                                placeholder="Example : 10">
+                            </label>
 
-                        <small class="text-danger"
-                               th:if="${#fields.hasErrors('className')}"
-                               th:errors="*{className}">
-                        </small>
+                            <input type="text"
+                                   class="form-control"
+                                   th:field="*{className}"
+                                   placeholder="Class Name">
 
-                    </div>
+                            <small class="text-danger"
+                                   th:errors="*{className}">
+                            </small>
 
-                    <!-- Section -->
+                        </div>
 
-                    <div class="col-md-6">
+                        <!-- Display Order -->
 
-                        <label class="form-label">
+                        <div class="col-md-6">
 
-                            Section
+                            <label class="form-label fw-semibold">
 
-                            <span class="text-danger">*</span>
+                                Display Order
 
-                        </label>
+                            </label>
 
-                        <input
-                                type="text"
-                                class="form-control"
-                                th:field="*{section}"
-                                placeholder="A">
+                            <input type="number"
+                                   class="form-control"
+                                   th:field="*{displayOrder}"
+                                   placeholder="1">
 
-                        <small class="text-danger"
-                               th:if="${#fields.hasErrors('section')}"
-                               th:errors="*{section}">
-                        </small>
+                        </div>
 
-                    </div>
+                        <!-- Status -->
 
-                    <!-- Class Code -->
+                        <div class="col-md-6">
 
-                    <div class="col-md-6">
+                            <label class="form-label fw-semibold">
 
-                        <label class="form-label">
+                                Status
 
-                            Class Code
+                            </label>
 
-                        </label>
+                            <select class="form-select"
+                                    th:field="*{active}">
 
-                        <input
-                                type="text"
-                                class="form-control"
-                                th:field="*{classCode}"
-                                placeholder="10-A">
+                                <option th:value="true">
 
-                    </div>
+                                    Active
 
-                    <!-- Room Number -->
+                                </option>
 
-                    <div class="col-md-6">
+                                <option th:value="false">
 
-                        <label class="form-label">
+                                    Inactive
 
-                            Room Number
+                                </option>
 
-                        </label>
+                            </select>
 
-                        <input
-                                type="text"
-                                class="form-control"
-                                th:field="*{roomNumber}"
-                                placeholder="101">
+                        </div>
 
-                    </div>
+                        <!-- Description -->
 
-                    <!-- Capacity -->
+                        <div class="col-12">
 
-                    <div class="col-md-6">
+                            <label class="form-label fw-semibold">
 
-                        <label class="form-label">
+                                Description
 
-                            Capacity
+                            </label>
 
-                        </label>
+                            <textarea class="form-control"
+                                      rows="4"
+                                      th:field="*{description}"
+                                      placeholder="Write description...">
+                            </textarea>
 
-                        <input
-                                type="number"
-                                class="form-control"
-                                th:field="*{capacity}"
-                                placeholder="40">
+                        </div>
 
                     </div>
 
-                    <!-- Status -->
+                    <hr class="my-4">
 
-                    <div class="col-md-6">
+                    <div class="d-flex justify-content-end gap-2">
 
-                        <label class="form-label">
+                        <a th:href="@{/classrooms}"
+                           class="btn btn-outline-secondary">
 
-                            Status
+                            Cancel
 
-                        </label>
+                        </a>
 
-                        <select
-                                class="form-select"
-                                th:field="*{active}">
+                        <button type="submit"
+                                class="btn btn-primary">
 
-                            <option th:value="true">
+                            <i class="bi bi-check-circle me-2"></i>
 
-                                Active
+                            <span th:text="${classRoom.id == null ? 'Save Class' : 'Update Class'}"></span>
 
-                            </option>
-
-                            <option th:value="false">
-
-                                Inactive
-
-                            </option>
-
-                        </select>
+                        </button>
 
                     </div>
 
-                    <!-- Description -->
+                </form>
 
-                    <div class="col-12">
-
-                        <label class="form-label">
-
-                            Description
-
-                        </label>
-
-                        <textarea
-                                class="form-control"
-                                rows="4"
-                                th:field="*{description}"
-                                placeholder="Write something...">
-
-                        </textarea>
-
-                    </div>
-
-                </div>
-
-                <hr class="my-4">
-
-                <div class="d-flex justify-content-end gap-2">
-
-                    <a th:href="@{/classes}"
-                       class="btn btn-outline-secondary">
-
-                        Cancel
-
-                    </a>
-
-                    <button
-                            type="submit"
-                            class="btn btn-primary">
-
-                        <i class="bi bi-check-circle me-2"></i>
-
-                        <span th:text="${classRoom.id == null ? 'Save Class' : 'Update Class'}">
-
-                        </span>
-
-                    </button>
-
-                </div>
-
-            </form>
+            </div>
 
         </div>
 
@@ -250,8 +179,8 @@
 </main>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
-
 <div th:replace="~{fragments/scripts :: scripts}"></div>
+
 </body>
 
 </html>

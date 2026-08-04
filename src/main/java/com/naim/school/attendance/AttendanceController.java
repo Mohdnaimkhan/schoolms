@@ -36,7 +36,7 @@ public class AttendanceController {
 
         model.addAttribute("students", studentService.getAllStudents());
 
-        model.addAttribute("classrooms", classroomService.getAllClasses());
+        model.addAttribute("classrooms", classroomService.getAllClassRooms());
 
         model.addAttribute("academic", academicSessionService.getAllSessions());
 
@@ -71,7 +71,7 @@ public class AttendanceController {
 
             model.addAttribute("students", studentService.getAllStudents());
 
-            model.addAttribute("classrooms", classroomService.getAllClasses());
+            model.addAttribute("classrooms", classroomService.getAllClassRooms());
 
             model.addAttribute("academic", academicSessionService.getAllSessions());
 

@@ -56,7 +56,7 @@ public class DashboardController {
                                 teacherService.getActiveTeachers().size());
 
                 model.addAttribute("classRoomCount",
-                                classRoomService.getActiveClasses().size());
+                                classRoomService.getAllClassRooms().size());
 
                 model.addAttribute("subjectCount",
                                 subjectService.getAllSubjects().size());

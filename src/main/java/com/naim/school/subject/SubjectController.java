@@ -32,7 +32,7 @@ public class SubjectController {
 
         model.addAttribute("pageTitle", "Add Subject");
         model.addAttribute("subject", new Subject());
-        model.addAttribute("classes", classRoomService.getActiveClasses());
+        model.addAttribute("classes", classRoomService.getAllClassRooms());
 
         return "subject/form";
     }
@@ -42,7 +42,7 @@ public class SubjectController {
 
         model.addAttribute("pageTitle", "Edit Subject");
         model.addAttribute("subject", service.getById(id));
-        model.addAttribute("classes", classRoomService.getActiveClasses());
+        model.addAttribute("classes", classRoomService.getAllClassRooms());
 
         return "subject/form";
     }
@@ -54,7 +54,7 @@ public class SubjectController {
 
         if (result.hasErrors()) {
 
-            model.addAttribute("classes", classRoomService.getActiveClasses());
+            model.addAttribute("classes", classRoomService.getAllClassRooms());
 
             return "subject/form";
         }
