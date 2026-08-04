@@ -1,28 +1,36 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
 
 <body>
 
 <div th:replace="~{fragments/navbar :: navbar}"></div>
-
 <div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
 <main class="sms-content">
 
     <div class="container-fluid">
 
+        <!-- Page Header -->
+
         <div class="sms-page-header mb-4">
 
             <div>
 
-                <h2 class="sms-page-title"
-                    th:text="${academicSession.id == null ? 'Add Academic Session' : 'Edit Academic Session'}">
+                <h2 class="sms-page-title">
+
+                    <i class="bi bi-lock-fill me-2"></i>
+
+                    Close Academic Session
+
                 </h2>
 
                 <p class="text-secondary mb-0">
-                    Manage Academic Session Information
+
+                    This action will permanently close the current academic session.
+
                 </p>
 
             </div>
@@ -38,15 +46,31 @@
 
         </div>
 
+        <!-- Card -->
+
         <div class="sms-card">
 
             <div class="p-3">
 
-                <form th:action="@{/academic-sessions/save}"
+                <!-- Warning -->
+
+                <div class="alert alert-warning mb-4">
+
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+
+                    <strong>Warning!</strong>
+
+                    Once this session is closed, it cannot be reopened.
+                    Please enter the correct End Date before continuing.
+
+                </div>
+
+                <form th:action="@{/academic-sessions/close}"
                       th:object="${academicSession}"
                       method="post">
 
-                    <input type="hidden" th:field="*{id}"/>
+                    <input type="hidden"
+                           th:field="*{id}">
 
                     <div class="row g-4">
 
@@ -58,19 +82,34 @@
 
                                 Session Name
 
-                                <span class="text-danger">*</span>
-
                             </label>
 
                             <input type="text"
                                    class="form-control"
-                                   th:field="*{sessionName}"
-                                   placeholder="2026-27"
-                                   th:readonly="${academicSession.id != null}">
+                                   th:value="*{sessionName}"
+                                   readonly>
 
-                            <small class="text-danger"
-                                   th:errors="*{sessionName}">
-                            </small>
+                        </div>
+
+                        <!-- Current Status -->
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">
+
+                                Current Status
+
+                            </label>
+
+                            <div>
+
+                                <span class="badge bg-success">
+
+                                    Current Session
+
+                                </span>
+
+                            </div>
 
                         </div>
 
@@ -82,32 +121,32 @@
 
                                 Start Date
 
+                            </label>
+
+                            <input type="date"
+                                   class="form-control"
+                                   th:value="*{startDate}"
+                                   readonly>
+
+                        </div>
+
+                        <!-- End Date -->
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">
+
+                                End Date
+
                                 <span class="text-danger">*</span>
 
                             </label>
 
                             <input type="date"
                                    class="form-control"
-                                   th:field="*{startDate}"
-                                   th:readonly="${academicSession.id != null}">
-
-                        </div>
-
-                        <!-- Description -->
-
-                        <div class="col-12">
-
-                            <label class="form-label fw-semibold">
-
-                                Description
-
-                            </label>
-
-                            <textarea class="form-control"
-                                      rows="4"
-                                      th:field="*{description}"
-                                      placeholder="Write description...">
-                            </textarea>
+                                   th:field="*{endDate}"
+                                   th:attr="min=${academicSession.startDate}"
+                                   required>
 
                         </div>
 
@@ -125,11 +164,12 @@
                         </a>
 
                         <button type="submit"
-                                class="btn btn-primary">
+                                class="btn btn-danger"
+                                onclick="return confirm('Are you sure you want to close this Academic Session?');">
 
-                            <i class="bi bi-check-circle me-2"></i>
+                            <i class="bi bi-lock-fill me-2"></i>
 
-                            <span th:text="${academicSession.id == null ? 'Save Session' : 'Update Session'}"></span>
+                            Close Session
 
                         </button>
 
@@ -146,9 +186,7 @@
 </main>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
-
 <div th:replace="~{fragments/scripts :: scripts}"></div>
 
 </body>
-
 </html>

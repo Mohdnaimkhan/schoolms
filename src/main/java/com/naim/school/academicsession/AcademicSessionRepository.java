@@ -4,11 +4,12 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+public interface AcademicSessionRepository extends JpaRepository<AcademicSession, Long> {
 
+    boolean existsBySessionName(String sessionName);
 
-public interface AcademicSessionRepository
-        extends JpaRepository<AcademicSession, Long> {
+    boolean existsBySessionNameAndIdNot(String sessionName, Long id);
 
-    Optional<AcademicSession> findByActiveTrue();
+    Optional<AcademicSession> findFirstByCurrentSessionTrue();
 
 }

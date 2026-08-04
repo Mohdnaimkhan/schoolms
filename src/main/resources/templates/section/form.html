@@ -1,33 +1,38 @@
+
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
 
 <body>
 
 <div th:replace="~{fragments/navbar :: navbar}"></div>
-
 <div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
 <main class="sms-content">
 
     <div class="container-fluid">
 
+        <!-- Page Header -->
+
         <div class="sms-page-header mb-4">
 
             <div>
 
                 <h2 class="sms-page-title"
-                    th:text="${academicSession.id == null ? 'Add Academic Session' : 'Edit Academic Session'}">
+                    th:text="${section.id == null ? 'Add Section' : 'Edit Section'}">
                 </h2>
 
                 <p class="text-secondary mb-0">
-                    Manage Academic Session Information
+
+                    Manage Section Information
+
                 </p>
 
             </div>
 
-            <a th:href="@{/academic-sessions}"
+            <a th:href="@{/sections}"
                class="btn btn-outline-secondary">
 
                 <i class="bi bi-arrow-left me-2"></i>
@@ -38,25 +43,28 @@
 
         </div>
 
+        <!-- Card -->
+
         <div class="sms-card">
 
             <div class="p-3">
 
-                <form th:action="@{/academic-sessions/save}"
-                      th:object="${academicSession}"
+                <form th:action="@{/sections/save}"
+                      th:object="${section}"
                       method="post">
 
-                    <input type="hidden" th:field="*{id}"/>
+                    <input type="hidden"
+                           th:field="*{id}">
 
                     <div class="row g-4">
 
-                        <!-- Session Name -->
+                        <!-- Section Name -->
 
                         <div class="col-md-6">
 
                             <label class="form-label fw-semibold">
 
-                                Session Name
+                                Section Name
 
                                 <span class="text-danger">*</span>
 
@@ -64,32 +72,58 @@
 
                             <input type="text"
                                    class="form-control"
-                                   th:field="*{sessionName}"
-                                   placeholder="2026-27"
-                                   th:readonly="${academicSession.id != null}">
+                                   th:field="*{sectionName}"
+                                   placeholder="A">
 
                             <small class="text-danger"
-                                   th:errors="*{sessionName}">
+                                   th:errors="*{sectionName}">
                             </small>
 
                         </div>
 
-                        <!-- Start Date -->
+                        <!-- Display Order -->
 
                         <div class="col-md-6">
 
                             <label class="form-label fw-semibold">
 
-                                Start Date
-
-                                <span class="text-danger">*</span>
+                                Display Order
 
                             </label>
 
-                            <input type="date"
+                            <input type="number"
                                    class="form-control"
-                                   th:field="*{startDate}"
-                                   th:readonly="${academicSession.id != null}">
+                                   th:field="*{displayOrder}"
+                                   placeholder="1">
+
+                        </div>
+
+                        <!-- Status -->
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">
+
+                                Status
+
+                            </label>
+
+                            <select class="form-select"
+                                    th:field="*{active}">
+
+                                <option th:value="true">
+
+                                    Active
+
+                                </option>
+
+                                <option th:value="false">
+
+                                    Inactive
+
+                                </option>
+
+                            </select>
 
                         </div>
 
@@ -117,7 +151,7 @@
 
                     <div class="d-flex justify-content-end gap-2">
 
-                        <a th:href="@{/academic-sessions}"
+                        <a th:href="@{/sections}"
                            class="btn btn-outline-secondary">
 
                             Cancel
@@ -129,7 +163,7 @@
 
                             <i class="bi bi-check-circle me-2"></i>
 
-                            <span th:text="${academicSession.id == null ? 'Save Session' : 'Update Session'}"></span>
+                            <span th:text="${section.id == null ? 'Save Section' : 'Update Section'}"></span>
 
                         </button>
 
@@ -146,7 +180,6 @@
 </main>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
-
 <div th:replace="~{fragments/scripts :: scripts}"></div>
 
 </body>
