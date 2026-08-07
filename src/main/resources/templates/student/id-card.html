@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('Student ID Card')}"></head>
+    <style>
+        /* ==========================================
+   ID CARD
+========================================== */
+
+body{
+    background:#f5f6fa;
+}
+
+.id-card-front,
+.id-card-back{
+
+    width:85.6mm;
+    height:54mm;
+
+    background:#ffffff;
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+    border:2px solid #0d6efd;
+
+    position:relative;
+
+    color:#212529;
+
+}
+
+/* ========================= */
+
+.id-header{
+
+    height:58px;
+
+    background:#0d6efd;
+
+    color:#fff;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:8px 12px;
+
+}
+
+.school-logo{
+
+    width:42px;
+
+    height:42px;
+
+    object-fit:contain;
+
+}
+
+.school-info h4{
+
+    margin:0;
+
+    font-size:17px;
+
+    font-weight:700;
+
+}
+
+.school-info small{
+
+    display:block;
+
+    font-size:11px;
+
+}
+
+.title{
+
+    font-size:11px;
+
+    font-weight:600;
+
+    letter-spacing:1px;
+
+}
+
+/* ========================= */
+
+.id-body{
+
+    display:flex;
+
+    gap:12px;
+
+    padding:10px;
+
+}
+
+.photo-box{
+
+    width:90px;
+
+    display:flex;
+
+    justify-content:center;
+
+}
+
+.student-photo{
+
+    width:80px;
+
+    height:95px;
+
+    object-fit:cover;
+
+    border-radius:8px;
+
+    border:2px solid #0d6efd;
+
+}
+
+/* ========================= */
+
+.student-info{
+
+    flex:1;
+
+}
+
+.student-name{
+
+    font-size:16px;
+
+    font-weight:700;
+
+    margin-bottom:8px;
+
+    color:#212529;
+
+}
+
+.student-info table{
+
+    font-size:11px;
+
+}
+
+.student-info th{
+
+    width:42%;
+
+    color:#555;
+
+    font-weight:600;
+
+    padding:2px 0;
+
+}
+
+.student-info td{
+
+    padding:2px 0;
+
+}
+
+/* ========================= */
+
+.id-footer{
+
+    position:absolute;
+
+    bottom:0;
+
+    left:0;
+
+    right:0;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:8px 12px;
+
+    background:#eaf3ff;
+
+}
+
+.principal-sign{
+
+    height:24px;
+
+}
+
+/* ==========================================
+   BACK
+========================================== */
+
+.back-header{
+
+    background:#0d6efd;
+
+    color:#fff;
+
+    text-align:center;
+
+    padding:8px;
+
+}
+
+.back-body{
+
+    padding:10px;
+
+    font-size:11px;
+
+}
+
+.back-body table th{
+
+    width:38%;
+
+    color:#555;
+
+    padding:2px 0;
+
+}
+
+.back-body table td{
+
+    padding:2px 0;
+
+}
+
+.address-box{
+
+    margin-top:6px;
+
+}
+
+.address-box p{
+
+    font-size:10px;
+
+}
+
+.instruction-box{
+
+    margin-top:6px;
+
+    font-size:10px;
+
+}
+
+.instruction-box ul{
+
+    padding-left:16px;
+
+    margin:4px 0;
+
+}
+
+.back-footer{
+
+    position:absolute;
+
+    bottom:0;
+
+    left:0;
+
+    right:0;
+
+    background:#0d6efd;
+
+    color:#fff;
+
+    text-align:center;
+
+    padding:5px;
+
+    font-size:10px;
+
+}
+
+/* ==========================================
+   PRINT
+========================================== */
+
+@media print{
+
+    body{
+
+        background:#ffffff !important;
+
+    }
+
+    .d-print-none{
+
+        display:none !important;
+
+    }
+
+    .id-card-front,
+    .id-card-back{
+
+        margin:auto;
+
+        box-shadow:none !important;
+
+        page-break-after:always;
+
+    }
+
+}
+    </style>
+
+
+<body class="bg-body-tertiary">
+
+    <div class="container py-4">
+
+        <!-- Action Buttons -->
+
+        <div class="d-flex justify-content-end gap-2 mb-4 d-print-none">
+
+            <a th:href="@{/students/view/{id}(id=${student.id})}" class="btn btn-secondary">
+
+                <i class="bi bi-arrow-left-circle-fill"></i>
+                Back
+
+            </a>
+
+            <button class="btn btn-primary btn-print">
+
+                <i class="bi bi-printer-fill"></i>
+                Print ID Card
+
+            </button>
+
+        </div>
+
+
+
+
+
+        <!-- =========================
+            FRONT SIDE
+    ========================== -->
+
+        <div class="id-card-front shadow mx-auto">
+
+            <!-- HEADER -->
+
+            <div class="id-header">
+
+                <img th:src="@{/images/logo.png}" class="school-logo" alt="School Logo">
+
+
+                <div class="school-info">
+
+                    <h4>
+
+                        ABC PUBLIC SCHOOL
+
+                    </h4>
+
+                    <small>
+
+                        Affiliated to CBSE
+
+                    </small>
+
+                    <div class="title">
+
+                        STUDENT IDENTITY CARD
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- BODY -->
+
+            <div class="id-body">
+
+                <!-- PHOTO -->
+
+                <div class="photo-box">
+
+                    <img th:if="${student.photo!=null}" th:src="@{'/uploads/students/'+${student.photo}}"
+                        class="student-photo">
+
+                    <img th:if="${student.photo==null}" th:src="@{/images/no-image.png}" class="student-photo">
+
+                </div>
+
+
+
+
+
+                <!-- DETAILS -->
+
+                <div class="student-info">
+
+                    <h5 class="student-name" th:text="${student.studentName}">
+
+                    </h5>
+
+
+
+                    <table class="table table-borderless table-sm mb-0">
+
+                        <tbody>
+
+                            <tr>
+
+                                <th>
+
+                                    Admission No
+
+                                </th>
+
+                                <td th:text="${student.admissionNo}"></td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>
+
+                                    Gender
+
+                                </th>
+
+                                <td th:text="${student.gender}"></td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>
+
+                                    DOB
+
+                                </th>
+
+                                <td th:text="${#temporals.format(student.dateOfBirth,'dd MMM yyyy')}"></td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>
+
+                                    Blood Group
+
+                                </th>
+
+                                <td th:text="${student.bloodGroup ?: '-'}"></td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>
+
+                                    Mobile
+
+                                </th>
+
+                                <td th:text="${student.mobileNumber ?: '-'}"></td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>
+
+                                    Status
+
+                                </th>
+
+                                <td>
+
+                                    <span class="badge" th:classappend="
+                                  ${student.status.name()=='ACTIVE'} ? ' bg-success' :
+                                  (${student.status.name()=='INACTIVE'} ? ' bg-secondary' :
+                                  (${student.status.name()=='PASSED_OUT'} ? ' bg-primary' :
+                                  (${student.status.name()=='TRANSFERRED'} ? ' bg-warning text-dark' :
+                                  ' bg-danger')))" th:text="${student.status}">
+
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- FOOTER -->
+
+            <div class="id-footer">
+
+                <div>
+
+                    <small>
+
+                        Valid During School Session
+
+                    </small>
+
+                </div>
+
+                <div class="text-end">
+
+                    <img th:src="@{/images/principal-sign.png}" class="principal-sign" alt="Principal">
+
+                    <div>
+
+                        <small>
+
+                            Principal
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- =========================
+            BACK SIDE
+    ========================== -->
+
+        <div class="id-card-back shadow mx-auto mt-4">
+
+            <!-- Header -->
+
+            <div class="back-header">
+
+                <h5 class="mb-0">
+
+                    ABC PUBLIC SCHOOL
+
+                </h5>
+
+                <small>
+
+                    Student Identity Card
+
+                </small>
+
+            </div>
+
+
+
+            <div class="back-body">
+
+                <table class="table table-borderless table-sm mb-3">
+
+                    <tbody>
+
+                        <tr>
+
+                            <th>Father</th>
+
+                            <td th:text="${student.fatherName ?: '-'}"></td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Mother</th>
+
+                            <td th:text="${student.motherName ?: '-'}"></td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Guardian</th>
+
+                            <td th:text="${student.guardianName ?: '-'}"></td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Relation</th>
+
+                            <td th:text="${student.guardianRelation ?: '-'}"></td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Emergency</th>
+
+                            <td th:text="${student.emergencyContact ?: '-'}"></td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+
+
+                <div class="address-box">
+
+                    <strong>
+
+                        Address
+
+                    </strong>
+
+                    <p class="mb-2 mt-1" th:text="${student.address ?: '-'}">
+
+                    </p>
+
+                </div>
+
+
+
+                <div class="instruction-box">
+
+                    <strong>
+
+                        Instructions
+
+                    </strong>
+
+                    <ul class="mb-2">
+
+                        <li>Carry this card daily.</li>
+
+                        <li>Do not fold or damage this card.</li>
+
+                        <li>If found, kindly return to school.</li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="back-footer">
+
+                <div>
+
+                    <i class="bi bi-geo-alt-fill"></i>
+
+                    Meerut, Uttar Pradesh
+
+                </div>
+
+                <div>
+
+                    <i class="bi bi-telephone-fill"></i>
+
+                    +91 98765 43210
+
+                </div>
+
+                <div>
+
+                    <i class="bi bi-globe"></i>
+
+                    www.abcschool.in
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div th:replace="~{fragments/scripts :: scripts}"></div>
+
+    <script th:src="@{/js/print.js}"></script>
+
+</body>
+
+</html>

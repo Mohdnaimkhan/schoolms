@@ -33,27 +33,27 @@ public class NumberGenerator {
 
     }
 
-    public String generateRollNo(Long sessionId,
-                                 Long classRoomId) {
+//     public String generateRollNo(Long sessionId,
+//                                  Long classRoomId) {
 
-        Optional<Student> student =
-                studentRepository
-                        .findTopByAcademicSession_IdAndClassRoom_IdOrderByRollNumberDesc(
-                                sessionId,
-                                classRoomId
-                        );
+//         Optional<Student> student =
+//                 studentRepository
+//                         .findTopByAcademicSession_IdAndClassRoom_IdOrderByRollNumberDesc(
+//                                 sessionId,
+//                                 classRoomId
+//                         );
 
-        if (student.isEmpty()) {
+//         if (student.isEmpty()) {
 
-            return "001";
+//             return "001";
 
-        }
+//         }
 
-        int next =
-                Integer.parseInt(student.get().getRollNumber()) + 1;
+//         int next =
+//                 Integer.parseInt(student.get().getRollNumber()) + 1;
 
-        return String.format("%03d", next);
+//         return String.format("%03d", next);
 
-    }
+//     }
 
 }

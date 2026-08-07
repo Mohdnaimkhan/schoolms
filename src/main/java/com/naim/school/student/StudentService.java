@@ -1,9 +1,9 @@
 package com.naim.school.student;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.naim.school.sms.Constants;
@@ -34,18 +34,6 @@ public class StudentService {
 
     /*
      * ==========================================================
-     * ACTIVE STUDENTS
-     * ==========================================================
-     */
-
-    public List<Student> getActiveStudents() {
-
-        return repository.findByActiveTrue();
-
-    }
-
-    /*
-     * ==========================================================
      * GET BY ID
      * ==========================================================
      */
@@ -53,7 +41,8 @@ public class StudentService {
     public Student getById(Long id) {
 
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Student not found."));
+                .orElseThrow(() ->
+                        new RuntimeException("Student not found."));
 
     }
 
@@ -63,39 +52,59 @@ public class StudentService {
      * ==========================================================
      */
 
+    @Transactional
     public void save(Student student, MultipartFile photoFile) {
 
-        // Normalize
         normalize(student);
 
-        // Aadhaar Duplicate Check
-        if (student.getAadharNumber() != null
-                && !student.getAadharNumber().isBlank()
-                && repository.existsByAadharNumberAndIdNot(
-                        student.getAadharNumber(),
-                        student.getId())) {
+        /*
+         * ==========================================================
+         * DUPLICATE AADHAAR
+         * ==========================================================
+         */
 
-            throw new IllegalArgumentException("Aadhaar Number already exists.");
+        if (existsAadhaar(
+                student.getAadhaarNumber(),
+                student.getId())) {
+
+            throw new IllegalArgumentException(
+                    "Aadhaar Number already exists.");
+
         }
 
         /*
-         * ==========================
-         * EDIT MODE
-         * ==========================
+         * ==========================================================
+         * EDIT
+         * ==========================================================
          */
 
         if (student.getId() != null) {
 
             Student oldStudent = getById(student.getId());
 
-            // Keep Old Photo
-            if (photoFile == null || photoFile.isEmpty()) {
+            /*
+             * Admission No Never Change
+             */
 
-                student.setPhoto(oldStudent.getPhoto());
+            student.setAdmissionNo(
+                    oldStudent.getAdmissionNo());
+
+            /*
+             * Keep Old Photo
+             */
+
+            if (photoFile == null ||
+                    photoFile.isEmpty()) {
+
+                student.setPhoto(
+                        oldStudent.getPhoto());
 
             }
 
-            // Upload New Photo
+            /*
+             * Upload New Photo
+             */
+
             else {
 
                 if (oldStudent.getPhoto() != null) {
@@ -108,57 +117,52 @@ public class StudentService {
 
                 student.setPhoto(
                         fileStorageService.uploadStudentPhoto(photoFile));
+
             }
 
         }
 
         /*
-         * ==========================
+         * ==========================================================
          * NEW STUDENT
-         * ==========================
+         * ==========================================================
          */
 
         else {
 
-            // Upload Photo
-            if (photoFile != null && !photoFile.isEmpty()) {
-
-                student.setPhoto(
-                        fileStorageService.uploadStudentPhoto(photoFile));
-            }
-
-            // Admission Number
             student.setAdmissionNo(
                     numberGenerator.generateAdmissionNo());
 
-            // Roll Number
-            student.setRollNumber(
-                    numberGenerator.generateRollNo(
-                            student.getAcademicSession().getId(),
-                            student.getClassRoom().getId()));
+            if (photoFile != null &&
+                    !photoFile.isEmpty()) {
+
+                student.setPhoto(
+                        fileStorageService.uploadStudentPhoto(photoFile));
+
+            }
+
         }
 
         repository.save(student);
+
     }
+
     /*
      * ==========================================================
-     * DELETE
+     * CHANGE STATUS
      * ==========================================================
      */
 
-    public void delete(Long id) {
+    @Transactional
+    public void changeStatus(
+            Long id,
+            StudentStatus status) {
 
         Student student = getById(id);
 
-        if (student.getPhoto() != null) {
+        student.setStatus(status);
 
-            fileStorageService.delete(
-                    Constants.STUDENT_FOLDER,
-                    student.getPhoto());
-
-        }
-
-        repository.delete(student);
+        repository.save(student);
 
     }
 
@@ -180,118 +184,187 @@ public class StudentService {
 
     }
 
-    public long countByAdmissionDateBetween(
-            LocalDate firstDay,
-            LocalDate lastDay) {
-
-        return repository.countByAdmissionDateBetween(
-                firstDay,
-                lastDay);
-
-    }
-
     public long countActiveStudents() {
 
-        return repository.countByActiveTrue();
+        return repository.countByStatus(
+                StudentStatus.ACTIVE);
 
     }
 
     public long countBoys() {
 
-        return repository.countByGender(Gender.MALE);
+        return repository.countByGender(
+                Gender.MALE);
 
     }
 
     public long countGirls() {
 
-        return repository.countByGender(Gender.FEMALE);
+        return repository.countByGender(
+                Gender.FEMALE);
 
     }
 
     /*
      * ==========================================================
-     * DUPLICATE CHECK
+     * SEARCH
      * ==========================================================
      */
 
-    public boolean existsMobile(String mobile, Long id) {
+    public List<Student> searchByStudentName(
+            String keyword) {
 
-        if (mobile == null || mobile.isBlank()) {
+        return repository.findByStudentNameContainingIgnoreCase(keyword);
+
+    }
+
+    public List<Student> searchByFatherName(
+            String keyword) {
+
+        return repository.findByFatherNameContainingIgnoreCase(keyword);
+
+    }
+
+    public List<Student> searchByAdmissionNo(
+            String keyword) {
+
+        return repository.findByAdmissionNoContainingIgnoreCase(keyword);
+
+    }
+
+    /*
+     * ==========================================================
+     * DUPLICATE AADHAAR
+     * ==========================================================
+     */
+
+    public boolean existsAadhaar(
+            String aadhaarNumber,
+            Long id) {
+
+        if (aadhaarNumber == null ||
+                aadhaarNumber.isBlank()) {
 
             return false;
 
         }
 
-        mobile = mobile.replaceAll("\\s+", "");
+        aadhaarNumber =
+                aadhaarNumber.replaceAll("\\s+", "");
 
         if (id == null) {
 
-            return repository.existsByMobile(mobile);
+            return repository.existsByAadhaarNumber(
+                    aadhaarNumber);
 
         }
 
-        return repository.existsByMobileAndIdNot(mobile, id);
+        return repository.existsByAadhaarNumberAndIdNot(
+                aadhaarNumber,
+                id);
 
     }
 
-    public boolean existsAadhaar(String aadhaarNumber, Long id) {
-
-        if (aadhaarNumber == null || aadhaarNumber.isBlank()) {
-
-            return false;
-
-        }
-
-        aadhaarNumber = aadhaarNumber.replaceAll("\\s+", "");
-
-        if (id == null) {
-
-            return repository.existsByAadharNumber(aadhaarNumber);
-
-        }
-
-        return repository.existsByAadharNumberAndIdNot(aadhaarNumber, id);
-
-    }
-
-    public boolean existsEmail(String email, Long id) {
-
-        if (email == null || email.isBlank()) {
-
-            return false;
-
-        }
-
-        email = email.trim().toLowerCase();
-
-        if (id == null) {
-
-            return repository.existsByEmail(email);
-
-        }
-
-        return repository.existsByEmailAndIdNot(email, id);
-
-    }
+    /*
+     * ==========================================================
+     * NORMALIZE
+     * ==========================================================
+     */
 
     private void normalize(Student student) {
 
-        if (student.getMobile() != null) {
+        if (student.getStudentName() != null) {
 
-            String mobile = student.getMobile().replaceAll("\\s+", "");
+            student.setStudentName(
+                    student.getStudentName().trim());
 
-            student.setMobile(mobile.isBlank() ? null : mobile);
         }
 
-        if (student.getAadharNumber() != null) {
+        if (student.getFatherName() != null) {
 
-            String aadhar = student.getAadharNumber().replaceAll("\\s+", "");
+            student.setFatherName(
+                    student.getFatherName().trim());
 
-            student.setAadharNumber(aadhar.isBlank() ? null : aadhar);
+        }
+
+        if (student.getMotherName() != null) {
+
+            student.setMotherName(
+                    student.getMotherName().trim());
+
+        }
+
+        if (student.getGuardianName() != null) {
+
+            student.setGuardianName(
+                    student.getGuardianName().trim());
+
+        }
+
+        if (student.getGuardianRelation() != null) {
+
+            student.setGuardianRelation(
+                    student.getGuardianRelation().trim());
+
+        }
+
+        if (student.getMobileNumber() != null) {
+
+            String mobile = student.getMobileNumber()
+                    .replaceAll("\\s+", "");
+
+            student.setMobileNumber(
+                    mobile.isBlank()
+                            ? null
+                            : mobile);
+
+        }
+
+        if (student.getEmergencyContact() != null) {
+
+            String emergency = student.getEmergencyContact()
+                    .replaceAll("\\s+", "");
+
+            student.setEmergencyContact(
+                    emergency.isBlank()
+                            ? null
+                            : emergency);
+
+        }
+
+        if (student.getAadhaarNumber() != null) {
+
+            String aadhaar = student.getAadhaarNumber()
+                    .replaceAll("\\s+", "");
+
+            student.setAadhaarNumber(
+                    aadhaar.isBlank()
+                            ? null
+                            : aadhaar);
+
         }
 
         if (student.getEmail() != null) {
-            student.setEmail(student.getEmail().trim().toLowerCase());
+
+            student.setEmail(
+                    student.getEmail()
+                            .trim()
+                            .toLowerCase());
+
+        }
+
+        if (student.getAddress() != null) {
+
+            student.setAddress(
+                    student.getAddress().trim());
+
+        }
+
+        if (student.getRemarks() != null) {
+
+            student.setRemarks(
+                    student.getRemarks().trim());
+
         }
 
     }

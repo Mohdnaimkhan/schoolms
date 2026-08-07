@@ -1,6 +1,6 @@
 // ==========================================
 // PRINT.JS
-// Common Print Functions
+// Common Print Utility
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -10,14 +10,16 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ==========================================
-// Print Button
+// Print Current Page
 // ==========================================
 
 function initializePrintButtons() {
 
     document.querySelectorAll(".btn-print").forEach(button => {
 
-        button.addEventListener("click", function () {
+        button.addEventListener("click", function (e) {
+
+            e.preventDefault();
 
             window.print();
 
@@ -28,49 +30,78 @@ function initializePrintButtons() {
 }
 
 // ==========================================
-// Print Specific Div
+// Print Specific Section
 // ==========================================
 
-function printElement(id) {
+function printElement(elementId) {
 
-    const element = document.getElementById(id);
+    const element = document.getElementById(elementId);
 
     if (!element) {
+
+        console.error("Print element not found : " + elementId);
 
         return;
 
     }
 
-    const printWindow = window.open("", "_blank");
+    const printWindow = window.open("", "_blank", "width=1000,height=800");
 
     printWindow.document.write(`
-        <html>
-            <head>
-                <title>Print</title>
+<!DOCTYPE html>
+<html lang="en">
 
-                <link rel="stylesheet"
-                      href="/css/bootstrap.min.css">
+<head>
 
-                <link rel="stylesheet"
-                      href="/css/print.css">
+<meta charset="UTF-8">
 
-            </head>
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-            <body>
+<title>Print Preview</title>
 
-                ${element.outerHTML}
+<link rel="stylesheet"
+      href="/css/bootstrap.min.css">
 
-            </body>
+<link rel="stylesheet"
+      href="/css/style.css">
 
-        </html>
+<link rel="stylesheet"
+      href="/css/print.css">
+
+</head>
+
+<body class="bg-white">
+
+<div class="container-fluid p-0">
+
+${element.outerHTML}
+
+</div>
+
+<script>
+
+window.onload = function () {
+
+    window.focus();
+
+    window.print();
+
+    window.onafterprint = function () {
+
+        window.close();
+
+    };
+
+};
+
+<\/script>
+
+</body>
+
+</html>
     `);
 
     printWindow.document.close();
-
-    printWindow.focus();
-
-    printWindow.print();
-
-    printWindow.close();
 
 }

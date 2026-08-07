@@ -1044,7 +1044,54 @@ ul {
 
     }
 
+}
 
+@media print {
 
+    body {
+
+        background: #fff !important;
+
+        color: #000 !important;
+
+        font-size: 13px;
+
+    }
+
+    .d-print-none {
+
+        display: none !important;
+
+    }
+
+    .btn,
+    .navbar,
+    .sidebar,
+    footer {
+
+        display: none !important;
+
+    }
+
+    .card {
+
+        border: none !important;
+
+        box-shadow: none !important;
+
+    }
+
+    .table {
+
+        font-size: 13px;
+
+    }
+
+    img {
+
+        page-break-inside: avoid;
+
+    }
 
 }
+

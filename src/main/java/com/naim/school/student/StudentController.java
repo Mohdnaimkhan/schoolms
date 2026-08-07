@@ -7,231 +7,227 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.naim.school.academicsession.AcademicSessionService;
-import com.naim.school.classroom.ClassRoomService;
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequestMapping("/students")
 @RequiredArgsConstructor
+@RequestMapping("/students")
 public class StudentController {
 
-        private final StudentService studentService;
-        private final AcademicSessionService academicSessionService;
-        private final ClassRoomService classRoomService;
-        
+    private final StudentService studentService;
 
-        /*
-         * ==========================================================
-         * STUDENT LIST
-         * ==========================================================
-         */
+    /*
+     * ==========================================================
+     * STUDENT LIST
+     * ==========================================================
+     */
 
-        @GetMapping
-        public String list(Model model) {
+    @GetMapping
+    public String list(Model model) {
 
-                model.addAttribute("students", studentService.getAllStudents());
-                model.addAttribute("totalStudents", studentService.count());
-                model.addAttribute("activeStudents", studentService.countActiveStudents());
-                model.addAttribute("boys", studentService.countBoys());
-                model.addAttribute("girls", studentService.countGirls());
+        model.addAttribute("students", studentService.getAllStudents());
+        model.addAttribute("totalStudents", studentService.count());
+        model.addAttribute("activeStudents", studentService.countActiveStudents());
+        model.addAttribute("boys", studentService.countBoys());
+        model.addAttribute("girls", studentService.countGirls());
 
-                return "student/list";
+        return "student/list";
+    }
+
+    /*
+     * ==========================================================
+     * ADD FORM
+     * ==========================================================
+     */
+
+    @GetMapping("/add")
+    public String add(Model model) {
+
+        model.addAttribute("student", new Student());
+        model.addAttribute("pageTitle", "Add Student");
+
+        loadFormData(model);
+
+        return "student/form";
+    }
+
+    /*
+     * ==========================================================
+     * EDIT FORM
+     * ==========================================================
+     */
+
+    @GetMapping("/edit/{id}")
+    public String edit(
+            @PathVariable Long id,
+            Model model) {
+
+        model.addAttribute(
+                "student",
+                studentService.getById(id));
+
+        model.addAttribute(
+                "pageTitle",
+                "Edit Student");
+
+        loadFormData(model);
+
+        return "student/form";
+    }
+
+    /*
+     * ==========================================================
+     * SAVE
+     * ==========================================================
+     */
+
+    @PostMapping("/save")
+    public String save(
+            @Valid @ModelAttribute("student") Student student,
+            BindingResult result,
+            @RequestParam(value = "photoFile", required = false) MultipartFile photoFile,
+            RedirectAttributes redirectAttributes,
+            Model model) {
+
+        if (result.hasErrors()) {
+
+            model.addAttribute(
+                    "pageTitle",
+                    student.getId() == null
+                            ? "Add Student"
+                            : "Edit Student");
+
+            loadFormData(model);
+
+            return "student/form";
         }
 
-        /*
-         * ==========================================================
-         * ADD + EDIT FORM
-         * ==========================================================
-         */
+        try {
 
-        @GetMapping("/add")
-        public String form(@RequestParam(required = false) Long id,
-                        Model model) {
+            studentService.save(student, photoFile);
 
-                Student student = (id == null)
-                                ? new Student()
-                                : studentService.getById(id);
-                System.out.println("Admission Date = " + student.getAdmissionDate());
-                System.out.println("DOB = " + student.getDateOfBirth());
+        } catch (IllegalArgumentException ex) {
 
-                model.addAttribute("student", student);
-                model.addAttribute("religions", Religion.values());
-                model.addAttribute("categories", Category.values());
-                model.addAttribute("bloodGroups", BloodGroup.values());
+            model.addAttribute("error", ex.getMessage());
 
-                loadFormData(model);
+            model.addAttribute(
+                    "pageTitle",
+                    student.getId() == null
+                            ? "Add Student"
+                            : "Edit Student");
 
-                return "student/form";
+            loadFormData(model);
+
+            return "student/form";
         }
 
-        /*
-         * ==========================================================
-         * SAVE
-         * ==========================================================
-         */
+        redirectAttributes.addFlashAttribute(
+                "success",
+                "Student saved successfully.");
 
-        @PostMapping("/save")
-        public String save(
-                        @Valid @ModelAttribute("student") Student student,
-                        BindingResult result,
-                        @RequestParam(value = "photoFile", required = false) MultipartFile photoFile,
-                        RedirectAttributes redirectAttributes,
-                        Model model) {
+        return "redirect:/students";
+    }
 
-                if (result.hasErrors()) {
+    /*
+     * ==========================================================
+     * VIEW
+     * ==========================================================
+     */
 
-                        model.addAttribute("religions", Religion.values());
-                        model.addAttribute("categories", Category.values());
-                        model.addAttribute("bloodGroups", BloodGroup.values());
+    @GetMapping("/view/{id}")
+    public String view(
+            @PathVariable Long id,
+            Model model) {
 
-                        loadFormData(model);
+        model.addAttribute(
+                "student",
+                studentService.getById(id));
 
-                        return "student/form";
-                }
+        return "student/view";
+    }
 
-                try {
+    /*
+     * ==========================================================
+     * PRINT
+     * ==========================================================
+     */
 
-                        studentService.save(student, photoFile);
+    @GetMapping("/print/{id}")
+    public String print(
+            @PathVariable Long id,
+            Model model) {
 
-                } catch (IllegalArgumentException ex) {
+        model.addAttribute(
+                "student",
+                studentService.getById(id));
 
-                        result.rejectValue(
-                                        "aadharNumber",
-                                        "duplicate",
-                                        ex.getMessage());
+        return "student/print";
+    }
 
-                        model.addAttribute("religions", Religion.values());
-                        model.addAttribute("categories", Category.values());
-                        model.addAttribute("bloodGroups", BloodGroup.values());
+    /*
+     * ==========================================================
+     * CHANGE STATUS
+     * ==========================================================
+     */
 
-                        loadFormData(model);
+    @PostMapping("/status/{id}")
+    public String changeStatus(
+            @PathVariable Long id,
+            @RequestParam StudentStatus status,
+            RedirectAttributes redirectAttributes) {
 
-                        return "student/form";
-                }
+        studentService.changeStatus(id, status);
 
-                redirectAttributes.addFlashAttribute(
-                                "success",
-                                "Student saved successfully.");
+        redirectAttributes.addFlashAttribute(
+                "success",
+                "Student status updated successfully.");
 
-                return "redirect:/students";
-        }
+        return "redirect:/students";
+    }
 
-        /*
-         * ==========================================================
-         * VIEW
-         * ==========================================================
-         */
+    /*
+     * ==========================================================
+     * AADHAAR DUPLICATE CHECK
+     * ==========================================================
+     */
 
-        @GetMapping("/view/{id}")
-        public String view(@PathVariable Long id,
-                        Model model) {
+    @GetMapping("/check/aadhaar")
+    @ResponseBody
+    public boolean checkAadhaar(
+            @RequestParam String value,
+            @RequestParam(required = false) Long id) {
 
-                model.addAttribute(
-                                "student",
-                                studentService.getById(id));
+        return studentService.existsAadhaar(
+                value,
+                id);
+    }
 
-                return "student/view";
-        }
+    @GetMapping("/id-card/{id}")
+    public String idCard(@PathVariable Long id,
+            Model model) {
 
-        /*
-         * ==========================================================
-         * PRINT
-         * ==========================================================
-         */
+        model.addAttribute(
+                "student",
+                studentService.getById(id));
 
-        @GetMapping("/print/{id}")
-        public String print(@PathVariable Long id,
-                        Model model) {
+        return "student/id-card";
 
-                model.addAttribute(
-                                "student",
-                                studentService.getById(id));
+    }
+    /*
+     * ==========================================================
+     * LOAD FORM DATA
+     * ==========================================================
+     */
 
-                return "student/print";
-        }
+    private void loadFormData(Model model) {
 
-        /*
-         * ==========================================================
-         * DELETE
-         * ==========================================================
-         */
+        model.addAttribute("genders", Gender.values());
+        model.addAttribute("bloodGroups", BloodGroup.values());
+        model.addAttribute("religions", Religion.values());
+        model.addAttribute("categories", Category.values());
+        model.addAttribute("studentStatuses", StudentStatus.values());
 
-        @GetMapping("/delete/{id}")
-        public String delete(@PathVariable Long id,
-                        RedirectAttributes redirectAttributes) {
-
-                studentService.delete(id);
-
-                redirectAttributes.addFlashAttribute(
-                                "success",
-                                "Student deleted successfully.");
-
-                return "redirect:/students";
-        }
-
-        /*
-         * ==========================================================
-         * DUPLICATE CHECK
-         * ==========================================================
-         */
-
-        @GetMapping("/check/mobile")
-        @ResponseBody
-        public boolean checkMobile(
-                        @RequestParam String value,
-                        @RequestParam(required = false) Long id) {
-
-                return studentService.existsMobile(value, id);
-        }
-
-        @GetMapping("/check/aadhaar")
-        @ResponseBody
-        public boolean checkAadhaar(
-                        @RequestParam String value,
-                        @RequestParam(required = false) Long id) {
-
-                return studentService.existsAadhaar(value, id);
-        }
-
-        @GetMapping("/check/email")
-        @ResponseBody
-        public boolean checkEmail(
-                        @RequestParam String value,
-                        @RequestParam(required = false) Long id) {
-
-                return studentService.existsEmail(value, id);
-        }
-
-        /*
-         * ==========================================================
-         * LOAD FORM DATA
-         * ==========================================================
-         */
-
-        private void loadFormData(Model model) {
-
-                model.addAttribute(
-                                "academicSessions",
-                                academicSessionService.getAllSessions());
-
-                model.addAttribute(
-                                "classRooms",
-                                classRoomService.getAllClassRooms());
-
-                model.addAttribute(
-                                "genders",
-                                Gender.values());
-
-                model.addAttribute(
-                                "studentStatuses",
-                                StudentStatus.values());
-
-                model.addAttribute(
-                                "admissionTypes",
-                                AdmissionType.values());
-        }
+    }
 
 }

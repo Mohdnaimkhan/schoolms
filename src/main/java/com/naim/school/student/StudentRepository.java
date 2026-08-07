@@ -1,6 +1,5 @@
 package com.naim.school.student;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,92 +7,69 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
-        /*
-         * ==========================================================
-         * BASIC
-         * ==========================================================
-         */
+    /*
+     * ==========================================================
+     * DASHBOARD
+     * ==========================================================
+     */
 
-        List<Student> findByActiveTrue();
+    List<Student> findTop5ByOrderByIdDesc();
 
-        List<Student> findTop5ByOrderByIdDesc();
+    long countByStatus(StudentStatus status);
 
-        long countByAdmissionDateBetween(
-                        LocalDate firstDay,
-                        LocalDate lastDay);
+    long countByGender(Gender gender);
 
-        long countByActiveTrue();
+    /*
+     * ==========================================================
+     * ADMISSION NUMBER
+     * ==========================================================
+     */
 
-        long countByGender(Gender gender);
+    Optional<Student> findTopByOrderByIdDesc();
 
-        /*
-         * ==========================================================
-         * ADMISSION NUMBER
-         * ==========================================================
-         */
+    Optional<Student> findByAdmissionNo(String admissionNo);
 
-        Optional<Student> findTopByOrderByIdDesc();
+    boolean existsByAdmissionNo(String admissionNo);
 
-        boolean existsByAdmissionNo(String admissionNo);
+    boolean existsByAdmissionNoAndIdNot(
+            String admissionNo,
+            Long id);
 
-        /*
-         * ==========================================================
-         * ROLL NUMBER
-         * ==========================================================
-         */
+    /*
+     * ==========================================================
+     * AADHAAR DUPLICATE CHECK
+     * ==========================================================
+     */
 
-        Optional<Student> findTopByAcademicSession_IdAndClassRoom_IdOrderByRollNumberDesc(
-                        Long academicSessionId,
-                        Long classRoomId);
+    boolean existsByAadhaarNumber(String aadhaarNumber);
 
-        boolean existsByRollNumberAndAcademicSession_IdAndClassRoom_Id(
-                        String rollNumber,
-                        Long academicSessionId,
-                        Long classRoomId);
+    boolean existsByAadhaarNumberAndIdNot(
+            String aadhaarNumber,
+            Long id);
 
-        /*
-         * ==========================================================
-         * DUPLICATE CHECK
-         * ==========================================================
-         */
+    /*
+     * ==========================================================
+     * SEARCH
+     * ==========================================================
+     */
 
-        boolean existsByMobile(String mobile);
+    List<Student> findByStudentNameContainingIgnoreCase(
+            String studentName);
 
-        boolean existsByMobileAndIdNot(
-                        String mobile,
-                        Long id);
+    List<Student> findByFatherNameContainingIgnoreCase(
+            String fatherName);
 
-        boolean existsByAadharNumber(String aadharNumber);
+    List<Student> findByAdmissionNoContainingIgnoreCase(
+            String admissionNo);
 
-        boolean existsByAadharNumberAndIdNot(
-                        String aadharNumber,
-                        Long id);
+    /*
+     * ==========================================================
+     * FILTER
+     * ==========================================================
+     */
 
-        boolean existsByEmail(String email);
+    List<Student> findByStatus(StudentStatus status);
 
-        boolean existsByEmailAndIdNot(
-                        String email,
-                        Long id);
-
-        /*
-         * ==========================================================
-         * SEARCH
-         * ==========================================================
-         */
-
-        List<Student> findByFullNameContainingIgnoreCase(String fullName);
-
-        List<Student> findByClassRoom_Id(Long classRoomId);
-
-        List<Student> findByAcademicSession_Id(Long academicSessionId);
-
-        List<Student> findByAcademicSession_IdAndClassRoom_Id(
-                        Long academicSessionId,
-                        Long classRoomId);
-
-        List<Student> findByAcademicSession_IdAndClassRoom_IdAndActiveTrue(
-                        Long academicSessionId,
-                        Long classRoomId);
-
+    List<Student> findByGender(Gender gender);
 
 }
