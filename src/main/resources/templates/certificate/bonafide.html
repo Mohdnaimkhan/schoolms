@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('Bonafide Certificate')}"></head>
+
+<body>
+
+    <div class="container-fluid py-3">
+
+        <!-- Action buttons (not printed) -->
+
+        <div class="d-flex justify-content-end gap-2 mb-3 d-print-none">
+
+            <a th:href="@{/students/view/{id}(id=${student.id})}" class="btn btn-outline-secondary">
+
+                <i class="bi bi-arrow-left-circle-fill"></i>
+
+                Back
+
+            </a>
+
+            <button class="btn btn-primary btn-print">
+
+                <i class="bi bi-printer-fill"></i>
+
+                Print
+
+            </button>
+
+        </div>
+
+        <div class="card shadow border-0">
+
+            <div class="card-body p-5">
+
+                <!-- School Header -->
+
+                <div class="row align-items-center border-bottom pb-3 mb-4">
+
+                    <div class="col-2 text-center">
+
+                        <img th:src="@{/images/logo.png}" alt="School Logo"
+                            style="width:90px;height:90px;object-fit:contain;">
+
+                    </div>
+
+                    <div class="col-8 text-center">
+
+                        <h2 class="fw-bold mb-1"
+                            th:text="${schoolInfo.schoolName != null && !#strings.isEmpty(schoolInfo.schoolName) ? schoolInfo.schoolName : 'Your School'}">
+                            Your School
+                        </h2>
+
+                        <div th:if="${schoolInfo.address != null and !#strings.isEmpty(schoolInfo.address)}"
+                             th:text="${schoolInfo.address}"></div>
+                        <div class="school-slogan" th:if="${schoolInfo.slogan != null && !#strings.isEmpty(schoolInfo.slogan)}" th:text="${schoolInfo.slogan}"></div>
+
+                        <div>
+                            <span th:if="${schoolInfo.phone != null and !#strings.isEmpty(schoolInfo.phone)}">
+                                Phone : <span th:text="${schoolInfo.phone}"></span>
+                            </span>
+                            <span th:if="${schoolInfo.affiliationNo != null and !#strings.isEmpty(schoolInfo.affiliationNo)}">
+                                | Affiliation No : <span th:text="${schoolInfo.affiliationNo}"></span>
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div class="col-2"></div>
+
+                </div>
+
+                <div class="text-center mb-5">
+
+                    <h3 class="fw-bold text-decoration-underline">
+                        BONAFIDE CERTIFICATE
+                    </h3>
+
+                </div>
+
+                <div class="d-flex justify-content-end mb-4">
+
+                    <div>
+                        Certificate No: <span th:text="${'BC-' + student.id + '-' + #temporals.format(issueDate,'yyyy')}"></span>
+                    </div>
+
+                </div>
+
+                <p style="font-size: 1.15rem; line-height: 2.2;" class="text-justify">
+
+                    This is to certify that
+                    <strong th:text="${student.studentName}"></strong>,
+
+                    <span th:if="${student.gender != null and student.gender.name() == 'MALE'}">son</span>
+                    <span th:if="${student.gender != null and student.gender.name() == 'FEMALE'}">daughter</span>
+                    <span th:if="${student.gender == null or (student.gender.name() != 'MALE' and student.gender.name() != 'FEMALE')}">ward</span>
+
+                    of
+                    <strong th:text="${student.fatherName ?: '--'}"></strong>
+
+                    <span th:if="${student.motherName != null and !#strings.isEmpty(student.motherName)}">
+                        and <strong th:text="${student.motherName}"></strong>
+                    </span>,
+
+                    bearing Admission No.
+                    <strong th:text="${student.admissionNo}"></strong>,
+
+                    is / was a <strong>bonafide student</strong> of this school, studying in
+
+                    <strong th:text="${studentSession != null && studentSession.classRoom != null ? studentSession.classRoom.className : '[Class]'}"></strong>
+
+                    <span th:if="${studentSession != null and studentSession.section != null}">
+                        Section <strong th:text="${studentSession.section.sectionName}"></strong>
+                    </span>
+
+                    during the academic session
+
+                    <strong th:text="${studentSession != null && studentSession.academicSession != null ? studentSession.academicSession.sessionName : '[Session]'}"></strong>.
+
+                    <span th:if="${student.dateOfBirth != null}">
+                        As per school records, <span th:if="${student.gender != null and student.gender.name() == 'MALE'}">his</span><span th:if="${student.gender != null and student.gender.name() == 'FEMALE'}">her</span><span th:if="${student.gender == null or (student.gender.name() != 'MALE' and student.gender.name() != 'FEMALE')}">their</span>
+                        date of birth is
+                        <strong th:text="${#temporals.format(student.dateOfBirth,'dd MMMM yyyy')}"></strong>.
+                    </span>
+
+                </p>
+
+                <p style="font-size: 1.15rem;">
+
+                    This certificate is issued on the request of the student / guardian for whatever purpose it may serve.
+
+                </p>
+
+                <div class="row mt-5 pt-5">
+
+                    <div class="col-6">
+
+                        Date of Issue:
+                        <span th:text="${#temporals.format(issueDate,'dd MMMM yyyy')}"></span>
+
+                    </div>
+
+                    <div class="col-6 text-end">
+
+                        <img th:if="${schoolInfo.principalSignature != null}"
+                             th:src="@{'/uploads/school/' + ${schoolInfo.principalSignature}}"
+                             style="height:60px;object-fit:contain;"><br>
+
+                        <div class="mt-1 pt-2 border-top d-inline-block px-4">
+                            Principal's Signature
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div th:replace="~{fragments/scripts :: scripts}"></div>
+
+    <script th:src="@{/js/print.js}"></script>
+
+</body>
+
+</html>

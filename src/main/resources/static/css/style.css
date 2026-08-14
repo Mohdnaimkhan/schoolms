@@ -3,3 +3,159 @@
 @import url("component.css");
 @import url("responsive.css");
 
+
+
+/* ==========================================
+   Module List Search
+   ========================================== */
+.module-search-toolbar {
+    border: 1px solid var(--bs-border-color, #dee2e6);
+    padding: .75rem 1rem;
+}
+
+.module-search-toolbar .input-group-text {
+    border-right: 0;
+}
+
+.module-search-toolbar .module-search-input {
+    border-left: 0;
+}
+
+.module-search-toolbar .module-search-input:focus {
+    box-shadow: none;
+}
+
+.module-search-toolbar .input-group:focus-within {
+    box-shadow: 0 0 0 .2rem rgba(var(--bs-primary-rgb), .12);
+    border-radius: .375rem;
+}
+
+.module-search-clear {
+    min-width: 42px;
+}
+
+@media (max-width: 767.98px) {
+    .module-search-toolbar .module-search-count {
+        display: block;
+        text-align: left !important;
+        margin-top: .25rem;
+    }
+}
+
+
+/* ==========================================================
+   CONSISTENT MODULE SEARCH UI
+   ========================================================== */
+.module-search-toolbar {
+    background: var(--bg-card);
+    color: var(--text);
+    border-color: var(--border);
+    box-shadow: var(--shadow-sm);
+    border-radius: var(--radius-md);
+}
+
+.module-search-toolbar .input-group {
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+}
+
+.module-search-toolbar .input-group-text,
+.module-search-toolbar .module-search-input,
+.module-search-toolbar .module-search-clear {
+    background: var(--input-bg);
+    color: var(--input-text, var(--text));
+    border-color: var(--input-border, var(--border));
+}
+
+.module-search-toolbar .input-group-text {
+    color: var(--text-muted);
+    border-right: 0;
+}
+
+.module-search-toolbar .module-search-input {
+    border-left: 0;
+    border-right: 0;
+}
+
+.module-search-toolbar .module-search-input::placeholder {
+    color: var(--input-placeholder, var(--text-muted));
+    opacity: 1;
+}
+
+.module-search-toolbar .module-search-input:focus {
+    background: var(--input-bg);
+    color: var(--input-text, var(--text));
+    border-color: var(--primary);
+    box-shadow: none;
+}
+
+.module-search-toolbar .input-group:focus-within {
+    box-shadow: 0 0 0 .2rem rgba(37, 99, 235, .15);
+}
+
+.module-search-toolbar .module-search-clear {
+    min-width: 44px;
+    border-left: 0;
+}
+
+.module-search-toolbar .module-search-clear:hover {
+    background: var(--bg-hover);
+    color: var(--text);
+}
+
+.module-search-toolbar .module-search-count {
+    color: var(--text-muted) !important;
+}
+
+.teacher-list-photo {
+    width: 55px;
+    height: 65px;
+    object-fit: cover;
+    border: 1px solid var(--border);
+}
+
+@media (max-width: 767.98px) {
+    .module-search-toolbar .module-search-count {
+        display: block;
+        text-align: left !important;
+        margin-top: .25rem;
+    }
+}
+
+
+/* Teacher form - student-style information sections */
+.teacher-photo-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.teacher-photo-panel img {
+    max-width: 100%;
+    border-color: var(--border);
+}
+
+.form-section-title {
+    margin: 0;
+    padding: .65rem 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+/* Final unified module search UI */
+.module-search-toolbar { padding: 0 !important; overflow: hidden; background: var(--bg-card); color: var(--text); border: 1px solid var(--border); }
+.module-search-toolbar .card-header { background: var(--bg-card); color: var(--text); border-bottom: 1px solid var(--border); font-weight: 600; padding: .9rem 1rem; }
+.module-search-toolbar .card-body { background: var(--bg-card); padding: 1rem; }
+.module-search-toolbar .form-label { color: var(--text); }
+.module-search-toolbar .input-group-text, .module-search-toolbar .module-search-input, .module-search-toolbar .module-search-clear { background: var(--input-bg); color: var(--input-text, var(--text)); border-color: var(--input-border, var(--border)); }
+.module-search-toolbar .module-search-input::placeholder { color: var(--input-placeholder, var(--text-muted)); opacity: 1; }
+.module-search-toolbar .module-search-input:focus { background: var(--input-bg); color: var(--input-text, var(--text)); border-color: var(--primary); box-shadow: none; }
+.module-search-toolbar .module-search-clear { min-width: 42px; }
+.module-search-toolbar .module-search-count { color: var(--text-muted) !important; }
+.teacher-action-buttons { display:flex; flex-wrap:wrap; gap:.5rem !important; justify-content:center; align-items:center; }
+.teacher-photo-panel { width: fit-content; margin: 0 auto; }
+.teacher-photo-panel img { width: 180px !important; height: 220px !important; object-fit: cover; }
+.school-slogan { font-style:italic; opacity:.85; }

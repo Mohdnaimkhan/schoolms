@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <div class="sms-page-header mb-4">
+
+            <div>
+
+                <h2 class="sms-page-title">
+
+                    <i class="bi bi-arrow-up-right-circle me-2"></i>
+
+                    Promote Students - Review
+
+                </h2>
+
+                <p class="text-secondary mb-0">
+
+                    Promoting to
+                    <strong th:text="${toSession.sessionName}"></strong>
+                    /
+                    <strong th:text="${toClassRoom.className}"></strong>
+                    <span th:if="${toSectionName != null}">
+                        / <strong th:text="${toSectionName}"></strong>
+                    </span>
+
+                </p>
+
+            </div>
+
+            <a th:href="@{/student-sessions/promote}" class="btn btn-outline-secondary">
+
+                <i class="bi bi-arrow-left me-2"></i>
+
+                Back
+
+            </a>
+
+        </div>
+
+        <div class="sms-card">
+
+            <div class="p-3" th:if="${#lists.isEmpty(students)}">
+
+                <div class="text-center py-5">
+
+                    <i class="bi bi-inbox display-5"></i>
+
+                    <br><br>
+
+                    No Students Found for the Selected Class / Session
+
+                </div>
+
+            </div>
+
+            <form th:if="${!#lists.isEmpty(students)}"
+                  th:action="@{/student-sessions/promote/save}"
+                  method="post">
+
+                <input type="hidden" name="toSessionId" th:value="${toSessionId}">
+                <input type="hidden" name="toClassRoomId" th:value="${toClassRoomId}">
+                <input type="hidden" name="toSectionId" th:value="${toSectionId}">
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead>
+
+                        <tr>
+
+                            <th width="40">
+
+                                <input type="checkbox" id="selectAll" checked
+                                       onclick="document.querySelectorAll('.studentCheck').forEach(c => c.checked = this.checked)">
+
+                            </th>
+
+                            <th>#</th>
+                            <th>Student</th>
+                            <th>Current Class</th>
+                            <th>Roll No</th>
+
+                        </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                        <tr th:each="s, stat : ${students}">
+
+                            <td>
+
+                                <input type="checkbox"
+                                       class="studentCheck"
+                                       name="studentSessionIds"
+                                       th:value="${s.id}"
+                                       checked>
+
+                            </td>
+
+                            <td th:text="${stat.count}"></td>
+
+                            <td>
+
+                                <div class="fw-semibold"
+                                     th:text="${s.student != null ? s.student.studentName : '--'}"></div>
+
+                                <small class="text-secondary"
+                                       th:text="${s.student != null ? s.student.admissionNo : ''}"></small>
+
+                            </td>
+
+                            <td th:text="${s.classRoom != null ? s.classRoom.className : '--'}"></td>
+
+                            <td th:text="${s.rollNumber ?: '--'}"></td>
+
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <div class="p-3 d-flex justify-content-end gap-2">
+
+                    <a th:href="@{/student-sessions/promote}" class="btn btn-outline-secondary">
+
+                        Cancel
+
+                    </a>
+
+                    <button type="submit" class="btn btn-primary">
+
+                        <i class="bi bi-check-circle me-2"></i>
+
+                        Promote Selected Students
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <div class="sms-page-header mb-4">
+
+            <div>
+
+                <h2 class="sms-page-title"
+                    th:text="${teacherSession.id == null ? 'Add Teacher Session' : 'Edit Teacher Session'}">
+                </h2>
+
+                <p class="text-secondary mb-0">
+
+                    Assign a Teacher to a Subject, Class &amp; Academic Session
+
+                </p>
+
+            </div>
+
+            <a th:href="@{/teacher-sessions}" class="btn btn-outline-secondary">
+
+                <i class="bi bi-arrow-left me-2"></i>
+
+                Back
+
+            </a>
+
+        </div>
+
+        <div class="sms-card">
+
+            <div class="p-3">
+
+                <form th:action="@{/teacher-sessions/save}"
+                      th:object="${teacherSession}"
+                      method="post">
+
+                    <input type="hidden" th:field="*{id}">
+
+                    <div class="row g-4">
+
+                        <!-- Teacher -->
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">
+
+                                Teacher
+                                <span class="text-danger">*</span>
+
+                            </label>
+
+                            <select class="form-select" th:field="*{teacherId}" required>
+
+                                <option value="">-- Select Teacher --</option>
+
+                                <option th:each="t : ${teachers}"
+                                        th:value="${t.id}"
+                                        th:text="${t.teacherName}">
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <!-- Academic Session -->
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">
+
+                                Academic Session
+                                <span class="text-danger">*</span>
+
+                            </label>
+
+                            <select class="form-select" th:field="*{academicSessionId}" required>
+
+                                <option value="">-- Select Academic Session --</option>
+
+                                <option th:each="as : ${academicSessions}"
+                                        th:value="${as.id}"
+                                        th:text="${as.sessionName}">
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <!-- Subject -->
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">
+
+                                Subject
+                                <span class="text-danger">*</span>
+
+                            </label>
+
+                            <select class="form-select" th:field="*{subjectId}" required>
+
+                                <option value="">-- Select Subject --</option>
+
+                                <option th:each="sub : ${subjects}"
+                                        th:value="${sub.id}"
+                                        th:text="${sub.subjectName}">
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <!-- Class -->
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">
+
+                                Class
+                                <span class="text-danger">*</span>
+
+                            </label>
+
+                            <select class="form-select" th:field="*{classRoomId}" required>
+
+                                <option value="">-- Select Class --</option>
+
+                                <option th:each="c : ${classRooms}"
+                                        th:value="${c.id}"
+                                        th:text="${c.className}">
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <!-- Section -->
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">
+
+                                Section
+
+                            </label>
+
+                            <select class="form-select" th:field="*{sectionId}">
+
+                                <option value="">-- No Section --</option>
+
+                                <option th:each="sec : ${sections}"
+                                        th:value="${sec.id}"
+                                        th:text="${sec.sectionName}">
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <!-- Current Session -->
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">
+
+                                Current Session
+
+                            </label>
+
+                            <select class="form-select" th:field="*{currentSession}">
+
+                                <option th:value="true">Yes</option>
+                                <option th:value="false">No</option>
+
+                            </select>
+
+                            <small class="text-secondary">
+
+                                Marks this as the teacher's active assignment. Only one
+                                assignment per subject/class should be current at a time.
+
+                            </small>
+
+                        </div>
+
+                        <!-- Remarks -->
+
+                        <div class="col-12">
+
+                            <label class="form-label fw-semibold">
+
+                                Remarks
+
+                            </label>
+
+                            <textarea class="form-control"
+                                      rows="3"
+                                      th:field="*{remarks}"
+                                      placeholder="Write remarks...">
+                            </textarea>
+
+                        </div>
+
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="d-flex justify-content-end gap-2">
+
+                        <a th:href="@{/teacher-sessions}" class="btn btn-outline-secondary">
+
+                            Cancel
+
+                        </a>
+
+                        <button type="submit" class="btn btn-primary">
+
+                            <i class="bi bi-check-circle me-2"></i>
+
+                            <span th:text="${teacherSession.id == null ? 'Save' : 'Update'}"></span>
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>

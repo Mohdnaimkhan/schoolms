@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <div class="sms-page-header mb-4">
+
+            <div>
+
+                <h2 class="sms-page-title">
+
+                    <i class="bi bi-calendar-check me-2"></i>
+
+                    Attendance Report
+
+                </h2>
+
+            </div>
+
+            <a th:href="@{/reports}" class="btn btn-outline-secondary">
+
+                <i class="bi bi-arrow-left me-2"></i>
+
+                Back
+
+            </a>
+
+        </div>
+
+        <div class="sms-card mb-3">
+
+            <div class="p-3">
+
+                <form th:action="@{/reports/attendance}" method="get" class="row g-2 align-items-end">
+
+                    <div class="col-auto">
+
+                        <label class="form-label fw-semibold mb-0">Academic Session</label>
+
+                        <select name="sessionId" class="form-select">
+
+                            <option value="">-- Select --</option>
+
+                            <option th:each="as : ${academicSessions}"
+                                    th:value="${as.id}"
+                                    th:selected="${selectedSessionId != null && selectedSessionId == as.id}"
+                                    th:text="${as.sessionName}">
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-auto">
+
+                        <label class="form-label fw-semibold mb-0">Class</label>
+
+                        <select name="classRoomId" class="form-select">
+
+                            <option value="">All Classes</option>
+
+                            <option th:each="c : ${classRooms}"
+                                    th:value="${c.id}"
+                                    th:selected="${selectedClassRoomId != null && selectedClassRoomId == c.id}"
+                                    th:text="${c.className}">
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-auto">
+
+                        <label class="form-label fw-semibold mb-0">From Date</label>
+
+                        <input type="date" name="fromDate" class="form-control" th:value="${fromDate}">
+
+                    </div>
+
+                    <div class="col-auto">
+
+                        <label class="form-label fw-semibold mb-0">To Date</label>
+
+                        <input type="date" name="toDate" class="form-control" th:value="${toDate}">
+
+                    </div>
+
+                    <div class="col-auto">
+
+                        <button type="submit" class="btn btn-primary">
+
+                            <i class="bi bi-search me-2"></i>
+
+                            Generate
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <div class="sms-card" th:if="${summaryRows != null}">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead>
+
+                    <tr>
+
+                        <th>#</th>
+                        <th>Student</th>
+                        <th>Admission No</th>
+                        <th>Present</th>
+                        <th>Absent</th>
+                        <th>Leave</th>
+                        <th>Total Days</th>
+                        <th>Attendance %</th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    <tr th:each="row, stat : ${summaryRows}">
+
+                        <td th:text="${stat.count}"></td>
+
+                        <td th:text="${row.studentName}"></td>
+
+                        <td th:text="${row.admissionNo}"></td>
+
+                        <td th:text="${row.present}"></td>
+
+                        <td th:text="${row.absent}"></td>
+
+                        <td th:text="${row.leave}"></td>
+
+                        <td th:text="${row.total}"></td>
+
+                        <td th:text="${row.total > 0 ? #numbers.formatDecimal((row.present * 100.0 / row.total), 1, 1) + '%' : '--'}"></td>
+
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(summaryRows)}">
+
+                        <td colspan="8" class="text-center py-5">
+
+                            No Attendance Records Found
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>

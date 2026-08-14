@@ -1,4 +1,5 @@
 package com.naim.school.attendance;
+import java.util.List;
 
 import com.naim.school.academicsession.AcademicSessionService;
 import com.naim.school.classroom.ClassRoomService;
@@ -21,9 +22,24 @@ public class AttendanceController {
     private final AcademicSessionService academicSessionService;
 
     @GetMapping
-    public String list(Model model) {
+    public String list(
+            @RequestParam(value = "sessionId", required = false) Long sessionId,
+            Model model) {
 
-        model.addAttribute("attendanceList", attendanceService.findAll());
+        List<Attendance> attendanceList = sessionId == null
+                ? attendanceService.findAll()
+                : attendanceService.findByAcademicSession(academicSessionService.getById(sessionId));
+        long attendancePresent = attendanceList.stream().filter(a -> a.getStatus() == AttendanceStatus.PRESENT).count();
+        long attendanceAbsent = attendanceList.stream().filter(a -> a.getStatus() == AttendanceStatus.ABSENT).count();
+        long attendanceLeave = attendanceList.stream().filter(a -> a.getStatus() == AttendanceStatus.LEAVE).count();
+
+        model.addAttribute("attendanceList", attendanceList);
+        model.addAttribute("academicSessions", academicSessionService.getAllSessions());
+        model.addAttribute("selectedSessionId", sessionId);
+        model.addAttribute("attendanceTotal", attendanceList.size());
+        model.addAttribute("attendancePresent", attendancePresent);
+        model.addAttribute("attendanceAbsent", attendanceAbsent);
+        model.addAttribute("attendanceLeave", attendanceLeave);
 
         return "attendance/list";
 
@@ -36,7 +52,7 @@ public class AttendanceController {
 
         model.addAttribute("students", studentService.getAllStudents());
 
-        model.addAttribute("classrooms", classroomService.getAllClasses());
+        model.addAttribute("classrooms", classroomService.getAllClassRooms());
 
         model.addAttribute("academic", academicSessionService.getAllSessions());
 
@@ -71,7 +87,7 @@ public class AttendanceController {
 
             model.addAttribute("students", studentService.getAllStudents());
 
-            model.addAttribute("classrooms", classroomService.getAllClasses());
+            model.addAttribute("classrooms", classroomService.getAllClassRooms());
 
             model.addAttribute("academic", academicSessionService.getAllSessions());
 
@@ -87,7 +103,7 @@ public class AttendanceController {
 
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
 
         attendanceService.deleteById(id);

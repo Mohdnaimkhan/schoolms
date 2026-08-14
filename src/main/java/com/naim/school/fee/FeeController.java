@@ -1,7 +1,9 @@
 package com.naim.school.fee;
+import java.util.List;
 
 import com.naim.school.academicsession.AcademicSessionService;
-import com.naim.school.student.StudentService;
+import com.naim.school.feehead.FeeHeadService;
+import com.naim.school.studentsession.StudentSessionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -17,13 +19,28 @@ import java.time.LocalDate;
 public class FeeController {
 
     private final FeeService feeService;
-    private final StudentService studentService;
+    private final StudentSessionService studentSessionService;
+    private final FeeHeadService feeHeadService;
     private final AcademicSessionService academicSessionService;
 
     @GetMapping
-    public String list(Model model) {
+    public String list(
+            @RequestParam(value = "sessionId", required = false) Long sessionId,
+            Model model) {
 
-        model.addAttribute("feeList", feeService.findAll());
+        List<Fee> feeList = sessionId == null
+                ? feeService.findAll()
+                : feeService.findByAcademicSession(academicSessionService.getById(sessionId));
+        long feePaid = feeList.stream().filter(f -> f.getStatus() == FeeStatus.PAID).count();
+        long feePartial = feeList.stream().filter(f -> f.getStatus() == FeeStatus.PARTIAL).count();
+        long feePending = feeList.stream().filter(f -> f.getStatus() == FeeStatus.PENDING).count();
+        model.addAttribute("feeList", feeList);
+        model.addAttribute("academicSessions", academicSessionService.getAllSessions());
+        model.addAttribute("selectedSessionId", sessionId);
+        model.addAttribute("feeTotal", feeList.size());
+        model.addAttribute("feePaid", feePaid);
+        model.addAttribute("feePartial", feePartial);
+        model.addAttribute("feePending", feePending);
 
         return "fee/list";
 
@@ -36,15 +53,9 @@ public class FeeController {
 
         fee.setPaymentDate(LocalDate.now());
 
-        fee.setStatus(FeeStatus.PENDING);
-
         model.addAttribute("fee", fee);
 
-        model.addAttribute("students", studentService.getAllStudents());
-
-        model.addAttribute("academic", academicSessionService.getAllSessions());
-
-        model.addAttribute("statuses", FeeStatus.values());
+        loadMasters(model);
 
         return "fee/form";
 
@@ -57,20 +68,14 @@ public class FeeController {
             Model model
     ) {
 
-        if (fee.getAmount() != null && fee.getPaidAmount() != null) {
-            if (fee.getPaidAmount().compareTo(fee.getAmount()) > 0) {
-                result.rejectValue("paidAmount", "invalid", "Paid amount cannot exceed the total amount.");
-            }
-            fee.setDueAmount(fee.getAmount().subtract(fee.getPaidAmount()));
+        if (fee.getAmount() != null && fee.getPaidAmount() != null
+                && fee.getPaidAmount().compareTo(fee.getAmount()) > 0) {
+            result.rejectValue("paidAmount", "invalid", "Paid amount cannot exceed the total amount.");
         }
 
         if (result.hasErrors()) {
 
-            model.addAttribute("students", studentService.getAllStudents());
-
-            model.addAttribute("academic", academicSessionService.getAllSessions());
-
-            model.addAttribute("statuses", FeeStatus.values());
+            loadMasters(model);
 
             return "fee/form";
 
@@ -93,22 +98,26 @@ public class FeeController {
 
         model.addAttribute("fee", fee);
 
-        model.addAttribute("students", studentService.getAllStudents());
-
-        model.addAttribute("academic", academicSessionService.getAllSessions());
-
-        model.addAttribute("statuses", FeeStatus.values());
+        loadMasters(model);
 
         return "fee/form";
 
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
 
         feeService.deleteById(id);
 
         return "redirect:/fees";
+
+    }
+
+    private void loadMasters(Model model) {
+
+        model.addAttribute("studentSessions", studentSessionService.getCurrentStudents());
+
+        model.addAttribute("feeHeads", feeHeadService.getAllFeeHeads());
 
     }
 

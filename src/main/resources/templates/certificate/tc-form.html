@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('Issue Transfer Certificate')}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <div class="sms-page-header mb-4">
+
+            <div>
+
+                <h2 class="sms-page-title">
+
+                    Issue Transfer Certificate
+
+                </h2>
+
+                <p class="text-secondary mb-0" th:text="${student.studentName}"></p>
+
+            </div>
+
+            <a th:href="@{'/students/certificate/tc/' + ${student.id}}" class="btn btn-outline-secondary">
+
+                <i class="bi bi-arrow-left me-2"></i>
+
+                Back
+
+            </a>
+
+        </div>
+
+        <div class="sms-card">
+
+            <div class="p-3">
+
+                <div class="alert alert-warning" th:if="${studentSession == null}">
+
+                    This student has no class/session record yet. Please add a Student Session
+                    before issuing a Transfer Certificate.
+
+                </div>
+
+                <form th:if="${studentSession != null}"
+                      th:action="@{/students/certificate/tc/save}"
+                      th:object="${tc}"
+                      method="post">
+
+                    <input type="hidden" th:field="*{studentSessionId}">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-4">
+
+                            <label class="form-label fw-semibold">Current Class</label>
+
+                            <input type="text" class="form-control" readonly
+                                   th:value="${studentSession.classRoom != null ? studentSession.classRoom.className : '--'}">
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label class="form-label fw-semibold">TC Number</label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   th:field="*{tcNumber}"
+                                   placeholder="Leave blank to auto-generate">
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label class="form-label fw-semibold">Issue Date</label>
+
+                            <input type="date" class="form-control" th:field="*{issueDate}">
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label class="form-label fw-semibold">
+
+                                Date of Leaving
+                                <span class="text-danger">*</span>
+
+                            </label>
+
+                            <input type="date" class="form-control" th:field="*{dateOfLeaving}" required>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label class="form-label fw-semibold">Conduct</label>
+
+                            <select class="form-select" th:field="*{conduct}">
+
+                                <option value="Excellent">Excellent</option>
+                                <option value="Good">Good</option>
+                                <option value="Satisfactory">Satisfactory</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label class="form-label fw-semibold">Qualified for Promotion</label>
+
+                            <select class="form-select" th:field="*{qualifiedForPromotion}">
+
+                                <option th:value="true">Yes</option>
+                                <option th:value="false">No</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-12">
+
+                            <label class="form-label fw-semibold">Reason for Leaving</label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   th:field="*{reasonForLeaving}"
+                                   placeholder="e.g. Family relocation, Higher class not available">
+
+                        </div>
+
+                        <div class="col-12">
+
+                            <label class="form-label fw-semibold">Remarks</label>
+
+                            <textarea class="form-control" rows="3" th:field="*{remarks}"></textarea>
+
+                        </div>
+
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="d-flex justify-content-end gap-2">
+
+                        <a th:href="@{'/students/certificate/tc/' + ${student.id}}" class="btn btn-outline-secondary">
+
+                            Cancel
+
+                        </a>
+
+                        <button type="submit" class="btn btn-primary">
+
+                            <i class="bi bi-check-circle me-2"></i>
+
+                            Issue &amp; Print
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>

@@ -83,14 +83,16 @@
                                     Student
                                 </label>
 
-                                <select class="form-select" th:field="*{student}" required>
+                                <select class="form-select" th:field="*{studentSessionId}" required>
 
                                     <option value="">
                                         Select Student
                                     </option>
 
-                                    <option th:each="student : ${students}" th:value="${student.id}"
-                                        th:text="${student.fullName}">
+                                    <option th:each="ss : ${studentSessions}" th:value="${ss.id}"
+                                        th:text="${(ss.student != null ? ss.student.studentName : '--')
+                                            + ' - ' + (ss.classRoom != null ? ss.classRoom.className : '--')
+                                            + ' (' + (ss.academicSession != null ? ss.academicSession.sessionName : '--') + ')'}">
                                     </option>
 
                                 </select>
@@ -100,91 +102,22 @@
                             <div class="col-md-6 mb-3">
 
                                 <label class="form-label">
-                                    Academic Session
+                                    Fee Head
                                 </label>
 
-                                <select class="form-select" th:field="*{academicSession}" required>
+                                <select class="form-select" th:field="*{feeHeadId}" required>
 
                                     <option value="">
-                                        Select Session
+                                        Select Fee Head
                                     </option>
 
-                                    <option th:each="s : ${academic}" th:value="${s.id}"
-                                        th:text="${s.sessionName}">
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-
-                                <label class="form-label">
-                                    Fee Type
-                                </label>
-
-                                <input type="text" class="form-control" th:field="*{feeType}">
-
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-
-                                <label class="form-label">
-                                    Status
-                                </label>
-
-                                <select class="form-select" th:field="*{status}">
-
-                                    <option th:each="status : ${T(com.naim.school.fee.FeeStatus).values()}"
-                                        th:value="${status}" th:text="${status}">
+                                    <option th:each="fh : ${feeHeads}" th:value="${fh.id}"
+                                        th:text="${fh.name}">
                                     </option>
 
                                 </select>
 
                             </div>
-
-                            <div class="col-md-4 mb-3">
-
-                                <label class="form-label">
-                                    Amount
-                                </label>
-
-                                <input type="number" step="0.01" class="form-control" th:field="*{amount}">
-
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-
-                                <label class="form-label">
-                                    Paid Amount
-                                </label>
-
-                                <input type="number" step="0.01" class="form-control" th:field="*{paidAmount}">
-
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-
-                                <label class="form-label">
-                                    Due Amount
-                                </label>
-
-                                <input type="number" step="0.01" class="form-control" th:field="*{dueAmount}" readonly>
-
-                            </div>
-
-                            <div class="col-12 mb-3">
-
-                                <label class="form-label">
-                                    Remarks
-                                </label>
-
-                                <textarea class="form-control" rows="3" th:field="*{remarks}">
-            </textarea>
-
-                            </div>
-
-                        </div>
 
                         <div class="text-end">
 
@@ -208,7 +141,6 @@
 
                         </div>
 
-                    </div>
                 </form>
 
             </div>

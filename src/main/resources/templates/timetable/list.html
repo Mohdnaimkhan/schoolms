@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <div class="sms-page-header mb-4">
+
+            <div>
+
+                <h2 class="sms-page-title">
+
+                    <i class="bi bi-calendar-week me-2"></i>
+
+                    Timetable
+
+                </h2>
+
+                <p class="text-secondary mb-0">
+
+                    Manage Class Period Schedules
+
+                </p>
+
+            </div>
+
+            <div class="d-flex gap-2">
+
+                <a th:href="@{/timetable/view}" class="btn btn-outline-primary">
+
+                    <i class="bi bi-grid-3x3 me-2"></i>
+
+                    Weekly View
+
+                </a>
+
+                <a th:href="@{/timetable/add}" class="btn btn-primary">
+
+                    <i class="bi bi-plus-circle me-2"></i>
+
+                    Add Entry
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="row g-4 module-stat-grid">
+<div class="col-xl-3 col-md-6"><div class="module-stat-card"><div class="module-stat-icon bg-primary"><i class="bi bi-calendar-week"></i></div><div class="module-stat-body"><span class="module-stat-label">Total Entries</span><strong class="module-stat-value" th:text="${timetableTotal}">0</strong><small class="module-stat-meta">Timetable entries</small></div></div></div>
+<div class="col-xl-3 col-md-6"><div class="module-stat-card"><div class="module-stat-icon bg-success"><i class="bi bi-check-circle-fill"></i></div><div class="module-stat-body"><span class="module-stat-label">Configured</span><strong class="module-stat-value" th:text="${timetableConfigured}">0</strong><small class="module-stat-meta">Teacher + subject</small></div></div></div>
+<div class="col-xl-3 col-md-6"><div class="module-stat-card"><div class="module-stat-icon bg-info"><i class="bi bi-diagram-3"></i></div><div class="module-stat-body"><span class="module-stat-label">With Section</span><strong class="module-stat-value" th:text="${timetableSections}">0</strong><small class="module-stat-meta">Section assigned</small></div></div></div>
+<div class="col-xl-3 col-md-6"><div class="module-stat-card"><div class="module-stat-icon bg-warning"><i class="bi bi-clock-fill"></i></div><div class="module-stat-body"><span class="module-stat-label">Today</span><strong class="module-stat-value" th:text="${timetableToday}">0</strong><small class="module-stat-meta">Current weekday</small></div></div></div>
+</div>
+<!-- Session Filter -->
+
+        <div class="sms-card mb-3">
+
+            <div class="p-3">
+
+                <form th:action="@{/timetable}" method="get" class="row g-2 align-items-center">
+
+                    <label class="col-auto form-label fw-semibold mb-0">
+
+                        <i class="bi bi-calendar-event me-1"></i>
+
+                        Academic Session
+
+                    </label>
+
+                    <div class="col-auto">
+
+                        <select name="sessionId" class="form-select" onchange="this.form.submit()">
+
+                            <option value="">All Sessions</option>
+
+                            <option th:each="as : ${academicSessions}"
+                                    th:value="${as.id}"
+                                    th:selected="${selectedSessionId != null && selectedSessionId == as.id}"
+                                    th:text="${as.sessionName}">
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-auto" th:if="${selectedSessionId != null}">
+
+                        <a th:href="@{/timetable}" class="btn btn-outline-secondary btn-sm">
+
+                            <i class="bi bi-x-circle me-1"></i>
+
+                            Clear Filter
+
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <div class="sms-card">
+
+            <div class="table-responsive">
+
+                
+                <!-- Module Search -->
+                <div class="card shadow-sm mb-4 module-search-toolbar" data-module-search>
+    <div class="card-header"><i class="bi bi-funnel-fill me-2"></i>Search &amp; Filters</div>
+    <div class="card-body">
+      <div class="row g-3 align-items-end">
+        <div class="col-lg-7 col-md-8">
+          <label class="form-label fw-semibold">Search timetable</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-search"></i></span>
+            <input type="search" class="form-control module-search-input" placeholder="Type to search..." autocomplete="off" spellcheck="false">
+            <button type="button" class="btn btn-outline-secondary module-search-clear" title="Clear search"><i class="bi bi-x-lg"></i></button>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4"><div class="small text-secondary module-search-count"></div></div>
+        <div class="col-lg-2"><button type="button" class="btn btn-primary w-100 module-search-focus"><i class="bi bi-search me-1"></i>Search</button></div>
+      </div>
+    </div>
+  </div>
+
+  <table class="table table-hover align-middle mb-0" data-module-search-table>
+
+                    <thead>
+
+                    <tr>
+
+                        <th>#</th>
+                        <th>Session</th>
+                        <th>Class</th>
+                        <th>Section</th>
+                        <th>Day</th>
+                        <th>Period</th>
+                        <th>Time</th>
+                        <th>Subject</th>
+                        <th>Teacher</th>
+                        <th width="120" class="text-center">Action</th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    <tr th:each="t, stat : ${timetables}">
+
+                        <td th:text="${stat.count}"></td>
+
+                        <td th:text="${t.academicSession != null ? t.academicSession.sessionName : '--'}"></td>
+
+                        <td th:text="${t.classRoom != null ? t.classRoom.className : '--'}"></td>
+
+                        <td th:text="${t.section != null ? t.section.sectionName : '--'}"></td>
+
+                        <td th:text="${t.weekDay}"></td>
+
+                        <td th:text="${t.periodNumber}"></td>
+
+                        <td th:text="${(t.startTime != null ? #temporals.format(t.startTime,'hh:mm a') : '')
+                            + (t.startTime != null && t.endTime != null ? ' - ' : '')
+                            + (t.endTime != null ? #temporals.format(t.endTime,'hh:mm a') : '')}"></td>
+
+                        <td th:text="${t.subject != null ? t.subject.subjectName : '--'}"></td>
+
+                        <td th:text="${t.teacher != null ? t.teacher.teacherName : '--'}"></td>
+
+                        <td class="text-center">
+
+                            <a th:href="@{'/timetable/edit/' + ${t.id}}"
+                               class="btn btn-warning btn-sm"
+                               title="Edit">
+
+                                <i class="bi bi-pencil"></i>
+
+                            </a>
+
+                            <form th:action="@{/timetable/delete/{id}(id=${t.id})}" method="post" class="d-inline"
+                                   onclick="return confirm('Delete this timetable entry?')">
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                    <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+
+                                        <i class="bi bi-trash"></i>
+
+                                    </button>
+                                </form>
+
+                        </td>
+
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(timetables)}">
+
+                        <td colspan="10" class="text-center py-5">
+
+                            <i class="bi bi-inbox display-5"></i>
+
+                            <br><br>
+
+                            No Timetable Entry Found
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>

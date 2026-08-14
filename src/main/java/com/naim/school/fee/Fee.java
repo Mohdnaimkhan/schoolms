@@ -1,8 +1,9 @@
 package com.naim.school.fee;
 
+import com.naim.school.feehead.FeeHead;
+import com.naim.school.sms.BaseEntity;
+import com.naim.school.studentsession.StudentSession;
 
-import com.naim.school.academicsession.AcademicSession;
-import com.naim.school.student.Student;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -13,6 +14,15 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+/*
+ * A Fee payment is linked to a StudentSession (not Student directly) so a
+ * payment recorded while the student was in a particular class/section for
+ * a particular academic year stays permanently tied to that placement -
+ * consistent with how Result links to StudentSession. The FeeHead (Tuition
+ * Fee, Transport Fee, etc.) is a proper master-data reference rather than
+ * free text, so it can be matched against a FeeStructure to know what was
+ * actually due.
+ */
 @Getter
 @Setter
 @Entity
@@ -26,7 +36,7 @@ import java.time.LocalDate;
                 )
         }
 )
-public class Fee extends com.naim.school.sms.BaseEntity {
+public class Fee extends BaseEntity {
 
     @Column(name = "receipt_no",
             nullable = false,
@@ -36,18 +46,12 @@ public class Fee extends com.naim.school.sms.BaseEntity {
     private String receiptNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id", nullable = false)
-    @NotNull(message = "Student is required.")
-    private Student student;
+    @JoinColumn(name = "student_session_id", nullable = false)
+    private StudentSession studentSession;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "academic_session_id", nullable = false)
-    @NotNull(message = "Academic session is required.")
-    private AcademicSession academicSession;
-
-    @Column(nullable = false, length = 100)
-    @NotBlank(message = "Fee type is required.")
-    private String feeType;
+    @JoinColumn(name = "fee_head_id", nullable = false)
+    private FeeHead feeHead;
 
     @Column(nullable = false, precision = 10, scale = 2)
     @NotNull(message = "Amount is required.")
@@ -70,5 +74,17 @@ public class Fee extends com.naim.school.sms.BaseEntity {
 
     @Column(length = 255)
     private String remarks;
+
+    /*
+     * ==========================================================
+     * FORM BINDING (NOT PERSISTED)
+     * ==========================================================
+     */
+
+    @Transient
+    private Long studentSessionId;
+
+    @Transient
+    private Long feeHeadId;
 
 }

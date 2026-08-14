@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <div class="sms-page-header mb-4">
+
+            <div>
+
+                <h2 class="sms-page-title"
+                    th:text="${notice.id == null ? 'Add Notice' : 'Edit Notice'}">
+                </h2>
+
+                <p class="text-secondary mb-0">
+
+                    Publish an Announcement
+
+                </p>
+
+            </div>
+
+            <a th:href="@{/notices}" class="btn btn-outline-secondary">
+
+                <i class="bi bi-arrow-left me-2"></i>
+
+                Back
+
+            </a>
+
+        </div>
+
+        <div class="sms-card">
+
+            <div class="p-3">
+
+                <form th:action="@{/notices/save}" th:object="${notice}" method="post">
+
+                    <input type="hidden" th:field="*{id}">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-8">
+
+                            <label class="form-label fw-semibold">
+
+                                Title
+                                <span class="text-danger">*</span>
+
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   th:field="*{title}"
+                                   placeholder="e.g. Holiday Notice"
+                                   required>
+
+                            <small class="text-danger" th:errors="*{title}"></small>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label class="form-label fw-semibold">
+
+                                Notice Date
+
+                            </label>
+
+                            <input type="date" class="form-control" th:field="*{noticeDate}">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">
+
+                                Audience
+
+                            </label>
+
+                            <select class="form-select" th:field="*{audience}">
+
+                                <option th:each="a : ${audiences}"
+                                        th:value="${a}"
+                                        th:text="${a}">
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">
+
+                                Status
+
+                            </label>
+
+                            <select class="form-select" th:field="*{active}">
+
+                                <option th:value="true">Active</option>
+                                <option th:value="false">Inactive</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-12">
+
+                            <label class="form-label fw-semibold">
+
+                                Content
+                                <span class="text-danger">*</span>
+
+                            </label>
+
+                            <textarea class="form-control"
+                                      rows="6"
+                                      th:field="*{content}"
+                                      placeholder="Write the notice content..."
+                                      required>
+                            </textarea>
+
+                            <small class="text-danger" th:errors="*{content}"></small>
+
+                        </div>
+
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="d-flex justify-content-end gap-2">
+
+                        <a th:href="@{/notices}" class="btn btn-outline-secondary">
+
+                            Cancel
+
+                        </a>
+
+                        <button type="submit" class="btn btn-primary">
+
+                            <i class="bi bi-check-circle me-2"></i>
+
+                            <span th:text="${notice.id == null ? 'Publish' : 'Update'}"></span>
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>

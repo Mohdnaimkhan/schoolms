@@ -8,92 +8,97 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
-        /*
-         * ==========================================================
-         * BASIC
-         * ==========================================================
-         */
+    /*
+     * ==========================================================
+     * DASHBOARD
+     * ==========================================================
+     */
 
-        List<Student> findByActiveTrue();
+    List<Student> findTop5ByOrderByIdDesc();
 
-        List<Student> findTop5ByOrderByIdDesc();
+    long countByStatus(StudentStatus status);
 
-        long countByAdmissionDateBetween(
-                        LocalDate firstDay,
-                        LocalDate lastDay);
+    long countByGender(Gender gender);
 
-        long countByActiveTrue();
+    long countByAdmissionDateBetween(LocalDate startDate, LocalDate endDate);
 
-        long countByGender(Gender gender);
+    /*
+     * ==========================================================
+     * ADMISSION NUMBER
+     * ==========================================================
+     */
 
-        /*
-         * ==========================================================
-         * ADMISSION NUMBER
-         * ==========================================================
-         */
+    Optional<Student> findTopByOrderByIdDesc();
 
-        Optional<Student> findTopByOrderByIdDesc();
+    Optional<Student> findByAdmissionNo(String admissionNo);
 
-        boolean existsByAdmissionNo(String admissionNo);
+    boolean existsByAdmissionNo(String admissionNo);
 
-        /*
-         * ==========================================================
-         * ROLL NUMBER
-         * ==========================================================
-         */
+    boolean existsByAdmissionNoAndIdNot(
+            String admissionNo,
+            Long id);
 
-        Optional<Student> findTopByAcademicSession_IdAndClassRoom_IdOrderByRollNumberDesc(
-                        Long academicSessionId,
-                        Long classRoomId);
+    /*
+     * ==========================================================
+     * AADHAAR DUPLICATE CHECK
+     * ==========================================================
+     */
 
-        boolean existsByRollNumberAndAcademicSession_IdAndClassRoom_Id(
-                        String rollNumber,
-                        Long academicSessionId,
-                        Long classRoomId);
+    boolean existsByAadhaarNumber(String aadhaarNumber);
 
-        /*
-         * ==========================================================
-         * DUPLICATE CHECK
-         * ==========================================================
-         */
+    boolean existsByAadhaarNumberAndIdNot(
+            String aadhaarNumber,
+            Long id);
 
-        boolean existsByMobile(String mobile);
+    boolean existsByPenNo(String penNo);
 
-        boolean existsByMobileAndIdNot(
-                        String mobile,
-                        Long id);
+    boolean existsByPenNoAndIdNot(String penNo, Long id);
 
-        boolean existsByAadharNumber(String aadharNumber);
+    boolean existsByApaarId(String apaarId);
 
-        boolean existsByAadharNumberAndIdNot(
-                        String aadharNumber,
-                        Long id);
+    boolean existsByApaarIdAndIdNot(String apaarId, Long id);
 
-        boolean existsByEmail(String email);
+    /*
+     * ==========================================================
+     * SEARCH
+     * ==========================================================
+     */
 
-        boolean existsByEmailAndIdNot(
-                        String email,
-                        Long id);
+    List<Student> findByStudentNameContainingIgnoreCase(
+            String studentName);
 
-        /*
-         * ==========================================================
-         * SEARCH
-         * ==========================================================
-         */
+    List<Student> findByFatherNameContainingIgnoreCase(
+            String fatherName);
 
-        List<Student> findByFullNameContainingIgnoreCase(String fullName);
+    List<Student> findByAdmissionNoContainingIgnoreCase(
+            String admissionNo);
 
-        List<Student> findByClassRoom_Id(Long classRoomId);
+    @org.springframework.data.jpa.repository.Query("""
+        SELECT s FROM Student s
+        WHERE (:keyword IS NULL OR :keyword = ''
+               OR LOWER(COALESCE(s.studentName, '')) LIKE LOWER(CONCAT('%', :keyword, '%'))
+               OR LOWER(COALESCE(s.admissionNo, '')) LIKE LOWER(CONCAT('%', :keyword, '%'))
+               OR LOWER(COALESCE(s.fatherName, '')) LIKE LOWER(CONCAT('%', :keyword, '%'))
+               OR LOWER(COALESCE(s.mobileNumber, '')) LIKE LOWER(CONCAT('%', :keyword, '%'))
+               OR LOWER(COALESCE(s.emergencyContact, '')) LIKE LOWER(CONCAT('%', :keyword, '%'))
+               OR LOWER(COALESCE(s.aadhaarNumber, '')) LIKE LOWER(CONCAT('%', :keyword, '%'))
+               OR LOWER(COALESCE(s.penNo, '')) LIKE LOWER(CONCAT('%', :keyword, '%'))
+               OR LOWER(COALESCE(s.apaarId, '')) LIKE LOWER(CONCAT('%', :keyword, '%')))
+          AND (:status IS NULL OR s.status = :status)
+        ORDER BY s.id DESC
+        """)
+    List<Student> search(
+            @org.springframework.data.repository.query.Param("keyword") String keyword,
+            @org.springframework.data.repository.query.Param("status") StudentStatus status);
 
-        List<Student> findByAcademicSession_Id(Long academicSessionId);
+    /*
+     * ==========================================================
+     * FILTER
+     * ==========================================================
+     */
 
-        List<Student> findByAcademicSession_IdAndClassRoom_Id(
-                        Long academicSessionId,
-                        Long classRoomId);
+    List<Student> findByStatus(StudentStatus status);
 
-        List<Student> findByAcademicSession_IdAndClassRoom_IdAndActiveTrue(
-                        Long academicSessionId,
-                        Long classRoomId);
-
+    List<Student> findByGender(Gender gender);
 
 }

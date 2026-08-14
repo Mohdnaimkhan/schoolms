@@ -22,7 +22,14 @@ public class SubjectController {
     public String list(Model model) {
 
         model.addAttribute("pageTitle", "Subjects");
-        model.addAttribute("subjects", service.getAllSubjects());
+        java.util.List<Subject> subjects = service.getAllSubjects();
+        long subjectActive = subjects.stream().filter(sub -> Boolean.TRUE.equals(sub.getActive())).count();
+        long subjectWithCode = subjects.stream().filter(sub -> sub.getSubjectCode() != null && !sub.getSubjectCode().isBlank()).count();
+        model.addAttribute("subjects", subjects);
+        model.addAttribute("subjectTotal", subjects.size());
+        model.addAttribute("subjectActive", subjectActive);
+        model.addAttribute("subjectInactive", subjects.size() - subjectActive);
+        model.addAttribute("subjectWithCode", subjectWithCode);
 
         return "subject/list";
     }
@@ -32,7 +39,7 @@ public class SubjectController {
 
         model.addAttribute("pageTitle", "Add Subject");
         model.addAttribute("subject", new Subject());
-        model.addAttribute("classes", classRoomService.getActiveClasses());
+        model.addAttribute("classes", classRoomService.getAllClassRooms());
 
         return "subject/form";
     }
@@ -42,7 +49,7 @@ public class SubjectController {
 
         model.addAttribute("pageTitle", "Edit Subject");
         model.addAttribute("subject", service.getById(id));
-        model.addAttribute("classes", classRoomService.getActiveClasses());
+        model.addAttribute("classes", classRoomService.getAllClassRooms());
 
         return "subject/form";
     }
@@ -54,7 +61,7 @@ public class SubjectController {
 
         if (result.hasErrors()) {
 
-            model.addAttribute("classes", classRoomService.getActiveClasses());
+            model.addAttribute("classes", classRoomService.getAllClassRooms());
 
             return "subject/form";
         }
@@ -64,7 +71,7 @@ public class SubjectController {
         return "redirect:/subjects";
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
 
         service.delete(id);

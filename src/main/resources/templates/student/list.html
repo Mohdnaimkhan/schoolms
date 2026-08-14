@@ -59,12 +59,23 @@
 
                 </div>
 
-                <a th:href="@{/students/add}" class="btn btn-primary">
+                <div class="d-flex gap-2">
 
-                    <i class="bi bi-plus-circle"></i>
-                    New Admission
+                    <a th:href="@{/student-sessions/promote}" class="btn btn-outline-primary">
 
-                </a>
+                        <i class="bi bi-arrow-up-right-circle"></i>
+                        Promote Students
+
+                    </a>
+
+                    <a th:href="@{/students/add}" class="btn btn-primary">
+
+                        <i class="bi bi-plus-circle"></i>
+                        New Admission
+
+                    </a>
+
+                </div>
 
             </div>
 
@@ -76,7 +87,7 @@
 
                 <div class="col-xl-3 col-md-6">
 
-                    <div class="card shadow-sm h-100">
+                    <div class="card shadow-sm h-100 sms-summary-card">
 
                         <div class="card-body">
 
@@ -111,7 +122,7 @@
 
                 <div class="col-xl-3 col-md-6">
 
-                    <div class="card shadow-sm h-100">
+                    <div class="card shadow-sm h-100 sms-summary-card">
 
                         <div class="card-body">
 
@@ -146,7 +157,7 @@
 
                 <div class="col-xl-3 col-md-6">
 
-                    <div class="card shadow-sm h-100">
+                    <div class="card shadow-sm h-100 sms-summary-card">
 
                         <div class="card-body">
 
@@ -181,7 +192,7 @@
 
                 <div class="col-xl-3 col-md-6">
 
-                    <div class="card shadow-sm h-100">
+                    <div class="card shadow-sm h-100 sms-summary-card">
 
                         <div class="card-body">
 
@@ -233,14 +244,16 @@
 
                     <form th:action="@{/students}" method="get">
 
-                        <div class="row g-3">
+                        <div class="row g-3 align-items-end">
 
                             <!-- Search -->
 
-                            <div class="col-lg-4">
+                            <div class="col-lg-5">
 
-                                <label class="form-label">
+                                <label class="form-label fw-semibold">
+
                                     Search Student
+
                                 </label>
 
                                 <div class="input-group">
@@ -251,105 +264,66 @@
 
                                     </span>
 
-                                    <input type="text" name="keyword" class="form-control"
-                                        placeholder="Admission No / Roll No / Name / Mobile"
-                                        th:value="${param.keyword}">
+                                    <input type="search" name="keyword" class="form-control"
+                                        placeholder="Name, admission no, father, mobile, PEN, APAAR..."
+                                        autocomplete="off" spellcheck="false"
+                                        th:value="${keyword}">
+                                    <button type="button" class="btn btn-outline-secondary"
+                                            id="studentSearchClear" title="Clear search">
+                                        <i class="bi bi-x-lg"></i>
+                                    </button>
 
                                 </div>
 
                             </div>
 
-                            <!-- Academic Session -->
-
-                            <div class="col-lg-2">
-
-                                <label class="form-label">
-
-                                    Academic Session
-
-                                </label>
-
-                                <select name="sessionId" class="form-select">
-
-                                    <option value="">
-
-                                        All
-
-                                    </option>
-
-                                    <option th:each="s : ${academicSessions}" th:value="${s.id}" th:text="${s.name}"
-                                        th:selected="${param.sessionId==s.id}">
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-                            <!-- Class -->
-
-                            <div class="col-lg-2">
-
-                                <label class="form-label">
-
-                                    Class
-
-                                </label>
-
-                                <select name="classId" class="form-select">
-
-                                    <option value="">
-
-                                        All
-
-                                    </option>
-
-                                    <option th:each="c : ${classRooms}" th:value="${c.id}" th:text="${c.className}"
-                                        th:selected="${param.classId==c.id}">
-                                    </option>
-
-                                </select>
-
-                            </div>
-
                             <!-- Status -->
 
-                            <div class="col-lg-2">
+                            <div class="col-lg-3">
 
-                                <label class="form-label">
+                                <label class="form-label fw-semibold">
 
-                                    Status
+                                    Student Status
 
                                 </label>
 
-                                <select name="active" class="form-select">
+                                <select name="status" class="form-select">
 
-                                    <option value="">
-                                        All
-                                    </option>
+                                    <option value="">All Status</option>
 
-                                    <option value="true">
-                                        Active
-                                    </option>
-
-                                    <option value="false">
-                                        Inactive
+                                    <option th:each="status : ${studentStatuses}" th:value="${status}"
+                                        th:text="${status}" th:selected="${status == selectedStatus}">
                                     </option>
 
                                 </select>
 
                             </div>
 
-                            <!-- Buttons -->
+                            <!-- Search Button -->
 
-                            <div class="col-lg-2 d-flex align-items-end">
+                            <div class="col-lg-2">
 
-                                <button class="btn btn-primary w-100">
+                                <button type="submit" class="btn btn-primary w-100">
 
-                                    <i class="bi bi-search"></i>
+                                    <i class="bi bi-search me-1"></i>
 
                                     Search
 
                                 </button>
+
+                            </div>
+
+                            <!-- Reset -->
+
+                            <div class="col-lg-2">
+
+                                <a th:href="@{/students}" class="btn btn-outline-secondary w-100">
+
+                                    <i class="bi bi-arrow-clockwise me-1"></i>
+
+                                    Reset
+
+                                </a>
 
                             </div>
 
@@ -394,37 +368,19 @@
 
                                     <th width="60">#</th>
 
-                                    <th width="90">
-                                        Photo
-                                    </th>
+                                    <th width="90">Photo</th>
 
-                                    <th>
-                                        Student
-                                    </th>
+                                    <th>Student</th>
 
-                                    <th>
-                                        Admission
-                                    </th>
+                                    <th>Admission No</th>
 
-                                    <th>
-                                        Roll
-                                    </th>
+                                    <th>Father Name</th>
 
-                                    <th>
-                                        Class
-                                    </th>
+                                    <th>Mobile</th>
 
-                                    <th>
-                                        Mobile
-                                    </th>
+                                    <th>Status</th>
 
-                                    <th>
-                                        Status
-                                    </th>
-
-                                    <th class="text-center" width="270">
-                                        Action
-                                    </th>
+                                    <th class="text-center" width="270">Action</th>
 
                                 </tr>
 
@@ -434,12 +390,10 @@
 
                                 <tr th:if="${#lists.isEmpty(students)}">
 
-                                    <td colspan="9" class="text-center py-5">
+                                    <td colspan="8" class="text-center py-5">
 
                                         <i class="bi bi-database-x fs-1 text-muted"></i>
-
                                         <br>
-
                                         No Student Found
 
                                     </td>
@@ -463,33 +417,28 @@
 
                                     <td>
 
-                                        <div class="fw-semibold" th:text="${student.fullName}">
+                                        <div class="fw-semibold" th:text="${student.studentName}">
                                         </div>
 
-                                        <small class="text-muted" th:text="${student.gender}">
+                                        <small class="" th:text="${student.gender}">
                                         </small>
 
                                     </td>
 
                                     <td th:text="${student.admissionNo}"></td>
 
-                                    <td th:text="${student.rollNumber}"></td>
+                                    <td th:text="${student.fatherName}"></td>
 
-                                    <td th:text="${student.classRoom.className}"></td>
-
-                                    <td th:text="${student.mobile}"></td>
+                                    <td th:text="${student.formattedMobileNumber ?: '-'}"></td>
 
                                     <td>
 
-                                        <span th:if="${student.active}" class="badge bg-success">
-
-                                            Active
-
-                                        </span>
-
-                                        <span th:unless="${student.active}" class="badge bg-danger">
-
-                                            Inactive
+                                        <span class="badge" th:classappend="
+            ${student.status == T(com.naim.school.student.StudentStatus).ACTIVE} ? 'bg-success' :
+            (${student.status == T(com.naim.school.student.StudentStatus).INACTIVE} ? 'bg-secondary' :
+            (${student.status == T(com.naim.school.student.StudentStatus).PASSED_OUT} ? 'bg-primary' :
+            (${student.status == T(com.naim.school.student.StudentStatus).TRANSFERRED} ? 'bg-warning text-dark' :
+            'bg-danger')))" th:text="${student.status}">
 
                                         </span>
 
@@ -507,15 +456,13 @@
 
                                             </a>
 
-
                                             <!-- Edit -->
-                                            <a th:href="@{/students/add(id=${student.id})}"
+                                            <a th:href="@{/students/edit/{id}(id=${student.id})}"
                                                 class="btn btn-sm btn-outline-warning">
 
                                                 <i class="bi bi-pencil-square"></i>
 
                                             </a>
-
 
                                             <!-- Print -->
                                             <a th:href="@{/students/print/{id}(id=${student.id})}" target="_blank"
@@ -525,13 +472,20 @@
 
                                             </a>
 
+                                            <!-- id-card  -->
+                                             <a th:href="@{/students/id-card/{id}(id=${student.id})}" target="_blank"
+                                                class="btn btn-sm btn-outline-primary">
 
-                                            <!-- Delete -->
-                                            <a th:href="@{/students/delete/{id}(id=${student.id})}"
-                                                class="btn btn-sm btn-outline-danger"
-                                                onclick="return confirm('Delete this student?')">
+                                                <i class="bi bi-credit-card"></i>
 
-                                                <i class="bi bi-trash"></i>
+                                            </a>
+
+                                            <!-- History -->
+                                            <a th:href="@{/student-sessions/history/{id}(id=${student.id})}"
+                                                class="btn btn-sm btn-outline-dark"
+                                                title="Class / Session History">
+
+                                                <i class="bi bi-clock-history"></i>
 
                                             </a>
 
@@ -585,6 +539,25 @@
         }, 3000);
 
     </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const input = document.querySelector('input[name="keyword"]');
+    const clear = document.getElementById("studentSearchClear");
+    if (!input || !clear) return;
+
+    const sync = () => {
+        clear.classList.toggle("d-none", !input.value.trim());
+    };
+
+    input.addEventListener("input", sync);
+    clear.addEventListener("click", function () {
+        input.value = "";
+        input.form.submit();
+    });
+    sync();
+});
+</script>
 
 </body>
 

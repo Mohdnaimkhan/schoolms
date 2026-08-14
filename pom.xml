@@ -59,14 +59,8 @@
 			<artifactId>spring-boot-starter-webmvc</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.xerial</groupId>
-			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.50.3.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.hibernate.orm</groupId>
-			<artifactId>hibernate-community-dialects</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
 		<dependency>

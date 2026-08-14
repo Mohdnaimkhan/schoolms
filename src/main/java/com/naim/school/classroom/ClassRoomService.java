@@ -3,7 +3,7 @@ package com.naim.school.classroom;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
@@ -13,85 +13,79 @@ public class ClassRoomService {
 
     private final ClassRoomRepository repository;
 
-    /**
-     * Get All Classes
+    /*
+     * ==========================================
+     * GET ALL
+     * ==========================================
      */
-    public List<ClassRoom> getAllClasses() {
+
+    public List<ClassRoom> getAllClassRooms() {
 
         return repository.findAll();
 
     }
 
-    /**
-     * Get Active Classes
+    /*
+     * ==========================================
+     * GET BY ID
+     * ==========================================
      */
-    public List<ClassRoom> getActiveClasses() {
 
-        return repository.findByActiveTrue();
-
-    }
-
-    /**
-     * Get Class By Id
-     */
     public ClassRoom getById(Long id) {
 
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Class not found."));
+                .orElseThrow(() -> new RuntimeException("Class Room not found."));
 
     }
 
-    /**
-     * Save Or Update
+    /*
+     * ==========================================
+     * SAVE (ADD + EDIT)
+     * ==========================================
      */
+
+    @Transactional
     public void save(ClassRoom classRoom) {
 
-        // New Record
         if (classRoom.getId() == null) {
 
-            if (repository.existsByClassNameAndSection(
-                    classRoom.getClassName(),
-                    classRoom.getSection())) {
+            if (repository.existsByClassName(classRoom.getClassName())) {
 
                 throw new RuntimeException("Class already exists.");
 
             }
 
-            // Generate Class Code Automatically
-            if (classRoom.getClassCode() == null
-                    || classRoom.getClassCode().isBlank()) {
+        } else {
 
-                classRoom.setClassCode(
+            if (repository.existsByClassNameAndIdNot(
+                    classRoom.getClassName(),
+                    classRoom.getId())) {
 
-                        classRoom.getClassName().trim().toUpperCase()
-
-                                + "-"
-
-                                + classRoom.getSection().trim().toUpperCase()
-
-                );
+                throw new RuntimeException("Class already exists.");
 
             }
 
         }
 
-        // Save / Update
         repository.save(classRoom);
 
     }
 
-    /**
-     * Delete
+    /*
+     * ==========================================
+     * CHANGE STATUS
+     * ==========================================
      */
-    public void delete(Long id) {
 
-        repository.deleteById(id);
+    @Transactional
+    public void changeStatus(Long id) {
+
+        ClassRoom classRoom = getById(id);
+
+        classRoom.setActive(!classRoom.getActive());
+
+        repository.save(classRoom);
 
     }
 
-    public long  count() {
-        return repository.count();
-    }
-
-  
 }

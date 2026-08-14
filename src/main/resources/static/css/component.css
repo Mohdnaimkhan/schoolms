@@ -1260,3 +1260,18 @@ html.dark .modal-content{
     background:var(--bg-card);
 
 }
+
+/* MODULE SUMMARY CARDS */
+.module-stat-grid{margin-bottom:1.5rem;}
+.module-stat-card{height:126px;min-height:126px;width:100%;display:flex;align-items:center;gap:15px;padding:18px 20px;background:var(--bg-card);color:var(--text);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow-sm);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;}
+.module-stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);}
+.module-stat-icon{width:50px;height:50px;min-width:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:21px;}
+.module-stat-body{min-width:0;display:flex;flex-direction:column;gap:2px;}
+.module-stat-label{font-size:.84rem;font-weight:600;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.module-stat-value{font-size:1.55rem;line-height:1.1;font-weight:700;color:var(--text);}
+.module-stat-meta{font-size:.74rem;color:var(--text-muted);}
+@media (max-width:767.98px){.module-stat-card{height:112px;min-height:112px;padding:15px}.module-stat-icon{width:44px;height:44px;min-width:44px;font-size:18px}.module-stat-value{font-size:1.35rem}}
+
+.sms-summary-card{height:126px;min-height:126px;background:var(--bg-card);color:var(--text);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow-sm);overflow:hidden;}
+.sms-summary-card .card-body{height:100%;display:flex;align-items:center;}
+@media (max-width:767.98px){.sms-summary-card{height:112px;min-height:112px;}}

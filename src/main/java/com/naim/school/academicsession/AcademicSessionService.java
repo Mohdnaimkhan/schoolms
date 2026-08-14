@@ -1,10 +1,10 @@
 package com.naim.school.academicsession;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,54 +14,149 @@ public class AcademicSessionService {
 
     private final AcademicSessionRepository repository;
 
+    /*
+     * ==========================================
+     * GET ALL
+     * ==========================================
+     */
     public List<AcademicSession> getAllSessions() {
-
         return repository.findAll();
-
     }
 
+    /*
+     * ==========================================
+     * GET BY ID
+     * ==========================================
+     */
     public AcademicSession getById(Long id) {
-
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Session not found."));
-
+                .orElseThrow(() -> new RuntimeException("Academic Session not found."));
     }
 
-    public void save(AcademicSession session) {
+    /*
+     * ==========================================
+     * SAVE (ADD + EDIT)
+     * ==========================================
+     */
+    @Transactional
+    public void save(AcademicSession academicSession) {
 
-        // Only one active session
+        // Duplicate Session Name Validation
+        if (academicSession.getId() == null) {
 
-        if (Boolean.TRUE.equals(session.getActive())) {
+            if (repository.existsBySessionName(academicSession.getSessionName())) {
+                throw new RuntimeException("Session already exists.");
+            }
 
-            repository.findByActiveTrue().ifPresent(oldSession -> {
+        } else {
 
-                if (!oldSession.getId().equals(session.getId())) {
+            if (repository.existsBySessionNameAndIdNot(
+                    academicSession.getSessionName(),
+                    academicSession.getId())) {
 
-                    oldSession.setActive(false);
-
-                    repository.save(oldSession);
-
-                }
-
-            });
+                throw new RuntimeException("Session already exists.");
+            }
 
         }
+
+        /*
+         * First Session -> Automatically Current
+         */
+        if (academicSession.getId() == null
+                && repository.findFirstByCurrentSessionTrue().isEmpty()) {
+
+            academicSession.setCurrentSession(true);
+
+        }
+
+        repository.save(academicSession);
+
+    }
+
+    /*
+     * ==========================================
+     * SET CURRENT SESSION
+     * ==========================================
+     */
+    @Transactional
+    public void setCurrentSession(Long id) {
+
+        AcademicSession session = getById(id);
+
+        // Closed Session cannot become Current
+        if (session.getEndDate() != null) {
+            throw new RuntimeException("Closed Session cannot be Current.");
+        }
+
+        repository.findFirstByCurrentSessionTrue().ifPresent(oldSession -> {
+
+            oldSession.setCurrentSession(false);
+
+            repository.save(oldSession);
+
+        });
+
+        session.setCurrentSession(true);
 
         repository.save(session);
 
     }
 
-    public void delete(Long id) {
+    /*
+     * ==========================================
+     * GET CURRENT SESSION
+     * ==========================================
+     */
+    public AcademicSession getCurrentSession() {
 
-        repository.deleteById(id);
+        return repository.findFirstByCurrentSessionTrue()
+                .orElseThrow(() -> new RuntimeException("No Current Session Found."));
 
     }
 
-    public Optional<AcademicSession> findCurrentSession() {
-   
-        return repository.findByActiveTrue();
+    /*
+     * ==========================================
+     * GET CURRENT SESSION (NULL-SAFE)
+     * Used by places like the dashboard that must not
+     * fail just because no session has been created yet
+     * (e.g. right after a fresh install).
+     * ==========================================
+     */
+    public AcademicSession getCurrentSessionOrNull() {
+
+        return repository.findFirstByCurrentSessionTrue()
+                .orElse(null);
+
     }
 
+    /*
+     * ==========================================
+     * CLOSE SESSION
+     * ==========================================
+     */
+    @Transactional
+    public void closeSession(Long id, LocalDate endDate) {
 
+        AcademicSession academicSession = getById(id);
+
+        if (academicSession.getEndDate() != null) {
+            throw new RuntimeException("Session already closed.");
+        }
+
+        if (endDate == null) {
+            throw new RuntimeException("End Date is required.");
+        }
+
+        if (endDate.isBefore(academicSession.getStartDate())) {
+            throw new RuntimeException("End Date cannot be before Start Date.");
+        }
+
+        academicSession.setEndDate(endDate);
+
+        academicSession.setCurrentSession(false);
+
+        repository.save(academicSession);
+
+    }
 
 }

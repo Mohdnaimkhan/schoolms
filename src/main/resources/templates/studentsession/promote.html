@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <div class="sms-page-header mb-4">
+
+            <div>
+
+                <h2 class="sms-page-title">
+
+                    <i class="bi bi-arrow-up-right-circle me-2"></i>
+
+                    Promote Students
+
+                </h2>
+
+                <p class="text-secondary mb-0">
+
+                    Move a batch of students from one class/session to the next
+
+                </p>
+
+            </div>
+
+            <a th:href="@{/student-sessions}" class="btn btn-outline-secondary">
+
+                <i class="bi bi-arrow-left me-2"></i>
+
+                Back
+
+            </a>
+
+        </div>
+
+        <div class="sms-card">
+
+            <div class="p-3">
+
+                <form th:action="@{/student-sessions/promote/review}" method="get">
+
+                    <div class="row g-4">
+
+                        <!-- From -->
+
+                        <div class="col-md-6">
+
+                            <div class="border rounded p-3 h-100">
+
+                                <h6 class="fw-bold text-secondary mb-3">
+
+                                    <i class="bi bi-box-arrow-up me-1"></i>
+
+                                    From
+
+                                </h6>
+
+                                <div class="mb-3">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Academic Session
+                                        <span class="text-danger">*</span>
+
+                                    </label>
+
+                                    <select name="fromSessionId" class="form-select" required>
+
+                                        <option value="">-- Select Session --</option>
+
+                                        <option th:each="as : ${academicSessions}"
+                                                th:value="${as.id}"
+                                                th:text="${as.sessionName}">
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                                <div class="mb-3">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Class
+                                        <span class="text-danger">*</span>
+
+                                    </label>
+
+                                    <select name="fromClassRoomId" class="form-select" required>
+
+                                        <option value="">-- Select Class --</option>
+
+                                        <option th:each="c : ${classRooms}"
+                                                th:value="${c.id}"
+                                                th:text="${c.className}">
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                                <div>
+
+                                    <label class="form-label fw-semibold">
+
+                                        Section (optional)
+
+                                    </label>
+
+                                    <select name="fromSectionId" class="form-select">
+
+                                        <option value="">All Sections</option>
+
+                                        <option th:each="sec : ${sections}"
+                                                th:value="${sec.id}"
+                                                th:text="${sec.sectionName}">
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- To -->
+
+                        <div class="col-md-6">
+
+                            <div class="border rounded p-3 h-100">
+
+                                <h6 class="fw-bold text-secondary mb-3">
+
+                                    <i class="bi bi-box-arrow-in-down me-1"></i>
+
+                                    To
+
+                                </h6>
+
+                                <div class="mb-3">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Academic Session
+                                        <span class="text-danger">*</span>
+
+                                    </label>
+
+                                    <select name="toSessionId" class="form-select" required>
+
+                                        <option value="">-- Select Session --</option>
+
+                                        <option th:each="as : ${academicSessions}"
+                                                th:value="${as.id}"
+                                                th:text="${as.sessionName}">
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                                <div class="mb-3">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Class
+                                        <span class="text-danger">*</span>
+
+                                    </label>
+
+                                    <select name="toClassRoomId" class="form-select" required>
+
+                                        <option value="">-- Select Class --</option>
+
+                                        <option th:each="c : ${classRooms}"
+                                                th:value="${c.id}"
+                                                th:text="${c.className}">
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                                <div>
+
+                                    <label class="form-label fw-semibold">
+
+                                        Section (optional)
+
+                                    </label>
+
+                                    <select name="toSectionId" class="form-select">
+
+                                        <option value="">-- No Section --</option>
+
+                                        <option th:each="sec : ${sections}"
+                                                th:value="${sec.id}"
+                                                th:text="${sec.sectionName}">
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="d-flex justify-content-end">
+
+                        <button type="submit" class="btn btn-primary">
+
+                            <i class="bi bi-arrow-right-circle me-2"></i>
+
+                            Continue
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>

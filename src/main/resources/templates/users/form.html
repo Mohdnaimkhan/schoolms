@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <div class="sms-page-header mb-4">
+
+            <div>
+
+                <h2 class="sms-page-title"
+                    th:text="${user.id == null ? 'Add User' : 'Edit User'}">
+                </h2>
+
+                <p class="text-secondary mb-0">
+
+                    Create or Update a Login Account
+
+                </p>
+
+            </div>
+
+            <a th:href="@{/users}" class="btn btn-outline-secondary">
+
+                <i class="bi bi-arrow-left me-2"></i>
+
+                Back
+
+            </a>
+
+        </div>
+
+        <div class="sms-card">
+
+            <div class="p-3">
+
+                <form th:action="@{/users/save}" th:object="${user}" method="post">
+
+                    <input type="hidden" th:field="*{id}">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">
+
+                                Username
+                                <span class="text-danger">*</span>
+
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   th:field="*{username}"
+                                   required>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">
+
+                                Full Name
+
+                            </label>
+
+                            <input type="text"
+                                   class="form-control name-input"
+                                   th:field="*{fullName}">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">
+
+                                <span th:text="${user.id == null ? 'Password' : 'New Password'}"></span>
+                                <span class="text-danger" th:if="${user.id == null}">*</span>
+
+                            </label>
+
+                            <input type="password"
+                                   name="newPassword"
+                                   class="form-control"
+                                   th:required="${user.id == null}"
+                                   placeholder="Leave blank to keep current password">
+
+                            <small class="text-secondary" th:if="${user.id != null}">
+
+                                Leave blank to keep the current password.
+
+                            </small>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">
+
+                                Role
+                                <span class="text-danger">*</span>
+
+                            </label>
+
+                            <select class="form-select" th:field="*{role}">
+
+                                <option th:each="r : ${roles}"
+                                        th:value="${r}"
+                                        th:text="${r}">
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-6" id="teacher-link-field">
+
+                            <label class="form-label fw-semibold">
+                                Teacher Profile
+                            </label>
+
+                            <select class="form-select" th:field="*{teacherId}">
+                                <option value="">-- Select Teacher --</option>
+                                <option th:each="t : ${teachers}"
+                                        th:value="${t.id}"
+                                        th:text="${t.teacherName + ' (' + (t.employeeCode ?: 'No Code') + ')'}">
+                                </option>
+                            </select>
+
+                            <small class="text-secondary">Required only when Role is TEACHER.</small>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">
+
+                                Status
+
+                            </label>
+
+                            <select class="form-select" th:field="*{active}">
+
+                                <option th:value="true">Active</option>
+                                <option th:value="false">Inactive</option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="d-flex justify-content-end gap-2">
+
+                        <a th:href="@{/users}" class="btn btn-outline-secondary">
+
+                            Cancel
+
+                        </a>
+
+                        <button type="submit" class="btn btn-primary">
+
+                            <i class="bi bi-check-circle me-2"></i>
+
+                            <span th:text="${user.id == null ? 'Save' : 'Update'}"></span>
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+<script>
+(function () {
+    const role = document.querySelector('[name="role"]');
+    const field = document.getElementById('teacher-link-field');
+    const select = field ? field.querySelector('select') : null;
+    function sync() {
+        const show = role && role.value === 'TEACHER';
+        if (field) field.classList.toggle('d-none', !show);
+        if (select) select.required = show;
+    }
+    if (role) { role.addEventListener('change', sync); sync(); }
+})();
+</script>
+
+</body>
+
+</html>

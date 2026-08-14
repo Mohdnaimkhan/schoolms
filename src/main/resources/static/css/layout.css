@@ -1044,7 +1044,180 @@ ul {
 
     }
 
+}
+
+@media print {
+
+    body {
+
+        background: #fff !important;
+
+        color: #000 !important;
+
+        font-size: 13px;
+
+    }
+
+    .d-print-none {
+
+        display: none !important;
+
+    }
+
+    .btn,
+    .navbar,
+    .sidebar,
+    footer {
+
+        display: none !important;
+
+    }
+
+    .card {
+
+        border: none !important;
+
+        box-shadow: none !important;
+
+    }
+
+    .table {
+
+        font-size: 13px;
+
+    }
+
+    img {
+
+        page-break-inside: avoid;
+
+    }
+
+}
 
 
+/* ===========================
+   Dashboard consistency
+=========================== */
+.dashboard-banner {
+    padding: 24px 28px;
+    margin-bottom: 24px;
+}
 
+.dashboard-card {
+    min-height: 132px;
+    height: 132px;
+}
+
+.dashboard-widget {
+    min-height: 116px;
+    height: 116px;
+}
+
+.sms-current-session {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg-card);
+}
+
+@media (max-width: 767.98px) {
+    .dashboard-card {
+        min-height: 120px;
+        height: 120px;
+    }
+
+    .dashboard-widget {
+        min-height: 110px;
+        height: 110px;
+    }
+
+    .sms-current-session {
+        display: none !important;
+    }
+}
+
+/* Dashboard: keep all 8 summary cards consistent without changing their content */
+.dashboard-summary-card {
+    width: 100%;
+    min-width: 0;
+    min-height: 132px;
+    height: 132px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.dashboard-summary-card.dashboard-card,
+.dashboard-summary-card.dashboard-widget {
+    min-height: 132px;
+    height: 132px;
+    box-sizing: border-box;
+}
+
+.dashboard-summary-card-icon,
+.dashboard-summary-card .widget-icon {
+    width: 60px;
+    min-width: 60px;
+    height: 60px;
+    flex: 0 0 60px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 24px;
+}
+
+.dashboard-summary-card-content,
+.dashboard-summary-card .widget-content {
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+}
+
+.dashboard-summary-card-content small,
+.dashboard-summary-card-content span,
+.dashboard-summary-card .widget-content small,
+.dashboard-summary-card .widget-content span {
+    display: block;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dashboard-summary-card-content h2,
+.dashboard-summary-card .widget-content h3 {
+    margin: 4px 0;
+    line-height: 1.15;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Existing manual line breaks should not change card height */
+.dashboard-summary-card-content br,
+.dashboard-summary-card .widget-content br {
+    display: none;
+}
+
+.dashboard-summary-card-arrow {
+    flex: 0 0 auto;
+}
+
+@media (max-width: 767.98px) {
+    .dashboard-summary-card,
+    .dashboard-summary-card.dashboard-card,
+    .dashboard-summary-card.dashboard-widget {
+        min-height: 120px;
+        height: 120px;
+    }
+
+    .dashboard-summary-card-icon,
+    .dashboard-summary-card .widget-icon {
+        width: 52px;
+        min-width: 52px;
+        height: 52px;
+        flex-basis: 52px;
+        font-size: 21px;
+    }
 }

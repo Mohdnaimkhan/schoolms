@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <div class="sms-page-header mb-4">
+
+            <div class="d-flex align-items-center gap-3">
+
+                <img th:if="${student.photo != null}"
+                     th:src="@{'/uploads/students/' + ${student.photo}}"
+                     class="rounded-circle"
+                     style="width:56px;height:56px;object-fit:cover;">
+
+                <img th:if="${student.photo == null}"
+                     th:src="@{/images/no-image.png}"
+                     class="rounded-circle"
+                     style="width:56px;height:56px;object-fit:cover;">
+
+                <div>
+
+                    <h2 class="sms-page-title mb-0"
+                        th:text="${student.studentName}">
+                    </h2>
+
+                    <p class="text-secondary mb-0">
+
+                        Admission No: <span th:text="${student.admissionNo}"></span>
+                        - Class / Session History
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="d-flex gap-2">
+
+                <a th:href="@{'/students/view/' + ${student.id}}" class="btn btn-outline-secondary">
+
+                    <i class="bi bi-person me-2"></i>
+
+                    Student Profile
+
+                </a>
+
+                <a th:href="@{/student-sessions}" class="btn btn-outline-secondary">
+
+                    <i class="bi bi-arrow-left me-2"></i>
+
+                    Back
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="sms-card">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead>
+
+                    <tr>
+
+                        <th>#</th>
+                        <th>Academic Session</th>
+                        <th>Class</th>
+                        <th>Section</th>
+                        <th>Roll No</th>
+                        <th>Admission Date</th>
+                        <th>Status</th>
+                        <th>Placement</th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    <tr th:each="h, stat : ${history}">
+
+                        <td th:text="${stat.count}"></td>
+
+                        <td th:text="${h.academicSession != null ? h.academicSession.sessionName : '--'}"></td>
+
+                        <td th:text="${h.classRoom != null ? h.classRoom.className : '--'}"></td>
+
+                        <td th:text="${h.section != null ? h.section.sectionName : '--'}"></td>
+
+                        <td th:text="${h.rollNumber ?: '--'}"></td>
+
+                        <td th:text="${h.admissionDate != null ? #temporals.format(h.admissionDate, 'dd-MM-yyyy') : '--'}"></td>
+
+                        <td>
+
+                            <span class="badge"
+                                  th:classappend="${h.status != null && h.status.name() == 'ACTIVE'} ? ' bg-success' :
+                                  (${h.status != null && h.status.name() == 'TRANSFERRED'} ? ' bg-warning text-dark' :
+                                  (${h.status != null && h.status.name() == 'PASSED_OUT'} ? ' bg-primary' :
+                                  (${h.status != null && h.status.name() == 'DROPPED'} ? ' bg-danger' : ' bg-secondary')))"
+                                  th:text="${h.status}">
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-primary" th:if="${h.currentSession}">Current</span>
+
+                            <span class="badge bg-secondary" th:unless="${h.currentSession}">Past</span>
+
+                        </td>
+
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(history)}">
+
+                        <td colspan="8" class="text-center py-5">
+
+                            <i class="bi bi-inbox display-5"></i>
+
+                            <br><br>
+
+                            No Session History Found for this Student
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>

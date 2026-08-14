@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
 
@@ -19,14 +18,11 @@
             <div>
 
                 <h2 class="sms-page-title"
-                    th:text="${session.id==null?'Add Session':'Edit Session'}">
-
+                    th:text="${academicSession.id == null ? 'Add Academic Session' : 'Edit Academic Session'}">
                 </h2>
 
                 <p class="text-secondary mb-0">
-
-                    Academic Session Information
-
+                    Manage Academic Session Information
                 </p>
 
             </div>
@@ -44,103 +40,105 @@
 
         <div class="sms-card">
 
-            <form th:action="@{/academic-sessions/save}"
-                  th:object="${academicSession}"
-                  method="post">
+            <div class="p-3">
 
-                <input type="hidden"
-                       th:field="*{id}">
+                <form th:action="@{/academic-sessions/save}"
+                      th:object="${academicSession}"
+                      method="post">
 
-                <div class="row g-4">
+                    <input type="hidden" th:field="*{id}"/>
 
-                    <div class="col-md-6">
+                    <div class="row g-4">
 
-                        <label class="form-label">
+                        <!-- Session Name -->
 
-                            Session Name
-                            <span class="text-danger">*</span>
+                        <div class="col-md-6">
 
-                        </label>
+                            <label class="form-label fw-semibold">
 
-                        <input type="text"
-                               class="form-control"
-                               th:field="*{sessionName}"
-                               placeholder="2025-26">
+                                Session Name
 
-                        <small class="text-danger"
-                               th:errors="*{sessionName}">
-                        </small>
+                                <span class="text-danger">*</span>
+
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   th:field="*{sessionName}"
+                                   placeholder="2026-27"
+                                   required
+                                   th:readonly="${academicSession.id != null}">
+
+                            <small class="text-danger"
+                                   th:errors="*{sessionName}">
+                            </small>
+
+                        </div>
+
+                        <!-- Start Date -->
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">
+
+                                Start Date
+
+                                <span class="text-danger">*</span>
+
+                            </label>
+
+                            <input type="date"
+                                   class="form-control"
+                                   th:field="*{startDate}"
+                                   th:readonly="${academicSession.id != null}">
+
+                        </div>
+
+                        <!-- Description -->
+
+                        <div class="col-12">
+
+                            <label class="form-label fw-semibold">
+
+                                Description
+
+                            </label>
+
+                            <textarea class="form-control"
+                                      rows="4"
+                                      th:field="*{description}"
+                                      placeholder="Write description...">
+                            </textarea>
+
+                        </div>
 
                     </div>
 
-                    <div class="col-md-6">
+                    <hr class="my-4">
 
-                        <label class="form-label">
+                    <div class="d-flex justify-content-end gap-2">
 
-                            Status
+                        <a th:href="@{/academic-sessions}"
+                           class="btn btn-outline-secondary">
 
-                        </label>
+                            Cancel
 
-                        <select class="form-select"
-                                th:field="*{active}">
+                        </a>
 
-                            <option th:value="true">
+                        <button type="submit"
+                                class="btn btn-primary">
 
-                                Active
+                            <i class="bi bi-check-circle me-2"></i>
 
-                            </option>
+                            <span th:text="${academicSession.id == null ? 'Save Session' : 'Update Session'}"></span>
 
-                            <option th:value="false">
-
-                                Inactive
-
-                            </option>
-
-                        </select>
+                        </button>
 
                     </div>
 
-                    <div class="col-12">
+                </form>
 
-                        <label class="form-label">
-
-                            Description
-
-                        </label>
-
-                        <textarea class="form-control"
-                                  rows="4"
-                                  th:field="*{description}"
-                                  placeholder="Optional description">
-                        </textarea>
-
-                    </div>
-
-                </div>
-
-                <hr class="my-4">
-
-                <div class="d-flex justify-content-end gap-2">
-
-                    <a th:href="@{/academic-sessions}"
-                       class="btn btn-outline-secondary">
-
-                        Cancel
-
-                    </a>
-
-                    <button class="btn btn-primary"
-                            type="submit">
-
-                        <i class="bi bi-check-circle me-2"></i>
-
-                        <span th:text="${session.id==null?'Save Session':'Update Session'}"></span>
-
-                    </button>
-
-                </div>
-
-            </form>
+            </div>
 
         </div>
 

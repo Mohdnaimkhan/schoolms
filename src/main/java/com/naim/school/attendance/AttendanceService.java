@@ -3,6 +3,11 @@ package com.naim.school.attendance;
 import com.naim.school.academicsession.AcademicSession;
 import com.naim.school.classroom.ClassRoom;
 import com.naim.school.student.Student;
+import com.naim.school.studentsession.StudentSession;
+import com.naim.school.studentsession.StudentSessionRepo;
+import com.naim.school.security.CurrentUserService;
+import com.naim.school.security.Role;
+import com.naim.school.teachersession.TeacherSessionRepo;
 
 
 import org.springframework.stereotype.Service;
@@ -15,9 +20,16 @@ import java.util.Optional;
 public class AttendanceService {
 
     private final AttendanceRepository attendanceRepository;
+    private final StudentSessionRepo studentSessionRepo;
+    private final CurrentUserService currentUserService;
+    private final TeacherSessionRepo teacherSessionRepo;
 
-    public AttendanceService(AttendanceRepository attendanceRepository) {
+    public AttendanceService(AttendanceRepository attendanceRepository, StudentSessionRepo studentSessionRepo,
+                             CurrentUserService currentUserService, TeacherSessionRepo teacherSessionRepo) {
         this.attendanceRepository = attendanceRepository;
+        this.studentSessionRepo = studentSessionRepo;
+        this.currentUserService = currentUserService;
+        this.teacherSessionRepo = teacherSessionRepo;
     }
 
     public List<Attendance> findAll() {
@@ -29,6 +41,24 @@ public class AttendanceService {
     }
 
     public Attendance save(Attendance attendance) {
+        if (attendance.getStudent() == null || attendance.getAcademicSession() == null || attendance.getClassroom() == null) {
+            throw new RuntimeException("Student, classroom and academic session are required.");
+        }
+        StudentSession placement = studentSessionRepo
+                .findByStudentAndAcademicSession(attendance.getStudent(), attendance.getAcademicSession())
+                .orElseThrow(() -> new RuntimeException("Student is not enrolled in the selected academic session."));
+        if (!placement.getClassRoom().getId().equals(attendance.getClassroom().getId())) {
+            throw new RuntimeException("Selected classroom does not match the student's academic-session placement.");
+        }
+        if (currentUserService.hasRole(Role.TEACHER)) {
+            var user = currentUserService.getCurrentUser();
+            if (user.getTeacher() == null) throw new RuntimeException("Teacher account is not linked to a teacher profile.");
+            boolean allowed = teacherSessionRepo.findByTeacherOrderByAcademicSession_IdDesc(user.getTeacher())
+                    .stream()
+                    .anyMatch(ts -> ts.getAcademicSession().getId().equals(attendance.getAcademicSession().getId())
+                            && ts.getClassRoom().getId().equals(attendance.getClassroom().getId()));
+            if (!allowed) throw new RuntimeException("You are not assigned to this class for the selected academic session.");
+        }
         return attendanceRepository.save(attendance);
     }
 

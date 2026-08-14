@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <div class="sms-page-header mb-4">
+
+            <div>
+
+                <h2 class="sms-page-title">
+
+                    <i class="bi bi-file-earmark-text me-2"></i>
+
+                    Examination Report
+
+                </h2>
+
+            </div>
+
+            <a th:href="@{/reports}" class="btn btn-outline-secondary">
+
+                <i class="bi bi-arrow-left me-2"></i>
+
+                Back
+
+            </a>
+
+        </div>
+
+        <div class="sms-card mb-3">
+
+            <div class="p-3">
+
+                <form th:action="@{/reports/exams}" method="get" class="row g-2 align-items-end">
+
+                    <div class="col-auto">
+
+                        <label class="form-label fw-semibold mb-0">Exam</label>
+
+                        <select name="examId" class="form-select" style="min-width: 260px;">
+
+                            <option value="">-- Select Exam --</option>
+
+                            <option th:each="e : ${exams}"
+                                    th:value="${e.id}"
+                                    th:selected="${selectedExamId != null && selectedExamId == e.id}"
+                                    th:text="${e.examName
+                                        + (e.classRoom != null ? ' - ' + e.classRoom.className : '')
+                                        + (e.academicSession != null ? ' (' + e.academicSession.sessionName + ')' : '')}">
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-auto">
+
+                        <button type="submit" class="btn btn-primary">
+
+                            <i class="bi bi-search me-2"></i>
+
+                            Generate
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <div class="sms-card" th:if="${summaries != null}">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead>
+
+                    <tr>
+
+                        <th>Subject</th>
+                        <th>Max Marks</th>
+                        <th>Students Appeared</th>
+                        <th>Average Marks</th>
+                        <th>Passed</th>
+                        <th>Failed</th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    <tr th:each="s : ${summaries}">
+
+                        <td th:text="${s.subjectName}"></td>
+
+                        <td th:text="${s.maxMarks}"></td>
+
+                        <td th:text="${s.studentsAppeared}"></td>
+
+                        <td th:text="${s.averageMarks}"></td>
+
+                        <td class="text-success fw-semibold" th:text="${s.passCount}"></td>
+
+                        <td class="text-danger fw-semibold" th:text="${s.failCount}"></td>
+
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(summaries)}">
+
+                        <td colspan="6" class="text-center py-5">
+
+                            No Subjects / Marks Found for this Exam
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>

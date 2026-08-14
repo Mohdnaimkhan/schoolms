@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('Transfer Certificates')}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <div class="sms-page-header mb-4">
+
+            <div>
+
+                <h2 class="sms-page-title">
+
+                    <i class="bi bi-file-earmark-arrow-up me-2"></i>
+
+                    Transfer Certificates
+
+                </h2>
+
+                <p class="text-secondary mb-0" th:text="${student.studentName}"></p>
+
+            </div>
+
+            <div class="d-flex gap-2">
+
+                <a th:href="@{'/students/certificate/tc/' + ${student.id} + '/new'}" class="btn btn-primary">
+
+                    <i class="bi bi-plus-circle me-2"></i>
+
+                    Issue New TC
+
+                </a>
+
+                <a th:href="@{'/students/view/' + ${student.id}}" class="btn btn-outline-secondary">
+
+                    <i class="bi bi-arrow-left me-2"></i>
+
+                    Back
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="sms-card">
+
+            <div class="table-responsive">
+
+                                <!-- Module Search -->
+                <div class="module-search-toolbar sms-card mb-3" data-module-search>
+                    <div class="row g-2 align-items-center">
+                        <div class="col-lg-6 col-md-8">
+                            <div class="input-group">
+                                <span class="input-group-text bg-body"><i class="bi bi-search"></i></span>
+                                <input type="search" class="form-control module-search-input"
+                                       placeholder="Search certificates..."
+                                       autocomplete="off" spellcheck="false">
+                                <button type="button" class="btn btn-outline-secondary module-search-clear d-none" title="Clear search">
+                                    <i class="bi bi-x-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-4 text-md-end">
+                            <small class="text-muted module-search-count"></small>
+                        </div>
+                    </div>
+                </div>
+
+<table class="table table-hover align-middle mb-0" data-module-search-table>
+
+                    <thead>
+
+                    <tr>
+
+                        <th>TC Number</th>
+                        <th>Issue Date</th>
+                        <th>Date of Leaving</th>
+                        <th>Reason</th>
+                        <th width="120" class="text-center">Action</th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    <tr th:each="tc : ${tcList}">
+
+                        <td th:text="${tc.tcNumber}"></td>
+
+                        <td th:text="${tc.issueDate != null ? #temporals.format(tc.issueDate,'dd MMM yyyy') : '--'}"></td>
+
+                        <td th:text="${tc.dateOfLeaving != null ? #temporals.format(tc.dateOfLeaving,'dd MMM yyyy') : '--'}"></td>
+
+                        <td th:text="${tc.reasonForLeaving ?: '--'}"></td>
+
+                        <td class="text-center">
+
+                            <a th:href="@{'/students/certificate/tc/print/' + ${tc.id}}"
+                               class="btn btn-outline-primary btn-sm"
+                               title="Print">
+
+                                <i class="bi bi-printer"></i>
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(tcList)}">
+
+                        <td colspan="5" class="text-center py-5">
+
+                            <i class="bi bi-inbox display-5"></i>
+
+                            <br><br>
+
+                            No Transfer Certificate Issued Yet
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>

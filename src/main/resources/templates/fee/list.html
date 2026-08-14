@@ -30,13 +30,89 @@
 
         </div>
 
+        <div class="row g-4 module-stat-grid">
+<div class="col-xl-3 col-md-6"><div class="module-stat-card"><div class="module-stat-icon bg-primary"><i class="bi bi-receipt"></i></div><div class="module-stat-body"><span class="module-stat-label">Total Records</span><strong class="module-stat-value" th:text="${feeTotal}">0</strong><small class="module-stat-meta">Fee records</small></div></div></div>
+<div class="col-xl-3 col-md-6"><div class="module-stat-card"><div class="module-stat-icon bg-success"><i class="bi bi-check-circle-fill"></i></div><div class="module-stat-body"><span class="module-stat-label">Paid</span><strong class="module-stat-value" th:text="${feePaid}">0</strong><small class="module-stat-meta">Paid records</small></div></div></div>
+<div class="col-xl-3 col-md-6"><div class="module-stat-card"><div class="module-stat-icon bg-warning"><i class="bi bi-hourglass-split"></i></div><div class="module-stat-body"><span class="module-stat-label">Partial</span><strong class="module-stat-value" th:text="${feePartial}">0</strong><small class="module-stat-meta">Partially paid</small></div></div></div>
+<div class="col-xl-3 col-md-6"><div class="module-stat-card"><div class="module-stat-icon bg-danger"><i class="bi bi-exclamation-circle-fill"></i></div><div class="module-stat-body"><span class="module-stat-label">Pending</span><strong class="module-stat-value" th:text="${feePending}">0</strong><small class="module-stat-meta">Pending records</small></div></div></div>
+</div>
+<!-- Session Filter -->
+
+        <div class="card mb-3">
+
+            <div class="card-body py-3">
+
+                <form th:action="@{/fees}" method="get" class="row g-2 align-items-center">
+
+                    <label class="col-auto form-label fw-semibold mb-0">
+
+                        <i class="bi bi-calendar-event me-1"></i>
+
+                        Academic Session
+
+                    </label>
+
+                    <div class="col-auto">
+
+                        <select name="sessionId" class="form-select" onchange="this.form.submit()">
+
+                            <option value="">All Sessions</option>
+
+                            <option th:each="as : ${academicSessions}"
+                                    th:value="${as.id}"
+                                    th:selected="${selectedSessionId != null && selectedSessionId == as.id}"
+                                    th:text="${as.sessionName}">
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-auto" th:if="${selectedSessionId != null}">
+
+                        <a th:href="@{/fees}" class="btn btn-outline-secondary btn-sm">
+
+                            <i class="bi bi-x-circle me-1"></i>
+
+                            Clear Filter
+
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
         <div class="card">
 
             <div class="card-body">
 
                 <div class="table-responsive">
 
-                    <table class="table table-hover align-middle">
+                    
+                <!-- Module Search -->
+                <div class="card shadow-sm mb-4 module-search-toolbar" data-module-search>
+    <div class="card-header"><i class="bi bi-funnel-fill me-2"></i>Search &amp; Filters</div>
+    <div class="card-body">
+      <div class="row g-3 align-items-end">
+        <div class="col-lg-7 col-md-8">
+          <label class="form-label fw-semibold">Search fees</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-search"></i></span>
+            <input type="search" class="form-control module-search-input" placeholder="Type to search..." autocomplete="off" spellcheck="false">
+            <button type="button" class="btn btn-outline-secondary module-search-clear" title="Clear search"><i class="bi bi-x-lg"></i></button>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4"><div class="small text-secondary module-search-count"></div></div>
+        <div class="col-lg-2"><button type="button" class="btn btn-primary w-100 module-search-focus"><i class="bi bi-search me-1"></i>Search</button></div>
+      </div>
+    </div>
+  </div>
+
+  <table class="table table-hover align-middle" data-module-search-table>
 
                         <thead>
 
@@ -44,7 +120,8 @@
 
                             <th>Receipt</th>
                             <th>Student</th>
-                            <th>Fee Type</th>
+                            <th>Class</th>
+                            <th>Fee Head</th>
                             <th>Total</th>
                             <th>Paid</th>
                             <th>Status</th>
@@ -61,9 +138,11 @@
 
                             <td th:text="${fee.receiptNo}"></td>
 
-                            <td th:text="${fee.student.fullName}"></td>
+                            <td th:text="${fee.studentSession != null && fee.studentSession.student != null ? fee.studentSession.student.studentName : '--'}"></td>
 
-                            <td th:text="${fee.feeType}"></td>
+                            <td th:text="${fee.studentSession != null && fee.studentSession.classRoom != null ? fee.studentSession.classRoom.className : '--'}"></td>
+
+                            <td th:text="${fee.feeHead != null ? fee.feeHead.name : '--'}"></td>
 
                             <td th:text="${fee.amount}"></td>
 
@@ -82,12 +161,14 @@
 
                                 </a>
 
-                                <a class="btn btn-sm btn-danger"
-                                   th:href="@{/fees/delete/{id}(id=${fee.id})}">
+                                <form th:action="@{/fees/delete/{id}(id=${fee.id})}" method="post" class="d-inline">
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                    <button type="submit" class="btn btn-danger btn-sm" title="Delete">
 
-                                    <i class="bi bi-trash"></i>
+                                        <i class="bi bi-trash"></i>
 
-                                </a>
+                                    </button>
+                                </form>
 
                             </td>
 

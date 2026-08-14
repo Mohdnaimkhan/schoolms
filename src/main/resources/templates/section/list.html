@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <!-- Page Header -->
+
+        <div class="sms-page-header mb-4">
+
+            <div>
+
+                <h2 class="sms-page-title">
+
+                    <i class="bi bi-diagram-3 me-2"></i>
+
+                    Sections
+
+                </h2>
+
+                <p class="text-secondary mb-0">
+
+                    Manage School Sections
+
+                </p>
+
+            </div>
+
+            <a th:href="@{/sections/add}"
+               class="btn btn-primary">
+
+                <i class="bi bi-plus-circle me-2"></i>
+
+                Add Section
+
+            </a>
+
+        </div>
+
+        <div class="row g-4 module-stat-grid">
+<div class="col-xl-3 col-md-6"><div class="module-stat-card"><div class="module-stat-icon bg-primary"><i class="bi bi-diagram-3"></i></div><div class="module-stat-body"><span class="module-stat-label">Total Sections</span><strong class="module-stat-value" th:text="${sectionTotal}">0</strong><small class="module-stat-meta">All sections</small></div></div></div>
+<div class="col-xl-3 col-md-6"><div class="module-stat-card"><div class="module-stat-icon bg-success"><i class="bi bi-check-circle-fill"></i></div><div class="module-stat-body"><span class="module-stat-label">Active Sections</span><strong class="module-stat-value" th:text="${sectionActive}">0</strong><small class="module-stat-meta">Currently active</small></div></div></div>
+<div class="col-xl-3 col-md-6"><div class="module-stat-card"><div class="module-stat-icon bg-warning"><i class="bi bi-pause-circle-fill"></i></div><div class="module-stat-body"><span class="module-stat-label">Inactive Sections</span><strong class="module-stat-value" th:text="${sectionInactive}">0</strong><small class="module-stat-meta">Not active</small></div></div></div>
+<div class="col-xl-3 col-md-6"><div class="module-stat-card"><div class="module-stat-icon bg-info"><i class="bi bi-card-text"></i></div><div class="module-stat-body"><span class="module-stat-label">Described</span><strong class="module-stat-value" th:text="${sectionDescribed}">0</strong><small class="module-stat-meta">With description</small></div></div></div>
+</div>
+<!-- Card -->
+
+        <div class="sms-card">
+
+            <div class="table-responsive">
+
+                
+                <!-- Module Search -->
+                <div class="card shadow-sm mb-4 module-search-toolbar" data-module-search>
+    <div class="card-header"><i class="bi bi-funnel-fill me-2"></i>Search &amp; Filters</div>
+    <div class="card-body">
+      <div class="row g-3 align-items-end">
+        <div class="col-lg-7 col-md-8">
+          <label class="form-label fw-semibold">Search section</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-search"></i></span>
+            <input type="search" class="form-control module-search-input" placeholder="Type to search..." autocomplete="off" spellcheck="false">
+            <button type="button" class="btn btn-outline-secondary module-search-clear" title="Clear search"><i class="bi bi-x-lg"></i></button>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4"><div class="small text-secondary module-search-count"></div></div>
+        <div class="col-lg-2"><button type="button" class="btn btn-primary w-100 module-search-focus"><i class="bi bi-search me-1"></i>Search</button></div>
+      </div>
+    </div>
+  </div>
+
+  <table class="table table-hover align-middle mb-0" data-module-search-table>
+
+                    <thead>
+
+                    <tr>
+
+                        <th>#</th>
+
+                        <th>Section</th>
+
+                        <th>Display Order</th>
+
+                        <th>Description</th>
+
+                        <th>Status</th>
+
+                        <th width="170" class="text-center">
+
+                            Action
+
+                        </th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    <tr th:each="s, stat : ${sections}">
+
+                        <td th:text="${stat.count}"></td>
+
+                        <td th:text="${s.sectionName ?: '--'}"></td>
+
+                        <td th:text="${s.displayOrder ?: '--'}"></td>
+
+                        <td th:text="${s.description ?: '--'}"></td>
+
+                        <td>
+
+                            <span class="badge bg-success"
+                                  th:if="${s.active}">
+
+                                Active
+
+                            </span>
+
+                            <span class="badge bg-secondary"
+                                  th:unless="${s.active}">
+
+                                Inactive
+
+                            </span>
+
+                        </td>
+
+                        <td class="text-center">
+
+                            <!-- Edit -->
+
+                            <a th:href="@{'/sections/edit/' + ${s.id}}"
+                               class="btn btn-warning btn-sm"
+                               title="Edit">
+
+                                <i class="bi bi-pencil"></i>
+
+                            </a>
+
+                            <!-- Active / Inactive -->
+
+                            <form method="post" th:action="@{'/sections/status/' + ${s.id}}" style="display:inline"><button type="submit" class="btn btn-sm" th:classappend="${s.active} ? ' btn-danger' : ' btn-success'" th:title="${s.active} ? 'Deactivate' : 'Activate'" onclick="return confirm('Are you sure?')"><i class="bi"
+                                   th:classappend="${s.active} ? ' bi-x-circle' : ' bi-check-circle'"></i></button></form>
+
+                        </td>
+
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(sections)}">
+
+                        <td colspan="6"
+                            class="text-center py-5">
+
+                            <i class="bi bi-diagram-3 display-5"></i>
+
+                            <br><br>
+
+                            No Section Found
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>
+

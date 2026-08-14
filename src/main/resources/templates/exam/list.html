@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <div class="sms-page-header mb-4">
+
+            <div>
+
+                <h2 class="sms-page-title">
+
+                    <i class="bi bi-file-earmark-text me-2"></i>
+
+                    Exams
+
+                </h2>
+
+                <p class="text-secondary mb-0">
+
+                    Manage Exams, Subjects &amp; Marks
+
+                </p>
+
+            </div>
+
+            <a th:href="@{/exams/add}" class="btn btn-primary">
+
+                <i class="bi bi-plus-circle me-2"></i>
+
+                Add Exam
+
+            </a>
+
+        </div>
+
+        <div class="row g-4 module-stat-grid">
+<div class="col-xl-3 col-md-6"><div class="module-stat-card"><div class="module-stat-icon bg-primary"><i class="bi bi-file-earmark-text"></i></div><div class="module-stat-body"><span class="module-stat-label">Total Exams</span><strong class="module-stat-value" th:text="${examTotal}">0</strong><small class="module-stat-meta">All exams</small></div></div></div>
+<div class="col-xl-3 col-md-6"><div class="module-stat-card"><div class="module-stat-icon bg-warning"><i class="bi bi-calendar-event"></i></div><div class="module-stat-body"><span class="module-stat-label">Upcoming</span><strong class="module-stat-value" th:text="${examUpcoming}">0</strong><small class="module-stat-meta">Upcoming exams</small></div></div></div>
+<div class="col-xl-3 col-md-6"><div class="module-stat-card"><div class="module-stat-icon bg-success"><i class="bi bi-check-circle-fill"></i></div><div class="module-stat-body"><span class="module-stat-label">Completed</span><strong class="module-stat-value" th:text="${examCompleted}">0</strong><small class="module-stat-meta">Completed exams</small></div></div></div>
+<div class="col-xl-3 col-md-6"><div class="module-stat-card"><div class="module-stat-icon bg-secondary"><i class="bi bi-question-circle-fill"></i></div><div class="module-stat-body"><span class="module-stat-label">Undated</span><strong class="module-stat-value" th:text="${examUndated}">0</strong><small class="module-stat-meta">Date not set</small></div></div></div>
+</div>
+<!-- Session Filter -->
+
+        <div class="sms-card mb-3">
+
+            <div class="p-3">
+
+                <form th:action="@{/exams}" method="get" class="row g-2 align-items-center">
+
+                    <label class="col-auto form-label fw-semibold mb-0">
+
+                        <i class="bi bi-calendar-event me-1"></i>
+
+                        Academic Session
+
+                    </label>
+
+                    <div class="col-auto">
+
+                        <select name="sessionId" class="form-select" onchange="this.form.submit()">
+
+                            <option value="">All Sessions</option>
+
+                            <option th:each="as : ${academicSessions}"
+                                    th:value="${as.id}"
+                                    th:selected="${selectedSessionId != null && selectedSessionId == as.id}"
+                                    th:text="${as.sessionName}">
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-auto" th:if="${selectedSessionId != null}">
+
+                        <a th:href="@{/exams}" class="btn btn-outline-secondary btn-sm">
+
+                            <i class="bi bi-x-circle me-1"></i>
+
+                            Clear Filter
+
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <div class="sms-card">
+
+            <div class="table-responsive">
+
+                
+                <!-- Module Search -->
+                <div class="card shadow-sm mb-4 module-search-toolbar" data-module-search>
+    <div class="card-header"><i class="bi bi-funnel-fill me-2"></i>Search &amp; Filters</div>
+    <div class="card-body">
+      <div class="row g-3 align-items-end">
+        <div class="col-lg-7 col-md-8">
+          <label class="form-label fw-semibold">Search exam</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-search"></i></span>
+            <input type="search" class="form-control module-search-input" placeholder="Type to search..." autocomplete="off" spellcheck="false">
+            <button type="button" class="btn btn-outline-secondary module-search-clear" title="Clear search"><i class="bi bi-x-lg"></i></button>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4"><div class="small text-secondary module-search-count"></div></div>
+        <div class="col-lg-2"><button type="button" class="btn btn-primary w-100 module-search-focus"><i class="bi bi-search me-1"></i>Search</button></div>
+      </div>
+    </div>
+  </div>
+
+  <table class="table table-hover align-middle mb-0" data-module-search-table>
+
+                    <thead>
+
+                    <tr>
+
+                        <th>#</th>
+                        <th>Exam Name</th>
+                        <th>Academic Session</th>
+                        <th>Class</th>
+                        <th>Exam Date</th>
+                        <th width="200" class="text-center">Action</th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    <tr th:each="e, stat : ${exams}">
+
+                        <td th:text="${stat.count}"></td>
+
+                        <td th:text="${e.examName}"></td>
+
+                        <td th:text="${e.academicSession != null ? e.academicSession.sessionName : '--'}"></td>
+
+                        <td th:text="${e.classRoom != null ? e.classRoom.className : '--'}"></td>
+
+                        <td th:text="${e.examDate != null ? #temporals.format(e.examDate,'dd MMM yyyy') : '--'}"></td>
+
+                        <td class="text-center">
+
+                            <a th:href="@{'/exams/view/' + ${e.id}}"
+                               class="btn btn-outline-primary btn-sm"
+                               title="Subjects &amp; Marks">
+
+                                <i class="bi bi-list-check"></i>
+
+                            </a>
+
+                            <a th:href="@{'/exams/edit/' + ${e.id}}"
+                               class="btn btn-warning btn-sm"
+                               title="Edit">
+
+                                <i class="bi bi-pencil"></i>
+
+                            </a>
+
+                            <form th:action="@{/exams/delete/{id}(id=${e.id})}" method="post" class="d-inline"
+                                   onclick="return confirm('Delete this exam? All subjects and marks under it will also be removed.')">
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                    <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+
+                                        <i class="bi bi-trash"></i>
+
+                                    </button>
+                                </form>
+
+                        </td>
+
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(exams)}">
+
+                        <td colspan="6" class="text-center py-5">
+
+                            <i class="bi bi-inbox display-5"></i>
+
+                            <br><br>
+
+                            No Exam Found
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>

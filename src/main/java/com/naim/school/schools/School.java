@@ -20,6 +20,9 @@ public class School extends BaseEntity {
     @Column(length = 50)
     private String shortName;
 
+    @Column(length = 255)
+    private String slogan;
+
     @Column(length = 50)
     private String board;
 

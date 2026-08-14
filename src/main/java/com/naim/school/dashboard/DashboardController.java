@@ -8,9 +8,13 @@ import com.naim.school.classroom.ClassRoomService;
 import com.naim.school.fee.Fee;
 import com.naim.school.fee.FeeService;
 import com.naim.school.fee.FeeStatus;
+import com.naim.school.notice.Notice;
+import com.naim.school.notice.NoticeService;
 import com.naim.school.sms.AppInfo;
 import com.naim.school.student.Student;
 import com.naim.school.student.StudentService;
+import com.naim.school.studentsession.StudentSession;
+import com.naim.school.studentsession.StudentSessionService;
 import com.naim.school.subject.SubjectService;
 import com.naim.school.teacher.TeacherService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +24,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -40,6 +46,10 @@ public class DashboardController {
 
         private final AcademicSessionService academicSessionService;
 
+        private final StudentSessionService studentSessionService;
+
+        private final NoticeService noticeService;
+
         @GetMapping("/")
         public String dashboard(Model model) {
 
@@ -50,13 +60,13 @@ public class DashboardController {
                  */
 
                 model.addAttribute("studentCount",
-                                studentService.getActiveStudents().size());
+                                studentService.count());
 
                 model.addAttribute("teacherCount",
                                 teacherService.getActiveTeachers().size());
 
                 model.addAttribute("classRoomCount",
-                                classRoomService.getActiveClasses().size());
+                                classRoomService.getAllClassRooms().size());
 
                 model.addAttribute("subjectCount",
                                 subjectService.getAllSubjects().size());
@@ -92,7 +102,7 @@ public class DashboardController {
                  * ===========================
                  */
 
-                AcademicSession currentSession = academicSessionService.findCurrentSession().orElse(null);
+                AcademicSession currentSession = academicSessionService.getCurrentSessionOrNull();
 
                 model.addAttribute("currentSession", currentSession);
 
@@ -105,6 +115,22 @@ public class DashboardController {
                 List<Student> recentStudents = studentService.findTop5ByOrderByIdDesc();
 
                 model.addAttribute("recentStudents", recentStudents);
+
+                Map<Long, String> currentClassByStudent = new HashMap<>();
+
+                for (Student student : recentStudents) {
+
+                        StudentSession session = studentSessionService.getCurrentSession(student);
+
+                        currentClassByStudent.put(
+                                        student.getId(),
+                                        (session != null && session.getClassRoom() != null)
+                                                        ? session.getClassRoom().getClassName()
+                                                        : "-");
+
+                }
+
+                model.addAttribute("currentClassByStudent", currentClassByStudent);
 
                 /*
                  * ===========================
@@ -126,6 +152,19 @@ public class DashboardController {
 
                 model.addAttribute("recentAttendance",
                                 recentAttendance);
+
+                /*
+                 * ===========================
+                 * RECENT NOTICES
+                 * ===========================
+                 */
+
+                List<Notice> recentNotices = noticeService.getActive()
+                                .stream()
+                                .limit(5)
+                                .toList();
+
+                model.addAttribute("recentNotices", recentNotices);
 
                 return "dashboard/index";
 

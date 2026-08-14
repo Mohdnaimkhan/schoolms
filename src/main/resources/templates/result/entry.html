@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <div class="sms-page-header mb-4">
+
+            <div>
+
+                <h2 class="sms-page-title">
+
+                    <i class="bi bi-pencil-square me-2"></i>
+
+                    Marks Entry
+
+                </h2>
+
+                <p class="text-secondary mb-0">
+
+                    <span th:text="${examSubject.exam != null ? examSubject.exam.examName : '--'}"></span>
+                    -
+                    <span th:text="${examSubject.subject != null ? examSubject.subject.subjectName : '--'}"></span>
+                    (Max Marks: <span th:text="${examSubject.maxMarks}"></span>,
+                    Pass Marks: <span th:text="${examSubject.passMarks}"></span>)
+
+                </p>
+
+            </div>
+
+            <a th:href="@{'/exams/view/' + ${examSubject.exam.id}}" class="btn btn-outline-secondary">
+
+                <i class="bi bi-arrow-left me-2"></i>
+
+                Back
+
+            </a>
+
+        </div>
+
+        <div class="sms-card">
+
+            <div class="p-3" th:if="${#lists.isEmpty(students)}">
+
+                <div class="text-center py-5">
+
+                    <i class="bi bi-inbox display-5"></i>
+
+                    <br><br>
+
+                    No Students Found for this Class / Session
+
+                </div>
+
+            </div>
+
+            <form th:if="${!#lists.isEmpty(students)}"
+                  th:action="@{/results/entry/save}"
+                  method="post">
+
+                <input type="hidden" name="examSubjectId" th:value="${examSubject.id}">
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead>
+
+                        <tr>
+
+                            <th>#</th>
+                            <th>Student</th>
+                            <th>Admission No</th>
+                            <th width="200">Marks Obtained</th>
+
+                        </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                        <tr th:each="st, stat : ${students}">
+
+                            <td th:text="${stat.count}"></td>
+
+                            <td th:text="${st.student != null ? st.student.studentName : '--'}"></td>
+
+                            <td th:text="${st.student != null ? st.student.admissionNo : '--'}"></td>
+
+                            <td>
+
+                                <input type="hidden" name="studentSessionIds" th:value="${st.id}">
+
+                                <input type="number"
+                                       name="marks"
+                                       step="0.01"
+                                       min="0"
+                                       th:max="${examSubject.maxMarks}"
+                                       class="form-control"
+                                       th:value="${existingMarks.get(st.id)}"
+                                       placeholder="Not entered">
+
+                            </td>
+
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <div class="p-3 d-flex justify-content-end gap-2">
+
+                    <a th:href="@{'/exams/view/' + ${examSubject.exam.id}}" class="btn btn-outline-secondary">
+
+                        Cancel
+
+                    </a>
+
+                    <button type="submit" class="btn btn-primary">
+
+                        <i class="bi bi-check-circle me-2"></i>
+
+                        Save Marks
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>
