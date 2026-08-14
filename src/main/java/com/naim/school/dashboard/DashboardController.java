@@ -59,13 +59,8 @@ public class DashboardController {
                  * ===========================
                  */
 
-<<<<<<< HEAD
                 model.addAttribute("studentCount",
                                 studentService.count());
-=======
-                // model.addAttribute("studentCount",
-                //                 studentService.getActiveStudents().size());
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
                 model.addAttribute("teacherCount",
                                 teacherService.getActiveTeachers().size());
@@ -98,20 +93,16 @@ public class DashboardController {
                 LocalDate firstDay = LocalDate.now().withDayOfMonth(1);
                 LocalDate lastDay = LocalDate.now();
 
-                // model.addAttribute(
-                //                 "newAdmissions",
-                //                 studentService.countByAdmissionDateBetween(firstDay, lastDay));
+                model.addAttribute(
+                                "newAdmissions",
+                                studentService.countByAdmissionDateBetween(firstDay, lastDay));
                 /*
                  * ===========================
                  * CURRENT SESSION
                  * ===========================
                  */
 
-<<<<<<< HEAD
                 AcademicSession currentSession = academicSessionService.getCurrentSessionOrNull();
-=======
-                AcademicSession currentSession = academicSessionService.getCurrentSession();
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
                 model.addAttribute("currentSession", currentSession);
 

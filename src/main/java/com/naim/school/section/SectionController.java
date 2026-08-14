@@ -2,10 +2,7 @@ package com.naim.school.section;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-<<<<<<< HEAD
 import org.springframework.validation.BindingResult;
-=======
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
@@ -28,7 +25,6 @@ public class SectionController {
     public String list(Model model) {
 
         model.addAttribute("pageTitle", "Sections");
-<<<<<<< HEAD
         java.util.List<Section> sections = service.getAllSections();
         long sectionActive = sections.stream().filter(sec -> Boolean.TRUE.equals(sec.getActive())).count();
         long sectionDescribed = sections.stream().filter(sec -> sec.getDescription() != null && !sec.getDescription().isBlank()).count();
@@ -37,9 +33,6 @@ public class SectionController {
         model.addAttribute("sectionActive", sectionActive);
         model.addAttribute("sectionInactive", sections.size() - sectionActive);
         model.addAttribute("sectionDescribed", sectionDescribed);
-=======
-        model.addAttribute("sections", service.getAllSections());
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
         return "section/list";
 
@@ -85,7 +78,6 @@ public class SectionController {
      */
 
     @PostMapping("/save")
-<<<<<<< HEAD
     public String save(@Valid @ModelAttribute Section section, BindingResult result) {
 
         if (result.hasErrors()) {
@@ -93,9 +85,6 @@ public class SectionController {
             return "section/form";
 
         }
-=======
-    public String save(@Valid @ModelAttribute Section section) {
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
         service.save(section);
 
@@ -109,11 +98,7 @@ public class SectionController {
      * ==========================================
      */
 
-<<<<<<< HEAD
     @PostMapping("/status/{id}")
-=======
-    @GetMapping("/status/{id}")
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
     public String changeStatus(@PathVariable Long id) {
 
         service.changeStatus(id);

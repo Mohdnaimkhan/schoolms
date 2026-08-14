@@ -1045,7 +1045,6 @@ ul {
     }
 
 }
-<<<<<<< HEAD
 
 @media print {
 
@@ -1095,12 +1094,8 @@ ul {
     }
 
 }
-=======
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
-@media print {
 
-<<<<<<< HEAD
 /* ===========================
    Dashboard consistency
 =========================== */
@@ -1226,52 +1221,3 @@ ul {
         font-size: 21px;
     }
 }
-=======
-    body {
-
-        background: #fff !important;
-
-        color: #000 !important;
-
-        font-size: 13px;
-
-    }
-
-    .d-print-none {
-
-        display: none !important;
-
-    }
-
-    .btn,
-    .navbar,
-    .sidebar,
-    footer {
-
-        display: none !important;
-
-    }
-
-    .card {
-
-        border: none !important;
-
-        box-shadow: none !important;
-
-    }
-
-    .table {
-
-        font-size: 13px;
-
-    }
-
-    img {
-
-        page-break-inside: avoid;
-
-    }
-
-}
-
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57

@@ -1,6 +1,5 @@
 package com.naim.school.sms;
 
-<<<<<<< HEAD
 import java.util.List;
 
 import org.springframework.security.core.Authentication;
@@ -14,20 +13,12 @@ import com.naim.school.schools.School;
 import com.naim.school.schools.SchoolService;
 import com.naim.school.academicsession.AcademicSession;
 import com.naim.school.academicsession.AcademicSessionService;
-=======
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ModelAttribute;
-
-import com.naim.school.schools.School;
-import com.naim.school.schools.SchoolService;
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
 @ControllerAdvice
 public class GlobalControllerAdvice {
 
     private final SchoolService schoolService;
 
-<<<<<<< HEAD
     private final NoticeService noticeService;
 
     private final AcademicSessionService academicSessionService;
@@ -55,12 +46,6 @@ public class GlobalControllerAdvice {
     @ModelAttribute("changeLog")
     public List<AppInfo.ChangeLog> changeLog() { return AppInfo.CHANGELOG; }
 
-=======
-    public GlobalControllerAdvice(SchoolService schoolService) {
-        this.schoolService = schoolService;
-    }
-
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
     @ModelAttribute("schoolInfo")
     public School schoolInfo() {
 
@@ -68,7 +53,6 @@ public class GlobalControllerAdvice {
 
     }
 
-<<<<<<< HEAD
     @ModelAttribute("currentUsername")
     public String currentUsername(Authentication authentication) {
 
@@ -140,6 +124,4 @@ public class GlobalControllerAdvice {
 
     }
 
-=======
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 }

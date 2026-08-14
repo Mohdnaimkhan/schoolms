@@ -116,7 +116,6 @@ public class AcademicSessionService {
 
     /*
      * ==========================================
-<<<<<<< HEAD
      * GET CURRENT SESSION (NULL-SAFE)
      * Used by places like the dashboard that must not
      * fail just because no session has been created yet
@@ -160,34 +159,4 @@ public class AcademicSessionService {
 
     }
 
-=======
-     * CLOSE SESSION
-     * ==========================================
-     */
-    @Transactional
-    public void closeSession(Long id, LocalDate endDate) {
-
-        AcademicSession academicSession = getById(id);
-
-        if (academicSession.getEndDate() != null) {
-            throw new RuntimeException("Session already closed.");
-        }
-
-        if (endDate == null) {
-            throw new RuntimeException("End Date is required.");
-        }
-
-        if (endDate.isBefore(academicSession.getStartDate())) {
-            throw new RuntimeException("End Date cannot be before Start Date.");
-        }
-
-        academicSession.setEndDate(endDate);
-
-        academicSession.setCurrentSession(false);
-
-        repository.save(academicSession);
-
-    }
-
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 }

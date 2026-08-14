@@ -1,27 +1,12 @@
 package com.naim.school.sms;
 
 import java.time.LocalDate;
-<<<<<<< HEAD
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-=======
-
-public class AppInfo {
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
 public final class AppInfo {
     private AppInfo() {}
     public static final String APP_NAME = "School Management System";
-<<<<<<< HEAD
-=======
-
-    public static final String VERSION = "v1.0.1";
-
-    public static final String RELEASE_DATE = LocalDate.now().toString();
-    
-    public static final String LAST_UPDATED = LocalDate.now().minusDays(1).toString();
-
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
     public static final String DEVELOPER = "Mohd Naim";
     public static final LocalDate RELEASE_DATE_VALUE = LocalDate.now();
     public static final String VERSION = "v" + RELEASE_DATE_VALUE.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));

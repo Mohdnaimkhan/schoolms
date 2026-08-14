@@ -2,6 +2,7 @@ package com.naim.school.academicsession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
@@ -69,7 +70,6 @@ public class AcademicSessionController {
      * ==========================================
      */
     @PostMapping("/save")
-<<<<<<< HEAD
     public String save(@Valid @ModelAttribute AcademicSession academicSession, BindingResult result) {
 
         if (result.hasErrors()) {
@@ -78,10 +78,6 @@ public class AcademicSessionController {
 
         }
 
-=======
-    public String save(@Valid @ModelAttribute AcademicSession academicSession) {
-
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
         service.save(academicSession);
 
         return "redirect:/academic-sessions";
@@ -92,11 +88,7 @@ public class AcademicSessionController {
      * SET CURRENT SESSION
      * ==========================================
      */
-<<<<<<< HEAD
     @PostMapping("/current/{id}")
-=======
-    @GetMapping("/current/{id}")
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
     public String setCurrent(@PathVariable Long id) {
 
         service.setCurrentSession(id);

@@ -13,12 +13,8 @@
 
         <div class="container-fluid">
 
-<<<<<<< HEAD
             
 <!-- Page Header -->
-=======
-            <!-- Page Header -->
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
             <div class="sms-page-header mb-4">
 
@@ -50,7 +46,6 @@
 
             </div>
 
-<<<<<<< HEAD
 <div class="row g-4 module-stat-grid">
 <div class="col-xl-3 col-md-6"><div class="module-stat-card"><div class="module-stat-icon bg-primary"><i class="bi bi-calendar3"></i></div><div class="module-stat-body"><span class="module-stat-label">Total Sessions</span><strong class="module-stat-value" th:text="${sessionTotal}">0</strong><small class="module-stat-meta">All sessions</small></div></div></div>
 <div class="col-xl-3 col-md-6"><div class="module-stat-card"><div class="module-stat-icon bg-success"><i class="bi bi-star-fill"></i></div><div class="module-stat-body"><span class="module-stat-label">Current</span><strong class="module-stat-value" th:text="${sessionCurrent}">0</strong><small class="module-stat-meta">Current session</small></div></div></div>
@@ -213,150 +208,6 @@
 
     <div th:replace="~{fragments/footer :: footer}"></div>
 
-=======
-            <!-- Card -->
-
-            <div class="sms-card">
-
-                <div class="table-responsive">
-
-                    <table class="table table-hover align-middle mb-0">
-
-                        <thead>
-
-                            <tr>
-
-                                <th>#</th>
-
-                                <th>Session</th>
-
-                                <th>Start Date</th>
-
-                                <th>End Date</th>
-
-                                <th>Current</th>
-
-                                <th>Status</th>
-
-                                <th width="240" class="text-center">
-
-                                    Action
-
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-                        <tbody>
-
-                            <tr th:each="s, stat : ${academicSessions}">
-
-                                <td th:text="${stat.count}"></td>
-
-                                <td th:text="${s.sessionName ?: '--'}"></td>
-
-                                <td th:text="${s.startDate ?: '--'}"></td>
-
-                                <td th:text="${s.endDate ?: '--'}"></td>
-
-                                <!-- Current -->
-
-                                <td>
-
-                                    <span class="badge bg-primary" th:if="${s.currentSession}">
-
-                                        Current
-
-                                    </span>
-
-                                </td>
-
-                                <!-- Status -->
-
-                                <td>
-
-                                    <span class="badge bg-success" th:if="${s.endDate == null}">
-
-                                        Running
-
-                                    </span>
-
-                                    <span class="badge bg-secondary" th:unless="${s.endDate == null}">
-
-                                        Closed
-
-                                    </span>
-
-                                </td>
-
-                                <!-- Actions -->
-
-                                <td class="text-center">
-
-                                    <!-- Edit -->
-
-                                    <a th:href="@{'/academic-sessions/edit/' + ${s.id}}" class="btn btn-warning btn-sm"
-                                        title="Edit">
-
-                                        <i class="bi bi-pencil"></i>
-
-                                    </a>
-
-                                    <!-- Set Current -->
-
-                                    <a th:if="${!s.currentSession && s.endDate == null}"
-                                        th:href="@{'/academic-sessions/current/' + ${s.id}}"
-                                        class="btn btn-success btn-sm" title="Set Current"
-                                        onclick="return confirm('Set this as Current Session?')">
-
-                                        <i class="bi bi-check-circle"></i>
-
-                                    </a>
-
-                                    <!-- Close Session -->
-
-                                    <a th:if="${s.currentSession && s.endDate == null}"
-                                        th:href="@{'/academic-sessions/close/' + ${s.id}}" class="btn btn-danger btn-sm"
-                                        title="Close Session">
-
-                                        <i class="bi bi-lock-fill"></i>
-
-                                    </a>
-
-                                </td>
-
-                            </tr>
-
-                            <tr th:if="${#lists.isEmpty(academicSessions)}">
-
-                                <td colspan="7" class="text-center py-5">
-
-                                    <i class="bi bi-calendar-x display-5"></i>
-
-                                    <br><br>
-
-                                    No Academic Session Found
-
-                                </td>
-
-                            </tr>
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </main>
-
-    <div th:replace="~{fragments/footer :: footer}"></div>
-
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
     <div th:replace="~{fragments/scripts :: scripts}"></div>
 
 </body>

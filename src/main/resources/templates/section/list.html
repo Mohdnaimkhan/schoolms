@@ -45,7 +45,6 @@
 
         </div>
 
-<<<<<<< HEAD
         <div class="row g-4 module-stat-grid">
 <div class="col-xl-3 col-md-6"><div class="module-stat-card"><div class="module-stat-icon bg-primary"><i class="bi bi-diagram-3"></i></div><div class="module-stat-body"><span class="module-stat-label">Total Sections</span><strong class="module-stat-value" th:text="${sectionTotal}">0</strong><small class="module-stat-meta">All sections</small></div></div></div>
 <div class="col-xl-3 col-md-6"><div class="module-stat-card"><div class="module-stat-icon bg-success"><i class="bi bi-check-circle-fill"></i></div><div class="module-stat-body"><span class="module-stat-label">Active Sections</span><strong class="module-stat-value" th:text="${sectionActive}">0</strong><small class="module-stat-meta">Currently active</small></div></div></div>
@@ -53,15 +52,11 @@
 <div class="col-xl-3 col-md-6"><div class="module-stat-card"><div class="module-stat-icon bg-info"><i class="bi bi-card-text"></i></div><div class="module-stat-body"><span class="module-stat-label">Described</span><strong class="module-stat-value" th:text="${sectionDescribed}">0</strong><small class="module-stat-meta">With description</small></div></div></div>
 </div>
 <!-- Card -->
-=======
-        <!-- Card -->
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
         <div class="sms-card">
 
             <div class="table-responsive">
 
-<<<<<<< HEAD
                 
                 <!-- Module Search -->
                 <div class="card shadow-sm mb-4 module-search-toolbar" data-module-search>
@@ -83,9 +78,6 @@
   </div>
 
   <table class="table table-hover align-middle mb-0" data-module-search-table>
-=======
-                <table class="table table-hover align-middle mb-0">
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
                     <thead>
 
@@ -155,21 +147,8 @@
 
                             <!-- Active / Inactive -->
 
-<<<<<<< HEAD
                             <form method="post" th:action="@{'/sections/status/' + ${s.id}}" style="display:inline"><button type="submit" class="btn btn-sm" th:classappend="${s.active} ? ' btn-danger' : ' btn-success'" th:title="${s.active} ? 'Deactivate' : 'Activate'" onclick="return confirm('Are you sure?')"><i class="bi"
                                    th:classappend="${s.active} ? ' bi-x-circle' : ' bi-check-circle'"></i></button></form>
-=======
-                            <a th:href="@{'/sections/status/' + ${s.id}}"
-                               class="btn btn-sm"
-                               th:classappend="${s.active} ? ' btn-danger' : ' btn-success'"
-                               th:title="${s.active} ? 'Deactivate' : 'Activate'"
-                               onclick="return confirm('Are you sure?')">
-
-                                <i class="bi"
-                                   th:classappend="${s.active} ? ' bi-x-circle' : ' bi-check-circle'"></i>
-
-                            </a>
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
                         </td>
 

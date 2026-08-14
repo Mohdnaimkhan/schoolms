@@ -1,5 +1,6 @@
 package com.naim.school.student;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -32,14 +33,11 @@ public class StudentService {
 
     }
 
-<<<<<<< HEAD
     public List<Student> search(String keyword, StudentStatus status) {
         String normalizedKeyword = keyword == null ? "" : keyword.trim();
         return repository.search(normalizedKeyword, status);
     }
 
-=======
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
     /*
      * ==========================================================
      * GET BY ID
@@ -70,7 +68,6 @@ public class StudentService {
          * DUPLICATE AADHAAR
          * ==========================================================
          */
-<<<<<<< HEAD
 
         if (existsAadhaar(
                 student.getAadhaarNumber(),
@@ -87,16 +84,6 @@ public class StudentService {
 
         if (existsApaarId(student.getApaarId(), student.getId())) {
             throw new IllegalArgumentException("APAAR ID already exists.");
-=======
-
-        if (existsAadhaar(
-                student.getAadhaarNumber(),
-                student.getId())) {
-
-            throw new IllegalArgumentException(
-                    "Aadhaar Number already exists.");
-
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
         }
 
         /*
@@ -229,7 +216,6 @@ public class StudentService {
 
         return repository.countByGender(
                 Gender.FEMALE);
-<<<<<<< HEAD
 
     }
 
@@ -240,8 +226,6 @@ public class StudentService {
         return repository.countByAdmissionDateBetween(
                 startDate,
                 endDate);
-=======
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
     }
 
@@ -305,7 +289,6 @@ public class StudentService {
 
     }
 
-<<<<<<< HEAD
     public boolean existsPenNo(String penNo, Long id) {
         if (penNo == null || penNo.isBlank()) return false;
         penNo = penNo.replaceAll("\\s+", "");
@@ -317,13 +300,6 @@ public class StudentService {
         apaarId = apaarId.replaceAll("\\s+", "");
         return id == null ? repository.existsByApaarId(apaarId) : repository.existsByApaarIdAndIdNot(apaarId, id);
     }
-=======
-    /*
-     * ==========================================================
-     * NORMALIZE
-     * ==========================================================
-     */
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
     /*
      * ==========================================================

@@ -2,6 +2,7 @@ package com.naim.school.classroom;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
@@ -24,7 +25,6 @@ public class ClassRoomController {
     public String list(Model model) {
 
         model.addAttribute("pageTitle", "Class Rooms");
-<<<<<<< HEAD
         java.util.List<ClassRoom> classRooms = service.getAllClassRooms();
         long classActive = classRooms.stream().filter(c -> Boolean.TRUE.equals(c.getActive())).count();
         long classConfigured = classRooms.stream().filter(c -> c.getDescription() != null && !c.getDescription().isBlank()).count();
@@ -33,9 +33,6 @@ public class ClassRoomController {
         model.addAttribute("classActive", classActive);
         model.addAttribute("classInactive", classRooms.size() - classActive);
         model.addAttribute("classConfigured", classConfigured);
-=======
-        model.addAttribute("classRooms", service.getAllClassRooms());
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
         return "classroom/list";
 
@@ -81,7 +78,6 @@ public class ClassRoomController {
      */
 
     @PostMapping("/save")
-<<<<<<< HEAD
     public String save(@Valid @ModelAttribute ClassRoom classRoom, BindingResult result) {
 
         if (result.hasErrors()) {
@@ -89,9 +85,6 @@ public class ClassRoomController {
             return "classroom/form";
 
         }
-=======
-    public String save(@Valid @ModelAttribute ClassRoom classRoom) {
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
         service.save(classRoom);
 
@@ -105,11 +98,7 @@ public class ClassRoomController {
      * ==========================================
      */
 
-<<<<<<< HEAD
     @PostMapping("/status/{id}")
-=======
-    @GetMapping("/status/{id}")
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
     public String changeStatus(@PathVariable Long id) {
 
         service.changeStatus(id);

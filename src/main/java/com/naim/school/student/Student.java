@@ -133,7 +133,6 @@ public class Student extends BaseEntity {
     @Column(name = "aadhaar_number", length = 14)
     private String aadhaarNumber;
 
-<<<<<<< HEAD
     @Pattern(regexp = "^$|^\\d{4}\\s?\\d{4}\\s?\\d{4}$", message = "PEN No. must be a valid 12-digit number")
     @Column(name = "pen_no", length = 12, unique = true)
     private String penNo;
@@ -149,68 +148,6 @@ public class Student extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(length = 30)
     private Category category;
-=======
-    @Enumerated(EnumType.STRING)
-    @Column(length = 30)
-    private Religion religion;
-
-    @Enumerated(EnumType.STRING)
-    @Column(length = 30)
-    private Category category;
-
-    @NotNull(message = "Status is required")
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 30)
-    private StudentStatus status = StudentStatus.ACTIVE;
-
-    @Size(max = 500)
-    @Column(length = 500)
-    private String remarks;
-
-    /*
-     * ==========================================================
-     * NORMALIZE DATA
-     * ==========================================================
-     */
-
-    @PrePersist
-    @PreUpdate
-    private void normalize() {
-
-        if (studentName != null)
-            studentName = studentName.trim();
-
-        if (fatherName != null)
-            fatherName = fatherName.trim();
-
-        if (motherName != null)
-            motherName = motherName.trim();
-
-        if (guardianName != null)
-            guardianName = guardianName.trim();
-
-        if (guardianRelation != null)
-            guardianRelation = guardianRelation.trim();
-
-        if (email != null)
-            email = email.trim().toLowerCase();
-
-        if (address != null)
-            address = address.trim();
-
-        if (remarks != null)
-            remarks = remarks.trim();
-
-        if (mobileNumber != null)
-            mobileNumber = mobileNumber.replaceAll("\\s+", "");
-
-        if (emergencyContact != null)
-            emergencyContact = emergencyContact.replaceAll("\\s+", "");
-
-        if (aadhaarNumber != null)
-            aadhaarNumber = aadhaarNumber.replaceAll("\\s+", "");
-    }
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
     @NotNull(message = "Status is required")
     @Enumerated(EnumType.STRING)

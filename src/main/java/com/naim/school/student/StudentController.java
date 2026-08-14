@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-<<<<<<< HEAD
 import com.naim.school.studentsession.StudentSessionService;
 import com.naim.school.attendance.Attendance;
 import com.naim.school.attendance.AttendanceService;
@@ -20,8 +19,6 @@ import com.naim.school.fee.FeeService;
 import com.naim.school.result.Result;
 import com.naim.school.result.ResultRepository;
 
-=======
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -32,7 +29,6 @@ public class StudentController {
 
     private final StudentService studentService;
 
-<<<<<<< HEAD
     private final StudentSessionService studentSessionService;
     private final AttendanceService attendanceService;
     private final FeeService feeService;
@@ -60,23 +56,6 @@ public class StudentController {
         model.addAttribute("boys", studentService.countBoys());
         model.addAttribute("girls", studentService.countGirls());
 
-=======
-    /*
-     * ==========================================================
-     * STUDENT LIST
-     * ==========================================================
-     */
-
-    @GetMapping
-    public String list(Model model) {
-
-        model.addAttribute("students", studentService.getAllStudents());
-        model.addAttribute("totalStudents", studentService.count());
-        model.addAttribute("activeStudents", studentService.countActiveStudents());
-        model.addAttribute("boys", studentService.countBoys());
-        model.addAttribute("girls", studentService.countGirls());
-
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
         return "student/list";
     }
 
@@ -185,7 +164,6 @@ public class StudentController {
             @PathVariable Long id,
             Model model) {
 
-<<<<<<< HEAD
         Student student = studentService.getById(id);
 
         model.addAttribute("student", student);
@@ -323,96 +301,4 @@ public class StudentController {
 
     }
 
-=======
-        model.addAttribute(
-                "student",
-                studentService.getById(id));
-
-        return "student/view";
-    }
-
-    /*
-     * ==========================================================
-     * PRINT
-     * ==========================================================
-     */
-
-    @GetMapping("/print/{id}")
-    public String print(
-            @PathVariable Long id,
-            Model model) {
-
-        model.addAttribute(
-                "student",
-                studentService.getById(id));
-
-        return "student/print";
-    }
-
-    /*
-     * ==========================================================
-     * CHANGE STATUS
-     * ==========================================================
-     */
-
-    @PostMapping("/status/{id}")
-    public String changeStatus(
-            @PathVariable Long id,
-            @RequestParam StudentStatus status,
-            RedirectAttributes redirectAttributes) {
-
-        studentService.changeStatus(id, status);
-
-        redirectAttributes.addFlashAttribute(
-                "success",
-                "Student status updated successfully.");
-
-        return "redirect:/students";
-    }
-
-    /*
-     * ==========================================================
-     * AADHAAR DUPLICATE CHECK
-     * ==========================================================
-     */
-
-    @GetMapping("/check/aadhaar")
-    @ResponseBody
-    public boolean checkAadhaar(
-            @RequestParam String value,
-            @RequestParam(required = false) Long id) {
-
-        return studentService.existsAadhaar(
-                value,
-                id);
-    }
-
-    @GetMapping("/id-card/{id}")
-    public String idCard(@PathVariable Long id,
-            Model model) {
-
-        model.addAttribute(
-                "student",
-                studentService.getById(id));
-
-        return "student/id-card";
-
-    }
-    /*
-     * ==========================================================
-     * LOAD FORM DATA
-     * ==========================================================
-     */
-
-    private void loadFormData(Model model) {
-
-        model.addAttribute("genders", Gender.values());
-        model.addAttribute("bloodGroups", BloodGroup.values());
-        model.addAttribute("religions", Religion.values());
-        model.addAttribute("categories", Category.values());
-        model.addAttribute("studentStatuses", StudentStatus.values());
-
-    }
-
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 }

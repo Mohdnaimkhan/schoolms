@@ -106,7 +106,6 @@
 
                         <div class="row">
 
-<<<<<<< HEAD
                             <!-- Admission Number -->
                             <div class="col-md-4 mb-3">
                                 <label class="form-label fw-semibold">Admission Number</label>
@@ -122,101 +121,16 @@
                                 </label>
                                 <input type="date" class="form-control" th:field="*{admissionDate}">
                                 <div class="text-danger small" th:errors="*{admissionDate}"></div>
-=======
-
-
-                            <!-- Admission Number -->
-
-
-                            <div class="col-md-4 mb-3">
-
-
-                                <label class="form-label fw-semibold">
-
-                                    Admission Number
-
-                                </label>
-
-
-
-                                <input type="text" class="form-control" th:value="${student.id==null ? 
-       'Auto Generated After Save' : student.admissionNo}" readonly>
-
-
-
                             </div>
-
-
-
-
-
-                            <!-- Admission Date -->
-
-
-                            <div class="col-md-4 mb-3">
-
-
-                                <label class="form-label fw-semibold">
-
-
-                                    Admission Date
-
-                                    <span class="text-danger">*</span>
-
-
-                                </label>
-
-
-
-                                <input type="date" class="form-control" th:field="*{admissionDate}">
-
-
-                                <div class="text-danger small" th:errors="*{admissionDate}">
-
-                                </div>
-
-
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
-                            </div>
-
-
-
-
 
                             <!-- Status -->
-<<<<<<< HEAD
                             <div class="col-md-4 mb-3">
                                 <label class="form-label fw-semibold">Status</label>
                                 <select class="form-select" th:field="*{status}">
                                     <option th:each="s:${studentStatuses}" th:value="${s}" th:text="${s}"></option>
-=======
-
-
-                            <div class="col-md-4 mb-3">
-
-
-                                <label class="form-label fw-semibold">
-
-
-                                    Status
-
-
-                                </label>
-
-
-
-                                <select class="form-select" th:field="*{status}">
-
-
-                                    <option th:each="s:${studentStatuses}" th:value="${s}" th:text="${s}">
-                                    </option>
-
-
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
                                 </select>
                             </div>
 
-<<<<<<< HEAD
                             <!-- PEN Number -->
                             <div class="col-md-4 mb-3">
                                 <label class="form-label fw-semibold">PEN Number</label>
@@ -229,8 +143,6 @@
                                        autocomplete="off">
                                 <div class="text-danger small" th:errors="*{penNo}"></div>
                             </div>
-=======
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
                             <!-- APAAR ID -->
                             <div class="col-md-4 mb-3">
@@ -244,8 +156,6 @@
                                        autocomplete="off">
                                 <div class="text-danger small" th:errors="*{apaarId}"></div>
                             </div>
-
-
 
                         </div>
 
@@ -1041,10 +951,6 @@ object-fit:cover;">
 
                             <!-- Remarks -->
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
                             <div class="col-12 mb-3">
 
 
