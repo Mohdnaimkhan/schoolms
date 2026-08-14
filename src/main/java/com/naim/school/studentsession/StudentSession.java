@@ -16,15 +16,22 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+<<<<<<< HEAD
 import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.Transient;
+=======
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+<<<<<<< HEAD
 @Table(name = "student_sessions", uniqueConstraints = @UniqueConstraint(name = "uk_student_academic_session", columnNames = {"student_id", "academic_session_id"}))
+=======
+@Table(name = "student_sessions")
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 public class StudentSession extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -43,6 +50,7 @@ public class StudentSession extends BaseEntity {
     @JoinColumn(name = "section_id")
     private Section section;
 
+<<<<<<< HEAD
     /*
      * ==========================================================
      * FORM BINDING (NOT PERSISTED)
@@ -61,6 +69,8 @@ public class StudentSession extends BaseEntity {
     @Transient
     private Long sectionId;
 
+=======
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
     @Column(name = "roll_number", length = 20)
     private String rollNumber;
 

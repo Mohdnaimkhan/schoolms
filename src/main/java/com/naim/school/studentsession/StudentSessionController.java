@@ -1,12 +1,18 @@
 package com.naim.school.studentsession;
 
+<<<<<<< HEAD
 import java.util.List;
 
+=======
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+<<<<<<< HEAD
 import com.naim.school.student.Student;
+=======
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 import com.naim.school.student.StudentService;
 import com.naim.school.academicsession.AcademicSessionService;
 import com.naim.school.classroom.ClassRoomService;
@@ -34,6 +40,7 @@ public class StudentSessionController {
     // ===========================
 
     @GetMapping
+<<<<<<< HEAD
     public String list(
             @RequestParam(value = "sessionId", required = false) Long sessionId,
             Model model) {
@@ -53,6 +60,12 @@ public class StudentSessionController {
         model.addAttribute("studentSessionActive", studentSessionActive);
         model.addAttribute("studentSessionCurrent", studentSessionCurrent);
         model.addAttribute("studentSessionAssigned", studentSessionAssigned);
+=======
+    public String list(Model model) {
+
+        model.addAttribute("studentSessions",
+                studentSessionService.getAll());
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
         return "studentsession/list";
 
@@ -63,6 +76,7 @@ public class StudentSessionController {
     // ===========================
 
     @GetMapping("/add")
+<<<<<<< HEAD
     public String add(
             @RequestParam(value = "studentId", required = false) Long studentId,
             Model model) {
@@ -78,6 +92,12 @@ public class StudentSessionController {
         }
 
         model.addAttribute("studentSession", studentSession);
+=======
+    public String add(Model model) {
+
+        model.addAttribute("studentSession",
+                new StudentSession());
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
         loadMasters(model);
 
@@ -93,8 +113,11 @@ public class StudentSessionController {
     public String edit(@PathVariable Long id,
                        Model model) {
 
+<<<<<<< HEAD
         model.addAttribute("pageTitle", "Edit Student Session");
 
+=======
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
         model.addAttribute("studentSession",
                 studentSessionService.getById(id));
 
@@ -121,7 +144,11 @@ public class StudentSessionController {
     // Delete (Optional)
     // ===========================
 
+<<<<<<< HEAD
     @PostMapping("/delete/{id}")
+=======
+    @GetMapping("/delete/{id}")
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
     public String delete(@PathVariable Long id) {
 
         studentSessionService.delete(id);
@@ -131,6 +158,7 @@ public class StudentSessionController {
     }
 
     // ===========================
+<<<<<<< HEAD
     // Promote - Step 1: Select From / To
     // ===========================
 
@@ -238,13 +266,19 @@ public class StudentSessionController {
     }
 
     // ===========================
+=======
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
     // Common Master Data
     // ===========================
 
     private void loadMasters(Model model) {
 
         model.addAttribute("students",
+<<<<<<< HEAD
                 studentService.getAllStudents());
+=======
+                studentService.countActiveStudents());
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
         model.addAttribute("academicSessions",
                 academicSessionService.getAllSessions());
@@ -255,9 +289,12 @@ public class StudentSessionController {
         model.addAttribute("sections",
                 sectionService.getAllSections());
 
+<<<<<<< HEAD
         model.addAttribute("studentStatuses",
                 com.naim.school.student.StudentStatus.values());
 
+=======
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
     }
 
 }

@@ -1,6 +1,5 @@
 package com.naim.school.student;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +19,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     long countByGender(Gender gender);
 
+<<<<<<< HEAD
     long countByAdmissionDateBetween(LocalDate startDate, LocalDate endDate);
 
     /*
@@ -97,6 +97,57 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
      * ==========================================================
      */
 
+=======
+    /*
+     * ==========================================================
+     * ADMISSION NUMBER
+     * ==========================================================
+     */
+
+    Optional<Student> findTopByOrderByIdDesc();
+
+    Optional<Student> findByAdmissionNo(String admissionNo);
+
+    boolean existsByAdmissionNo(String admissionNo);
+
+    boolean existsByAdmissionNoAndIdNot(
+            String admissionNo,
+            Long id);
+
+    /*
+     * ==========================================================
+     * AADHAAR DUPLICATE CHECK
+     * ==========================================================
+     */
+
+    boolean existsByAadhaarNumber(String aadhaarNumber);
+
+    boolean existsByAadhaarNumberAndIdNot(
+            String aadhaarNumber,
+            Long id);
+
+    /*
+     * ==========================================================
+     * SEARCH
+     * ==========================================================
+     */
+
+    List<Student> findByStudentNameContainingIgnoreCase(
+            String studentName);
+
+    List<Student> findByFatherNameContainingIgnoreCase(
+            String fatherName);
+
+    List<Student> findByAdmissionNoContainingIgnoreCase(
+            String admissionNo);
+
+    /*
+     * ==========================================================
+     * FILTER
+     * ==========================================================
+     */
+
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
     List<Student> findByStatus(StudentStatus status);
 
     List<Student> findByGender(Gender gender);

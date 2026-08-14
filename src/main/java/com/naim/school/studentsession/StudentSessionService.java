@@ -3,6 +3,7 @@ package com.naim.school.studentsession;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+<<<<<<< HEAD
 import org.springframework.transaction.annotation.Transactional;
 
 import com.naim.school.academicsession.AcademicSession;
@@ -13,6 +14,10 @@ import com.naim.school.section.Section;
 import com.naim.school.section.SectionRepository;
 import com.naim.school.student.Student;
 import com.naim.school.student.StudentRepository;
+=======
+
+import com.naim.school.student.Student;
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,14 +26,18 @@ import lombok.RequiredArgsConstructor;
 public class StudentSessionService {
 
     private final StudentSessionRepo studentSessionRepo;
+<<<<<<< HEAD
     private final StudentRepository studentRepository;
     private final AcademicSessionRepository academicSessionRepository;
     private final ClassRoomRepository classRoomRepository;
     private final SectionRepository sectionRepository;
+=======
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
     // Save / Update
     public StudentSession save(StudentSession studentSession) {
 
+<<<<<<< HEAD
         if (studentSession.getStudentId() == null) {
 
             throw new RuntimeException("Student is required.");
@@ -81,6 +90,8 @@ public class StudentSessionService {
 
         }
 
+=======
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
         return studentSessionRepo.save(studentSession);
 
     }
@@ -88,6 +99,7 @@ public class StudentSessionService {
     // Find By Id
     public StudentSession getById(Long id) {
 
+<<<<<<< HEAD
         StudentSession studentSession = studentSessionRepo.findById(id).orElse(null);
 
         if (studentSession == null) {
@@ -121,6 +133,9 @@ public class StudentSessionService {
         }
 
         return studentSession;
+=======
+        return studentSessionRepo.findById(id).orElse(null);
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
     }
 
@@ -131,6 +146,7 @@ public class StudentSessionService {
 
     }
 
+<<<<<<< HEAD
     // Session Wise Records
     public List<StudentSession> getByAcademicSession(Long sessionId) {
 
@@ -140,6 +156,8 @@ public class StudentSessionService {
 
     }
 
+=======
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
     // Delete
     public void delete(Long id) {
 
@@ -160,7 +178,11 @@ public class StudentSessionService {
     public List<StudentSession> getStudentHistory(Student student) {
 
         return studentSessionRepo
+<<<<<<< HEAD
                 .findByStudentOrderByAcademicSession_IdDesc(student);
+=======
+                .findByStudentOrderByAcademicSessionIdDesc(student);
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
     }
 
@@ -175,7 +197,11 @@ public class StudentSessionService {
     public List<StudentSession> getStudentsBySessionAndClass(Long sessionId,
                                                              Long classRoomId) {
 
+<<<<<<< HEAD
         return studentSessionRepo.findByAcademicSession_IdAndClassRoom_Id(
+=======
+        return studentSessionRepo.findByAcademicSessionIdAndClassRoomId(
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
                 sessionId,
                 classRoomId
         );
@@ -196,6 +222,7 @@ public class StudentSessionService {
 
     }
 
+<<<<<<< HEAD
     // Bulk Promote Students to a New Session / Class / Section
     @Transactional
     public void promoteStudents(List<Long> studentSessionIds,
@@ -234,4 +261,6 @@ public class StudentSessionService {
 
     }
 
+=======
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 }

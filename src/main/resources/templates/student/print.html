@@ -61,15 +61,23 @@
 
                     <div class="col-8 text-center">
 
+<<<<<<< HEAD
                         <h2 class="fw-bold mb-1"
                             th:text="${schoolInfo.schoolName != null && !#strings.isEmpty(schoolInfo.schoolName) ? schoolInfo.schoolName : 'Your School'}">
+=======
+                        <h2 class="fw-bold mb-1">
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
                             ABC PUBLIC SCHOOL
 
                         </h2>
 
+<<<<<<< HEAD
                         <div th:if="${schoolInfo.address != null and !#strings.isEmpty(schoolInfo.address)}"
                              th:text="${schoolInfo.address}">
+=======
+                        <div>
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
                             School Address Here
 
@@ -78,6 +86,7 @@
 
                         <div>
 
+<<<<<<< HEAD
                             <span th:if="${schoolInfo.phone != null and !#strings.isEmpty(schoolInfo.phone)}">
                                 Phone : <span th:text="${schoolInfo.phone}"></span>
                             </span>
@@ -90,6 +99,15 @@
                             <span th:if="${schoolInfo.email != null and !#strings.isEmpty(schoolInfo.email)}">
                                 Email : <span th:text="${schoolInfo.email}"></span>
                             </span>
+=======
+                            Phone :
+                            9876543210
+
+                            |
+
+                            Email :
+                            school@email.com
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
                         </div>
 
@@ -220,6 +238,7 @@
                                 </tr>
 
                                 <tr>
+<<<<<<< HEAD
                                     <th>PEN Number</th>
                                     <td th:text="${student.formattedPenNo ?: '—'}"></td>
                                     <th>APAAR ID</th>
@@ -308,6 +327,62 @@
                                     <td th:text="${student.bloodGroup ?: '-'}">
                                     </td>
 
+=======
+
+                                    <th>
+
+                                        Student Name
+
+                                    </th>
+
+                                    <td th:text="${student.studentName}">
+                                    </td>
+
+                                    <th>
+
+                                        Status
+
+                                    </th>
+
+                                    <td th:text="${student.status}">
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <th>
+
+                                        Gender
+
+                                    </th>
+
+                                    <td th:text="${student.gender}">
+                                    </td>
+
+                                    <th>
+
+                                        Date of Birth
+
+                                    </th>
+
+                                    <td th:text="${student.dateOfBirth}">
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <th>
+
+                                        Blood Group
+
+                                    </th>
+
+                                    <td th:text="${student.bloodGroup ?: '-'}">
+                                    </td>
+
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
                                     <th>
 
                                         Religion
@@ -336,7 +411,11 @@
 
                                     </th>
 
+<<<<<<< HEAD
                                     <td th:text="${student.formattedAadhaarNumber ?: '-'}">
+=======
+                                    <td th:text="${student.aadhaarNumber ?: '-'}">
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
                                     </td>
 
                                 </tr>
@@ -458,7 +537,11 @@
 
                                     </th>
 
+<<<<<<< HEAD
                                     <td width="30%" th:text="${student.formattedMobileNumber ?: '-'}">
+=======
+                                    <td width="30%" th:text="${student.mobileNumber ?: '-'}">
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
                                     </td>
 
                                     <th width="20%">
@@ -467,7 +550,11 @@
 
                                     </th>
 
+<<<<<<< HEAD
                                     <td width="30%" th:text="${student.formattedEmergencyContact ?: '-'}">
+=======
+                                    <td width="30%" th:text="${student.emergencyContact ?: '-'}">
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
                                     </td>
 
                                 </tr>
@@ -631,6 +718,8 @@
 
     
 </div>
+
+
 
 
 

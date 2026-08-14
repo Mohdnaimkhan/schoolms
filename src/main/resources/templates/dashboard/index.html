@@ -667,7 +667,11 @@
 
                                     </td>
 
+<<<<<<< HEAD
                                     <td th:text="${fee.studentSession != null && fee.studentSession.student != null ? fee.studentSession.student.studentName : '--'}">
+=======
+                                    <td th:text="${fee.student.studentName}">
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
                                         Student
 
@@ -850,7 +854,11 @@
 
                         <tr th:each="attendance : ${recentAttendance}">
 
+<<<<<<< HEAD
                             <td th:text="${attendance.student.studentName}">
+=======
+                            <td th:text="${attendance.student.StudentName}">
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
                                 Student
 

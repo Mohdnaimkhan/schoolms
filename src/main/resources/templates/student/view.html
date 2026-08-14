@@ -5,19 +5,644 @@
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 <div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
+<<<<<<< HEAD
 <main class="sms-content">
     <div class="container-fluid py-3 student-profile-page">
+=======
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <main class="sms-content">
+
+        <div class="container-fluid p-3">
+
+            <!-- ===========================
+         PAGE HEADER
+    ============================ -->
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div>
+
+                    <h3 class="fw-bold mb-1">
+
+                        <i class="bi bi-person-vcard-fill text-primary me-2"></i>
+
+                        Student Details
+
+                    </h3>
+
+                    <p class="mb-0 text-secondary">
+
+                        Complete Student Profile
+
+                    </p>
+
+                </div>
+
+                <div class="d-flex gap-2">
+
+                    <a th:href="@{/students}" class="btn btn-outline-secondary">
+
+                        <i class="bi bi-arrow-left"></i>
+
+                        Back
+
+                    </a>
+
+                    <a th:href="@{/students/edit/{id}(id=${student.id})}" class="btn btn-warning">
+
+                        <i class="bi bi-pencil-square"></i>
+
+                        Edit
+
+                    </a>
+
+                    <a th:href="@{/students/print/{id}(id=${student.id})}" target="_blank" class="btn btn-success">
+
+                        <i class="bi bi-printer"></i>
+
+                        Print
+
+                    </a>
+
+                </div>
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
         <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
             <div>
                 <div class="text-secondary small mb-1">Students / Profile</div>
                 <h2 class="sms-page-title mb-0"><i class="bi bi-person-vcard-fill text-primary me-2"></i>Student Profile</h2>
             </div>
+<<<<<<< HEAD
             <div class="d-flex gap-2 flex-wrap">
                 <a th:href="@{/students}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Back</a>
                 <a th:href="@{/students/edit/{id}(id=${student.id})}" class="btn btn-primary"><i class="bi bi-pencil-square me-1"></i>Edit Student</a>
                 <a th:href="@{/students/print/{id}(id=${student.id})}" target="_blank" class="btn btn-outline-primary"><i class="bi bi-printer me-1"></i>Print Profile</a>
+=======
+
+
+            <!-- ===========================
+         PROFILE CARD
+    ============================ -->
+
+            <div class="card shadow-sm rounded-4 border-0 mb-4">
+
+                <div class="card-body p-4">
+
+                    <div class="row align-items-center">
+
+                        <!-- PHOTO -->
+
+                        <div class="col-xl-3 col-lg-4 text-center">
+
+                            <img th:if="${student.photo!=null}" th:src="@{'/uploads/students/'+${student.photo}}"
+                                class="rounded-4 shadow-sm border" style="width:190px;height:230px;object-fit:cover;">
+
+                            <img th:if="${student.photo==null}" th:src="@{/images/no-image.png}"
+                                class="rounded-4 shadow-sm border" style="width:190px;height:230px;object-fit:cover;">
+
+                        </div>
+
+                        <!-- PROFILE SUMMARY -->
+
+                        <div class="col-xl-9 col-lg-8">
+
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+
+                                <div>
+
+                                    <h2 class="fw-bold mb-1" th:text="${student.studentName}">
+                                        Student Name
+                                    </h2>
+
+                                    <div>
+
+                                        Admission No :
+
+                                        <span class="fw-semibold" th:text="${student.admissionNo}">
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                                <span class="badge px-3 py-2 fs-6" th:classappend="
+                                ${student.status.name()=='ACTIVE'} ? ' bg-success' :
+                                (${student.status.name()=='INACTIVE'} ? ' bg-secondary' :
+                                (${student.status.name()=='LEFT'} ? ' bg-danger' :
+                                ' bg-primary'))" th:text="${student.status}">
+                                </span>
+
+                            </div>
+
+                            <hr>
+
+                            <div class="row g-4">
+
+                                <div class="col-md-4">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Gender
+
+                                    </label>
+
+                                    <div th:text="${student.gender}"></div>
+
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Date of Birth
+
+                                    </label>
+
+                                    <div th:text="${student.dateOfBirth}"></div>
+
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Blood Group
+
+                                    </label>
+
+                                    <div th:text="${student.bloodGroup}"></div>
+
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Mobile Number
+
+                                    </label>
+
+                                    <div th:text="${student.mobileNumber}"></div>
+
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Email
+
+                                    </label>
+
+                                    <div th:text="${student.email}"></div>
+
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Aadhaar Number
+
+                                    </label>
+
+                                    <div th:text="${student.aadhaarNumber}"></div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
+            <!-- ===========================
+         ADMISSION INFORMATION
+    ============================ -->
+
+            <div class="card shadow-sm rounded-4 border-0 mb-4">
+
+                <div class="card-header">
+
+                    <h5 class="fw-bold mb-0">
+
+                        <i class="bi bi-journal-check text-primary me-2"></i>
+
+                        Admission Information
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body p-3">
+
+                    <div class="row g-4">
+
+                        <div class="col-lg-4">
+
+                            <label class="form-label fw-semibold">
+
+                                Admission Number
+
+                            </label>
+
+                            <div th:text="${student.admissionNo}"></div>
+
+                        </div>
+
+                        <div class="col-lg-4">
+
+                            <label class="form-label fw-semibold">
+
+                                Admission Date
+
+                            </label>
+
+                            <div th:text="${student.admissionDate}"></div>
+
+                        </div>
+
+                        <div class="col-lg-4">
+
+                            <label class="form-label fw-semibold">
+
+                                Student Status
+
+                            </label>
+
+                            <div>
+
+                                <span class="badge bg-success" th:text="${student.status}">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ===========================
+         STUDENT INFORMATION
+    ============================ -->
+
+            <div class="card shadow-sm rounded-4 border-0 mb-4">
+
+                <div class="card-header">
+
+                    <h5 class="fw-bold mb-0">
+
+                        <i class="bi bi-person-fill text-success me-2"></i>
+
+                        Student Information
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body p-3">
+
+                    <div class="row g-4">
+
+                        <div class="col-lg-6">
+
+                            <label class="form-label fw-semibold">
+
+                                Student Name
+
+                            </label>
+
+                            <div th:text="${student.studentName}"></div>
+
+                        </div>
+
+                        <div class="col-lg-3">
+
+                            <label class="form-label fw-semibold">
+
+                                Gender
+
+                            </label>
+
+                            <div th:text="${student.gender}"></div>
+
+                        </div>
+
+                        <div class="col-lg-3">
+
+                            <label class="form-label fw-semibold">
+
+                                Blood Group
+
+                            </label>
+
+                            <div th:text="${student.bloodGroup}"></div>
+
+                        </div>
+
+                        <div class="col-lg-4">
+
+                            <label class="form-label fw-semibold">
+
+                                Date of Birth
+
+                            </label>
+
+                            <div th:text="${student.dateOfBirth}"></div>
+
+                        </div>
+
+                        <div class="col-lg-4">
+
+                            <label class="form-label fw-semibold">
+
+                                Religion
+
+                            </label>
+
+                            <div th:text="${student.religion}"></div>
+
+                        </div>
+
+                        <div class="col-lg-4">
+
+                            <label class="form-label fw-semibold">
+
+                                Category
+
+                            </label>
+
+                            <div th:text="${student.category}"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ===========================
+     PARENT INFORMATION
+=========================== -->
+
+            <div class="card shadow-sm rounded-4 border-0 mb-4">
+
+                <div class="card-header">
+
+                    <h5 class="fw-bold mb-0">
+
+                        <i class="bi bi-people-fill text-warning me-2"></i>
+
+                        Parent Information
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body p-3">
+
+                    <div class="row g-4">
+
+                        <div class="col-lg-6">
+
+                            <label class="form-label fw-semibold">
+
+                                Father Name
+
+                            </label>
+
+                            <div th:text="${student.fatherName}"></div>
+
+                        </div>
+
+                        <div class="col-lg-6">
+
+                            <label class="form-label fw-semibold">
+
+                                Mother Name
+
+                            </label>
+
+                            <div th:text="${student.motherName}"></div>
+
+                        </div>
+
+                        <div class="col-lg-6">
+
+                            <label class="form-label fw-semibold">
+
+                                Guardian Name
+
+                            </label>
+
+                            <div th:text="${student.guardianName}"></div>
+
+                        </div>
+
+                        <div class="col-lg-6">
+
+                            <label class="form-label fw-semibold">
+
+                                Guardian Relation
+
+                            </label>
+
+                            <div th:text="${student.guardianRelation}"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
+            </div>
+
+
+
+            <!-- ===========================
+     CONTACT INFORMATION
+=========================== -->
+
+            <div class="card shadow-sm rounded-4 border-0 mb-4">
+
+                <div class="card-header">
+
+                    <h5 class="fw-bold mb-0">
+
+                        <i class="bi bi-telephone-fill text-success me-2"></i>
+
+                        Contact Information
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body p-3">
+
+                    <div class="row g-4">
+
+                        <div class="col-lg-4">
+
+                            <label class="form-label fw-semibold">
+
+                                Mobile Number
+
+                            </label>
+
+                            <div th:text="${student.mobileNumber}"></div>
+
+                        </div>
+
+                        <div class="col-lg-4">
+
+                            <label class="form-label fw-semibold">
+
+                                Emergency Contact
+
+                            </label>
+
+                            <div th:text="${student.emergencyContact}"></div>
+
+                        </div>
+
+                        <div class="col-lg-4">
+
+                            <label class="form-label fw-semibold">
+
+                                Email Address
+
+                            </label>
+
+                            <div th:text="${student.email}"></div>
+
+                        </div>
+
+                        <div class="col-12">
+
+                            <label class="form-label fw-semibold">
+
+                                Address
+
+                            </label>
+
+                            <div th:text="${student.address}"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ===========================
+     OTHER INFORMATION
+=========================== -->
+
+            <div class="card shadow-sm rounded-4 border-0 mb-4">
+
+                <div class="card-header">
+
+                    <h5 class="fw-bold mb-0">
+
+                        <i class="bi bi-info-circle-fill text-primary me-2"></i>
+
+                        Other Information
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body p-3">
+
+                    <div class="row g-4">
+
+                        <div class="col-lg-6">
+
+                            <label class="form-label fw-semibold">
+
+                                Aadhaar Number
+
+                            </label>
+
+                            <div th:text="${student.aadhaarNumber}"></div>
+
+                        </div>
+
+                        <div class="col-lg-6">
+
+                            <label class="form-label fw-semibold">
+
+                                Remarks
+
+                            </label>
+
+                            <div th:text="${student.remarks}"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ===========================
+         ACTION BUTTONS
+    ============================ -->
+
+            <div class="card shadow-sm rounded-4 border-0">
+
+                <div class="card-body p-3">
+
+                    <div class="d-flex justify-content-end gap-2">
+
+                        <a th:href="@{/students}" class="btn btn-outline-secondary">
+
+                            <i class="bi bi-arrow-left"></i>
+
+                            Back
+
+                        </a>
+
+                        <a th:href="@{/students/edit/{id}(id=${student.id})}" class="btn btn-warning">
+
+                            <i class="bi bi-pencil-square"></i>
+
+                            Edit
+
+                        </a>
+
+                        <a th:href="@{/students/print/{id}(id=${student.id})}" target="_blank" class="btn btn-success">
+
+                            <i class="bi bi-printer"></i>
+
+                            Print
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
 
         <!-- Profile Hero -->

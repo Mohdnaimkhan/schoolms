@@ -264,6 +264,7 @@
 
                                     </span>
 
+<<<<<<< HEAD
                                     <input type="search" name="keyword" class="form-control"
                                         placeholder="Name, admission no, father, mobile, PEN, APAAR..."
                                         autocomplete="off" spellcheck="false"
@@ -272,6 +273,11 @@
                                             id="studentSearchClear" title="Clear search">
                                         <i class="bi bi-x-lg"></i>
                                     </button>
+=======
+                                    <input type="text" name="keyword" class="form-control"
+                                        placeholder="Admission No / Student Name / Father Name"
+                                        th:value="${param.keyword}">
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
                                 </div>
 
@@ -292,7 +298,11 @@
                                     <option value="">All Status</option>
 
                                     <option th:each="status : ${studentStatuses}" th:value="${status}"
+<<<<<<< HEAD
                                         th:text="${status}" th:selected="${status == selectedStatus}">
+=======
+                                        th:text="${status}">
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
                                     </option>
 
                                 </select>
@@ -429,7 +439,11 @@
 
                                     <td th:text="${student.fatherName}"></td>
 
+<<<<<<< HEAD
                                     <td th:text="${student.formattedMobileNumber ?: '-'}"></td>
+=======
+                                    <td th:text="${student.mobileNumber}"></td>
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
                                     <td>
 
@@ -477,6 +491,7 @@
                                                 class="btn btn-sm btn-outline-primary">
 
                                                 <i class="bi bi-credit-card"></i>
+<<<<<<< HEAD
 
                                             </a>
 
@@ -488,6 +503,9 @@
                                                 <i class="bi bi-clock-history"></i>
 
                                             </a>
+=======
+                                            
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
                                         </div>
 

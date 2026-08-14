@@ -31,8 +31,11 @@
 
                 </p>
 
+<<<<<<< HEAD
                 <small class="d-block text-secondary fst-italic" th:if="${schoolInfo.slogan != null && !#strings.isEmpty(schoolInfo.slogan)}" th:text="${schoolInfo.slogan}"></small>
 
+=======
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
                 <small class="text-secondary"
                        th:text="${schoolInfo.shortName != null && !#strings.isEmpty(schoolInfo.shortName)}
                                ? ${schoolInfo.shortName}
@@ -64,7 +67,11 @@
 
                     <li><a th:href="@{/teachers}">Teachers</a></li>
 
+<<<<<<< HEAD
                     <li><a th:href="@{/classrooms}">Classes</a></li>
+=======
+                    <li><a th:href="@{/classes}">Classes</a></li>
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
                     <li><a th:href="@{/subjects}">Subjects</a></li>
 
@@ -221,7 +228,11 @@
             <small class="text-secondary">
 
                 © 2026 All Rights Reserved |
+<<<<<<< HEAD
                 Version <strong th:text="${version != null && !#strings.isEmpty(version)} ? ${version} : 'v1.0.0'"></strong>
+=======
+                Version <strong>v1.0.0</strong>
+>>>>>>> 1410f37485c3674c8fae4f9f02f79c6ccb358c57
 
             </small>
 
