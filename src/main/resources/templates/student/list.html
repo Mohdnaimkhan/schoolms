@@ -11,33 +11,6 @@
 
     <main class="sms-content">
 
-        <!-- Flash Message -->
-
-        <div class="container-fluid mt-3">
-
-            <div th:if="${success}" class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
-
-                <i class="bi bi-check-circle-fill me-2"></i>
-
-                <span th:text="${success}"></span>
-
-                <button type="button" class="btn-close" data-bs-dismiss="alert">
-                </button>
-
-            </div>
-
-            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
-
-                <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                <span th:text="${error}"></span>
-
-                <button type="button" class="btn-close" data-bs-dismiss="alert">
-                </button>
-
-            </div>
-
-        </div>
-
         <div class="container-fluid">
 
             <!-- ===========================
@@ -59,12 +32,23 @@
 
                 </div>
 
-                <a th:href="@{/students/add}" class="btn btn-primary">
+                <div class="d-flex gap-2">
 
-                    <i class="bi bi-plus-circle"></i>
-                    New Admission
+                    <a th:href="@{/student-sessions/promote}" class="btn btn-outline-primary">
 
-                </a>
+                        <i class="bi bi-arrow-up-right-circle"></i>
+                        Promote Students
+
+                    </a>
+
+                    <a th:href="@{/students/add}" class="btn btn-primary">
+
+                        <i class="bi bi-plus-circle"></i>
+                        New Admission
+
+                    </a>
+
+                </div>
 
             </div>
 
@@ -76,7 +60,7 @@
 
                 <div class="col-xl-3 col-md-6">
 
-                    <div class="card shadow-sm h-100">
+                    <div class="card shadow-sm h-100 sms-summary-card">
 
                         <div class="card-body">
 
@@ -111,7 +95,7 @@
 
                 <div class="col-xl-3 col-md-6">
 
-                    <div class="card shadow-sm h-100">
+                    <div class="card shadow-sm h-100 sms-summary-card">
 
                         <div class="card-body">
 
@@ -146,7 +130,7 @@
 
                 <div class="col-xl-3 col-md-6">
 
-                    <div class="card shadow-sm h-100">
+                    <div class="card shadow-sm h-100 sms-summary-card">
 
                         <div class="card-body">
 
@@ -181,7 +165,7 @@
 
                 <div class="col-xl-3 col-md-6">
 
-                    <div class="card shadow-sm h-100">
+                    <div class="card shadow-sm h-100 sms-summary-card">
 
                         <div class="card-body">
 
@@ -253,9 +237,14 @@
 
                                     </span>
 
-                                    <input type="text" name="keyword" class="form-control"
-                                        placeholder="Admission No / Student Name / Father Name"
-                                        th:value="${param.keyword}">
+                                    <input type="search" name="keyword" class="form-control"
+                                        placeholder="Name, admission no, father, mobile, PEN, APAAR..."
+                                        autocomplete="off" spellcheck="false"
+                                        th:value="${keyword}">
+                                    <button type="button" class="btn btn-outline-secondary"
+                                            id="studentSearchClear" title="Clear search">
+                                        <i class="bi bi-x-lg"></i>
+                                    </button>
 
                                 </div>
 
@@ -276,7 +265,7 @@
                                     <option value="">All Status</option>
 
                                     <option th:each="status : ${studentStatuses}" th:value="${status}"
-                                        th:text="${status}">
+                                        th:text="${status}" th:selected="${status == selectedStatus}">
                                     </option>
 
                                 </select>
@@ -413,7 +402,7 @@
 
                                     <td th:text="${student.fatherName}"></td>
 
-                                    <td th:text="${student.mobileNumber}"></td>
+                                    <td th:text="${student.formattedMobileNumber ?: '-'}"></td>
 
                                     <td>
 
@@ -461,7 +450,17 @@
                                                 class="btn btn-sm btn-outline-primary">
 
                                                 <i class="bi bi-credit-card"></i>
-                                            
+
+                                            </a>
+
+                                            <!-- History -->
+                                            <a th:href="@{/student-sessions/history/{id}(id=${student.id})}"
+                                                class="btn btn-sm btn-outline-dark"
+                                                title="Class / Session History">
+
+                                                <i class="bi bi-clock-history"></i>
+
+                                            </a>
 
                                         </div>
 
@@ -492,7 +491,8 @@
 
     </main>
 
-    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/toast :: toast}"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
 
     <div th:replace="~{fragments/scripts :: scripts}"></div>
 
@@ -513,6 +513,25 @@
         }, 3000);
 
     </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const input = document.querySelector('input[name="keyword"]');
+    const clear = document.getElementById("studentSearchClear");
+    if (!input || !clear) return;
+
+    const sync = () => {
+        clear.classList.toggle("d-none", !input.value.trim());
+    };
+
+    input.addEventListener("input", sync);
+    clear.addEventListener("click", function () {
+        input.value = "";
+        input.form.submit();
+    });
+    sync();
+});
+</script>
 
 </body>
 

@@ -70,7 +70,29 @@
 
     .sms-navbar{
 
-        padding:0 15px;
+        padding:0 12px;
+
+        gap:8px;
+
+    }
+
+    .sms-navbar-logo{
+
+        width:36px !important;
+        height:36px !important;
+
+    }
+
+    .sms-navbar-brand{
+
+        min-width:0;
+
+    }
+
+    .sms-navbar-brand h5{
+
+        font-size:1rem;
+        max-width:38vw;
 
     }
 
@@ -91,6 +113,16 @@
     .sms-page-title{
 
         font-size:1.3rem;
+
+    }
+
+    /* Fixed 320px dropdown would overflow very narrow phones
+       (e.g. 320-360px viewports); cap it to the viewport. */
+    .sms-notif-dropdown{
+
+        width:calc(100vw - 30px) !important;
+
+        max-width:320px;
 
     }
 

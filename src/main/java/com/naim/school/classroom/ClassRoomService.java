@@ -1,5 +1,7 @@
 package com.naim.school.classroom;
 
+import com.naim.school.sms.BusinessException;
+
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -34,7 +36,7 @@ public class ClassRoomService {
     public ClassRoom getById(Long id) {
 
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Class Room not found."));
+                .orElseThrow(() -> new BusinessException("Class Room not found."));
 
     }
 
@@ -51,7 +53,7 @@ public class ClassRoomService {
 
             if (repository.existsByClassName(classRoom.getClassName())) {
 
-                throw new RuntimeException("Class already exists.");
+                throw new BusinessException("Class already exists.");
 
             }
 
@@ -61,7 +63,7 @@ public class ClassRoomService {
                     classRoom.getClassName(),
                     classRoom.getId())) {
 
-                throw new RuntimeException("Class already exists.");
+                throw new BusinessException("Class already exists.");
 
             }
 

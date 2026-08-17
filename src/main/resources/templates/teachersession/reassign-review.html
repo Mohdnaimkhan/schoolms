@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <div class="sms-page-header mb-4">
+
+            <div>
+
+                <h2 class="sms-page-title">
+
+                    <i class="bi bi-arrow-repeat me-2"></i>
+
+                    Reassign Teacher - Review
+
+                </h2>
+
+                <p class="text-secondary mb-0">
+
+                    <span th:text="${teacher.teacherName}"></span>
+                    - Carrying Forward to
+                    <strong th:text="${toSession.sessionName}"></strong>
+
+                </p>
+
+            </div>
+
+            <a th:href="@{/teacher-sessions/reassign}" class="btn btn-outline-secondary">
+
+                <i class="bi bi-arrow-left me-2"></i>
+
+                Back
+
+            </a>
+
+        </div>
+
+        <div class="sms-card">
+
+            <div class="p-3" th:if="${#lists.isEmpty(assignments)}">
+
+                <div class="text-center py-5">
+
+                    <i class="bi bi-inbox display-5"></i>
+
+                    <br><br>
+
+                    No Assignments Found for this Teacher in the Selected Session
+
+                </div>
+
+            </div>
+
+            <form th:if="${!#lists.isEmpty(assignments)}"
+                  th:action="@{/teacher-sessions/reassign/save}"
+                  method="post"><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+                <input type="hidden" name="toSessionId" th:value="${toSessionId}">
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead>
+
+                        <tr>
+
+                            <th width="40">
+
+                                <input type="checkbox" id="selectAll" checked
+                                       onclick="document.querySelectorAll('.assignCheck').forEach(c => c.checked = this.checked)">
+
+                            </th>
+
+                            <th>#</th>
+                            <th>Subject</th>
+                            <th>Class</th>
+                            <th>Section</th>
+
+                        </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                        <tr th:each="a, stat : ${assignments}">
+
+                            <td>
+
+                                <input type="checkbox"
+                                       class="assignCheck"
+                                       name="teacherSessionIds"
+                                       th:value="${a.id}"
+                                       checked>
+
+                            </td>
+
+                            <td th:text="${stat.count}"></td>
+
+                            <td th:text="${a.subject != null ? a.subject.subjectName : '--'}"></td>
+
+                            <td th:text="${a.classRoom != null ? a.classRoom.className : '--'}"></td>
+
+                            <td th:text="${a.section != null ? a.section.sectionName : '--'}"></td>
+
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <div class="p-3 d-flex justify-content-end gap-2">
+
+                    <a th:href="@{/teacher-sessions/reassign}" class="btn btn-outline-secondary">
+
+                        Cancel
+
+                    </a>
+
+                    <button type="submit" class="btn btn-primary">
+
+                        <i class="bi bi-check-circle me-2"></i>
+
+                        Reassign Selected
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/toast :: toast}"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>

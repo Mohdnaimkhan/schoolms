@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <div class="sms-page-header mb-4">
+
+            <div>
+
+                <h2 class="sms-page-title">
+
+                    <i class="bi bi-grid-3x3 me-2"></i>
+
+                    Weekly Timetable
+
+                </h2>
+
+                <p class="text-secondary mb-0">
+
+                    Class Schedule at a Glance
+
+                </p>
+
+            </div>
+
+            <a th:href="@{/timetable}" class="btn btn-outline-secondary">
+
+                <i class="bi bi-arrow-left me-2"></i>
+
+                Back
+
+            </a>
+
+        </div>
+
+        <!-- Selection Filter -->
+
+        <div class="sms-card mb-3">
+
+            <div class="p-3">
+
+                <form th:action="@{/timetable/view}" method="get" class="row g-2 align-items-center">
+
+                    <div class="col-auto">
+
+                        <label class="form-label fw-semibold mb-0">Academic Session</label>
+
+                        <select name="sessionId" class="form-select">
+
+                            <option value="">-- Select --</option>
+
+                            <option th:each="as : ${academicSessions}"
+                                    th:value="${as.id}"
+                                    th:selected="${selectedSessionId != null && selectedSessionId == as.id}"
+                                    th:text="${as.sessionName}">
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-auto">
+
+                        <label class="form-label fw-semibold mb-0">Class</label>
+
+                        <select name="classRoomId" class="form-select">
+
+                            <option value="">-- Select --</option>
+
+                            <option th:each="c : ${classRooms}"
+                                    th:value="${c.id}"
+                                    th:selected="${selectedClassRoomId != null && selectedClassRoomId == c.id}"
+                                    th:text="${c.className}">
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-auto">
+
+                        <label class="form-label fw-semibold mb-0">Section</label>
+
+                        <select name="sectionId" class="form-select">
+
+                            <option value="">-- No Section --</option>
+
+                            <option th:each="sec : ${sections}"
+                                    th:value="${sec.id}"
+                                    th:selected="${selectedSectionId != null && selectedSectionId == sec.id}"
+                                    th:text="${sec.sectionName}">
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-auto align-self-end">
+
+                        <button type="submit" class="btn btn-primary">
+
+                            <i class="bi bi-search me-2"></i>
+
+                            View
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <!-- Grid -->
+
+        <div class="sms-card" th:if="${grid != null}">
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered align-middle mb-0 text-center">
+
+                    <thead>
+
+                    <tr>
+
+                        <th style="width: 90px;">Period</th>
+
+                        <th th:each="d : ${weekDays}" th:text="${d}"></th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    <tr th:each="period : ${#numbers.sequence(1, maxPeriod)}">
+
+                        <td class="fw-semibold" th:text="${period}"></td>
+
+                        <td th:each="d : ${weekDays}">
+
+                            <div th:if="${grid.get(period) != null and grid.get(period).get(d.name()) != null}">
+
+                                <div class="fw-semibold"
+                                     th:text="${grid.get(period).get(d.name()).subject.subjectName}"></div>
+
+                                <small class="text-secondary"
+                                       th:text="${grid.get(period).get(d.name()).teacher.teacherName}"></small>
+
+                            </div>
+
+                            <span th:if="${grid.get(period) == null or grid.get(period).get(d.name()) == null}"
+                                  class="text-secondary">--</span>
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <div class="sms-card" th:if="${grid == null}">
+
+            <div class="p-5 text-center text-secondary">
+
+                <i class="bi bi-calendar3 display-5"></i>
+
+                <br><br>
+
+                Select an Academic Session and Class to view the timetable.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/toast :: toast}"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>

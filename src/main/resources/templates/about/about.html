@@ -711,59 +711,11 @@
                         </thead>
 
                         <tbody>
-
-                            <tr>
-
-                                <td>
-
-                                    <span class="badge bg-primary">
-
-                                       <span th:text="${version}"></span>
-
-                                    </span>
-
-                                </td>
-
-                                <td>
-
-                                   <span th:text="${releaseDate}"></span>
-
-                                </td>
-
-                                <td>
-
-                                   Add about page  in the system with version history and upcoming features.
-
-                                </td>
-
+                            <tr th:each="entry : ${changeLog}">
+                                <td><span class="badge bg-primary" th:text="${entry.version}"></span></td>
+                                <td th:text="${entry.releaseDate}"></td>
+                                <td th:text="${entry.description}"></td>
                             </tr>
-                            <tr>
-
-                                <td>
-
-                                    <span class="badge bg-primary">
-
-                                       <span> 1.0.0</span>
-
-                                    </span>
-
-                                </td>
-
-                                <td>
-
-                                   <span> 01 August 2026</span>
-
-                                </td>
-
-                                <td>
-
-                                    Initial Release with School Profile, Student, Teacher,
-                                    Academic Session, Classroom and Dashboard.
-
-                                </td>
-
-                            </tr>
-
                         </tbody>
 
                     </table>
@@ -872,7 +824,8 @@
 
     <!-- Footer -->
 
-    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/toast :: toast}"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
 
     <!-- Scripts -->
 

@@ -27,6 +27,20 @@
 
             </a>
 
+            <!-- Notices -->
+
+            <a th:href="@{/notices}" class="menu-link">
+
+                <i class="bi bi-megaphone"></i>
+
+                <span>
+
+                    Notices
+
+                </span>
+
+            </a>
+
             <!-- =====================
              School Management
         ====================== -->
@@ -39,7 +53,7 @@
 
             <div class="accordion" id="sidebarAccordion">
 
-                <div class="accordion-item">
+                <div class="accordion-item" th:if="${isAdmin}">
 
                     <h2 class="accordion-header">
 
@@ -58,7 +72,7 @@
 
                         <div class="accordion-body p-0">
 
-                            <a th:href="@{/settings/school}" class="submenu-link">
+                            <a th:if="${isAdmin}" th:href="@{/settings/school}" class="submenu-link">
 
                                 <i class="bi bi-gear"></i>
 
@@ -94,14 +108,14 @@
 
                         <div class="accordion-body p-0">
 
-                            <a th:href="@{/academic-sessions}" class="submenu-link">
+                            <a th:if="${isAdmin}" th:href="@{/academic-sessions}" class="submenu-link">
 
                                 <i class="bi bi-calendar-event"></i>
 
                                 Academic Session
 
                             </a>
-                            <a th:href="@{/sections}" class="submenu-link">
+                            <a th:if="${isAdmin}" th:href="@{/sections}" class="submenu-link">
 
                                 <i class="bi bi-diagram-3"></i>
 
@@ -109,7 +123,7 @@
 
                             </a>
 
-                            <a th:href="@{/classrooms}" class="submenu-link">
+                            <a th:if="${isAdmin}" th:href="@{/classrooms}" class="submenu-link">
 
                                 <i class="bi bi-door-open"></i>
 
@@ -118,7 +132,7 @@
                             </a>
 
 
-                            <a th:href="@{/subjects}" class="submenu-link">
+                            <a th:if="${isAdmin}" th:href="@{/subjects}" class="submenu-link">
 
                                 <i class="bi bi-journal-bookmark"></i>
 
@@ -126,11 +140,19 @@
 
                             </a>
 
-                            <a th:href="@{/teachers}" class="submenu-link">
+                            <a th:if="${isAdmin}" th:href="@{/teachers}" class="submenu-link">
 
                                 <i class="bi bi-person-workspace"></i>
 
                                 Teacher
+
+                            </a>
+
+                            <a th:if="${isAdmin}" th:href="@{/teacher-sessions}" class="submenu-link">
+
+                                <i class="bi bi-person-video3"></i>
+
+                                Teacher Session
 
                             </a>
 
@@ -142,7 +164,15 @@
 
                             </a>
 
-                            <a th:href="@{/attendance}" class="submenu-link ">
+                            <a th:if="${isAdmin}" th:href="@{/student-sessions}" class="submenu-link">
+
+                                <i class="bi bi-person-check"></i>
+
+                                Student Session
+
+                            </a>
+
+                            <a th:if="${isAdmin or isStaff or isTeacher}" th:href="@{/attendance}" class="submenu-link ">
 
                                 <i class="bi bi-calendar-check"></i>
 
@@ -151,31 +181,19 @@
 
                             </a>
 
-                            <a href="#" class="submenu-link disabled">
+                            <a th:if="${isAdmin or isStaff or isTeacher}" th:href="@{/exams}" class="submenu-link">
 
                                 <i class="bi bi-file-earmark-text"></i>
 
                                 Examination
 
-                                <span class="badge bg-warning ms-auto">
-
-                                    Soon
-
-                                </span>
-
                             </a>
 
-                            <a href="#" class="submenu-link disabled">
+                            <a th:if="${isAdmin or isStaff or isTeacher}" th:href="@{/timetable}" class="submenu-link">
 
-                                <i class="bi bi-award"></i>
+                                <i class="bi bi-calendar-week"></i>
 
-                                Result
-
-                                <span class="badge bg-warning ms-auto">
-
-                                    Soon
-
-                                </span>
+                                Timetable
 
                             </a>
 
@@ -207,7 +225,15 @@
 
                         <div class="accordion-body p-0">
 
-                            <a th:href="@{/fees}" class="submenu-link ">
+                            <a th:if="${isAdmin}" th:href="@{/fee-heads}" class="submenu-link ">
+
+                                <i class="bi bi-tags"></i>
+
+                                Fee Heads
+
+                            </a>
+
+                            <a th:if="${isAdmin}" th:href="@{/fee-structures}" class="submenu-link ">
 
                                 <i class="bi bi-wallet2"></i>
 
@@ -215,27 +241,19 @@
 
                             </a>
 
-                            <a href="#" class="submenu-link disabled">
+                            <a th:if="${isAdmin or isStaff}" th:href="@{/fees}" class="submenu-link ">
 
                                 <i class="bi bi-cash-coin"></i>
 
                                 Fee Collection
 
-                                <span class="badge bg-warning ms-auto">
-                                    Soon
-                                </span>
-
                             </a>
 
-                            <a href="#" class="submenu-link disabled">
+                            <a th:if="${isAdmin or isStaff}" th:href="@{/expenses}" class="submenu-link">
 
                                 <i class="bi bi-receipt"></i>
 
                                 Expenses
-
-                                <span class="badge bg-warning ms-auto">
-                                    Soon
-                                </span>
 
                             </a>
 
@@ -268,7 +286,7 @@
 
                         <div class="accordion-body p-0">
 
-                            <a href="#" class="submenu-link disabled">
+                            <a th:href="@{/reports/students}" class="submenu-link">
 
                                 <i class="bi bi-people"></i>
 
@@ -276,7 +294,7 @@
 
                             </a>
 
-                            <a href="#" class="submenu-link disabled">
+                            <a th:href="@{/reports/attendance}" class="submenu-link">
 
                                 <i class="bi bi-calendar-check"></i>
 
@@ -284,14 +302,14 @@
 
                             </a>
 
-                            <a href="#" class="submenu-link disabled">
+                            <a th:if="${isAdmin or isStaff}" th:href="@{/reports/fees}" class="submenu-link">
 
                                 <i class="bi bi-currency-rupee"></i>
 
                                 Fee Report
 
                             </a>
-                            <a href="#" class="submenu-link disabled">
+                            <a th:href="@{/reports/exams}" class="submenu-link">
 
                                 <i class="bi bi-file-earmark-text"></i>
 
@@ -328,19 +346,11 @@
 
                         <div class="accordion-body p-0">
 
-                            <a href="#" class="submenu-link disabled">
+                            <a th:if="${isAdmin}" th:href="@{/users}" class="submenu-link">
 
                                 <i class="bi bi-person-gear"></i>
 
                                 Users
-
-                            </a>
-
-                            <a href="#" class="submenu-link disabled">
-
-                                <i class="bi bi-shield-lock"></i>
-
-                                Roles
 
                             </a>
 
@@ -354,7 +364,7 @@
                  System
             ====================== -->
 
-                <div class="accordion-item">
+                <div class="accordion-item" th:if="${isAdmin}">
 
                     <h2 class="accordion-header">
 
@@ -372,7 +382,7 @@
                     <div id="systemMenu" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
 
                         <div class="accordion-body p-0">
-                            <a href="#" class="submenu-link disabled">
+                            <a th:if="${isAdmin}" th:href="@{/settings/school}" class="submenu-link">
 
                                 <i class="bi bi-sliders"></i>
 
@@ -380,7 +390,7 @@
 
                             </a>
 
-                            <a href="#" class="submenu-link disabled">
+                            <a th:if="${isAdmin}" th:href="@{/settings/backup}" class="submenu-link">
 
                                 <i class="bi bi-database"></i>
 
@@ -388,20 +398,14 @@
 
                             </a>
 
-                            <a href="#" class="submenu-link disabled">
+                            <a th:if="${isAdmin}" th:href="@{/activity-log}" class="submenu-link">
 
                                 <i class="bi bi-clock-history"></i>
 
                                 Activity Log
 
                             </a>
-                            <a href="#" class="submenu-link disabled">
 
-                                <i class="bi bi-palette"></i>
-
-                                Theme Settings
-
-                            </a>
                             <a th:href="@{/about}" class="submenu-link ">
 
                                 <i class="bi bi-info-circle"></i>
@@ -420,17 +424,21 @@
 
             <!-- Logout -->
 
-            <a href="#" class="menu-link text-danger mt-3">
+            <form th:action="@{/logout}" method="post" class="m-0"><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 
-                <i class="bi bi-box-arrow-right"></i>
+                <button type="submit" class="menu-link text-danger mt-3 border-0 bg-transparent w-100 text-start">
 
-                <span>
+                    <i class="bi bi-box-arrow-right"></i>
 
-                    Logout
+                    <span>
 
-                </span>
+                        Logout
 
-            </a>
+                    </span>
+
+                </button>
+
+            </form>
 
         </div>
 

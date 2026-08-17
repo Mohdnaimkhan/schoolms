@@ -31,7 +31,7 @@
                 <form
                         th:action="@{/attendance/save}"
                         th:object="${attendance}"
-                        method="post">
+                        method="post"><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 
                     <input type="hidden"
                            th:field="*{id}">
@@ -58,7 +58,7 @@
                                 <option
                                         th:each="student : ${students}"
                                         th:value="${student.id}"
-                                        th:text="${student.fullName}">
+                                        th:text="${student.studentName}">
 
                                 </option>
 
@@ -198,6 +198,7 @@
 
 </main>
 
+<div th:replace="~{fragments/toast :: toast}"></div>
 <div th:replace="~{fragments/footer :: footer}"></div>
 
 <div th:replace="~{fragments/scripts :: scripts}"></div>

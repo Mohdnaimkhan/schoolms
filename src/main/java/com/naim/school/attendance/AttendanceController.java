@@ -1,14 +1,17 @@
 package com.naim.school.attendance;
+import java.util.List;
 
 import com.naim.school.academicsession.AcademicSessionService;
 import com.naim.school.classroom.ClassRoomService;
 import com.naim.school.student.StudentService;
+import com.naim.school.activitylog.ActivityLogService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/attendance")
@@ -19,11 +22,27 @@ public class AttendanceController {
     private final StudentService studentService;
     private final ClassRoomService classroomService;
     private final AcademicSessionService academicSessionService;
+    private final ActivityLogService activityLogService;
 
     @GetMapping
-    public String list(Model model) {
+    public String list(
+            @RequestParam(value = "sessionId", required = false) Long sessionId,
+            Model model) {
 
-        model.addAttribute("attendanceList", attendanceService.findAll());
+        List<Attendance> attendanceList = sessionId == null
+                ? attendanceService.findAll()
+                : attendanceService.findByAcademicSession(academicSessionService.getById(sessionId));
+        long attendancePresent = attendanceList.stream().filter(a -> a.getStatus() == AttendanceStatus.PRESENT).count();
+        long attendanceAbsent = attendanceList.stream().filter(a -> a.getStatus() == AttendanceStatus.ABSENT).count();
+        long attendanceLeave = attendanceList.stream().filter(a -> a.getStatus() == AttendanceStatus.LEAVE).count();
+
+        model.addAttribute("attendanceList", attendanceList);
+        model.addAttribute("academicSessions", academicSessionService.getAllSessions());
+        model.addAttribute("selectedSessionId", sessionId);
+        model.addAttribute("attendanceTotal", attendanceList.size());
+        model.addAttribute("attendancePresent", attendancePresent);
+        model.addAttribute("attendanceAbsent", attendanceAbsent);
+        model.addAttribute("attendanceLeave", attendanceLeave);
 
         return "attendance/list";
 
@@ -50,7 +69,8 @@ public class AttendanceController {
     public String save(
             @Valid @ModelAttribute("attendance") Attendance attendance,
             BindingResult result,
-            Model model
+            Model model,
+            RedirectAttributes redirectAttributes
     ) {
 
         if (attendance.getStudent() != null && attendance.getAttendanceDate() != null
@@ -83,14 +103,23 @@ public class AttendanceController {
 
         attendanceService.save(attendance);
 
+        redirectAttributes.addFlashAttribute("success", "Attendance saved successfully.");
+
+        activityLogService.logCreate("Attendance", "Marked attendance for student #" + attendance.getStudent().getId()
+                + " on " + attendance.getAttendanceDate() + " (" + attendance.getStatus() + ")");
+
         return "redirect:/attendance";
 
     }
 
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
 
         attendanceService.deleteById(id);
+
+        redirectAttributes.addFlashAttribute("success", "Attendance record deleted successfully.");
+
+        activityLogService.logDelete("Attendance", "Deleted attendance record #" + id);
 
         return "redirect:/attendance";
 

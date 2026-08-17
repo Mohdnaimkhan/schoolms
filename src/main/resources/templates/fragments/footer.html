@@ -31,6 +31,8 @@
 
                 </p>
 
+                <small class="d-block text-secondary fst-italic" th:if="${schoolInfo.slogan != null && !#strings.isEmpty(schoolInfo.slogan)}" th:text="${schoolInfo.slogan}"></small>
+
                 <small class="text-secondary"
                        th:text="${schoolInfo.shortName != null && !#strings.isEmpty(schoolInfo.shortName)}
                                ? ${schoolInfo.shortName}
@@ -62,7 +64,7 @@
 
                     <li><a th:href="@{/teachers}">Teachers</a></li>
 
-                    <li><a th:href="@{/classes}">Classes</a></li>
+                    <li><a th:href="@{/classrooms}">Classes</a></li>
 
                     <li><a th:href="@{/subjects}">Subjects</a></li>
 
@@ -219,7 +221,7 @@
             <small class="text-secondary">
 
                 © 2026 All Rights Reserved |
-                Version <strong>v1.0.0</strong>
+                Version <strong th:text="${version != null && !#strings.isEmpty(version)} ? ${version} : 'v1.0.0'"></strong>
 
             </small>
 

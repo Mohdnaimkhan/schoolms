@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <div class="sms-page-header mb-4">
+
+            <div>
+
+                <h2 class="sms-page-title">
+
+                    <i class="bi bi-bar-chart-line me-2"></i>
+
+                    Reports
+
+                </h2>
+
+                <p class="text-secondary mb-0">
+
+                    Generate Summary Reports
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-6 col-lg-3">
+
+                <a th:href="@{/reports/students}" class="text-decoration-none">
+
+                    <div class="sms-card p-4 text-center h-100">
+
+                        <i class="bi bi-people display-5 text-primary"></i>
+
+                        <h5 class="fw-bold mt-3">Student Report</h5>
+
+                        <p class="text-secondary mb-0">Class / section wise student list &amp; status summary</p>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+
+                <a th:href="@{/reports/attendance}" class="text-decoration-none">
+
+                    <div class="sms-card p-4 text-center h-100">
+
+                        <i class="bi bi-calendar-check display-5 text-warning"></i>
+
+                        <h5 class="fw-bold mt-3">Attendance Report</h5>
+
+                        <p class="text-secondary mb-0">Present / absent / leave summary by date range</p>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+
+                <a th:href="@{/reports/fees}" class="text-decoration-none">
+
+                    <div class="sms-card p-4 text-center h-100">
+
+                        <i class="bi bi-currency-rupee display-5 text-success"></i>
+
+                        <h5 class="fw-bold mt-3">Fee Report</h5>
+
+                        <p class="text-secondary mb-0">Collection summary, fee-head wise breakdown</p>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+
+                <a th:href="@{/reports/exams}" class="text-decoration-none">
+
+                    <div class="sms-card p-4 text-center h-100">
+
+                        <i class="bi bi-file-earmark-text display-5 text-danger"></i>
+
+                        <h5 class="fw-bold mt-3">Examination Report</h5>
+
+                        <p class="text-secondary mb-0">Subject wise average, pass / fail summary</p>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/toast :: toast}"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>

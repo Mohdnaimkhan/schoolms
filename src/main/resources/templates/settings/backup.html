@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('Backup')}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <div class="sms-page-header mb-4">
+
+            <div>
+
+                <h2 class="sms-page-title">
+
+                    <i class="bi bi-database me-2"></i>
+
+                    Backup
+
+                </h2>
+
+                <p class="text-secondary mb-0">
+
+                    Download a Copy of the School Database
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="sms-card">
+
+            <div class="p-4">
+
+                <div th:if="${!dbExists}" class="alert alert-warning">
+
+                    Database file was not found on the server.
+
+                </div>
+
+                <div th:if="${dbExists}">
+
+                    <div class="row mb-4">
+
+                        <div class="col-md-6">
+
+                            <div class="text-secondary">File Size</div>
+                            <div class="fs-5 fw-bold" th:text="${dbSizeKb} + ' KB'"></div>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <div class="text-secondary">Last Modified</div>
+                            <div class="fs-5 fw-bold"
+                                 th:text="${#temporals.format(dbLastModified,'dd MMM yyyy, hh:mm a')}"></div>
+
+                        </div>
+
+                    </div>
+
+                    <a th:href="@{/settings/backup/download}" class="btn btn-primary btn-lg">
+
+                        <i class="bi bi-download me-2"></i>
+
+                        Download Backup
+
+                    </a>
+
+                    <p class="text-secondary mt-3 mb-0">
+
+                        This downloads a snapshot of the live database file. Keep it somewhere
+                        safe - it contains all school records, including student, fee and exam data.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/toast :: toast}"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>

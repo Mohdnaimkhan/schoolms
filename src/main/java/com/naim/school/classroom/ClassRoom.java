@@ -1,5 +1,9 @@
 package com.naim.school.classroom;
 
+
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+
 import com.naim.school.sms.BaseEntity;
 
 import jakarta.persistence.Column;
@@ -11,6 +15,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@SQLDelete(sql = "UPDATE class_rooms SET deleted = true, deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
+@SQLRestriction("deleted = false")
 @Entity
 @Table(name = "class_rooms")
 public class ClassRoom extends BaseEntity {

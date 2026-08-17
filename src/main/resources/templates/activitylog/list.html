@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="sms-content">
+
+    <div class="container-fluid">
+
+        <div class="sms-page-header mb-4">
+
+            <div>
+
+                <h2 class="sms-page-title">
+
+                    <i class="bi bi-clock-history me-2"></i>
+
+                    Activity Log
+
+                </h2>
+
+                <p class="text-secondary mb-0">
+
+                    Who did what, and when.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header"><i class="bi bi-funnel-fill me-2"></i>Search &amp; Filters</div>
+
+            <div class="card-body">
+
+                <form th:action="@{/activity-log}" method="get">
+
+                    <div class="row g-3 align-items-end">
+
+                        <div class="col-lg-2 col-md-4">
+
+                            <label class="form-label fw-semibold">Username</label>
+
+                            <input type="text" name="username" class="form-control"
+                                   th:value="${selectedUsername}" placeholder="Any user">
+
+                        </div>
+
+                        <div class="col-lg-2 col-md-4">
+
+                            <label class="form-label fw-semibold">Module</label>
+
+                            <select name="module" class="form-select">
+
+                                <option value="">All modules</option>
+
+                                <option th:each="m : ${modules}"
+                                        th:value="${m}"
+                                        th:text="${m}"
+                                        th:selected="${m == selectedModule}"></option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-lg-2 col-md-4">
+
+                            <label class="form-label fw-semibold">Action</label>
+
+                            <select name="action" class="form-select">
+
+                                <option value="">Any action</option>
+
+                                <option th:each="a : ${actions}"
+                                        th:value="${a}"
+                                        th:text="${a}"
+                                        th:selected="${a == selectedAction}"></option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-lg-2 col-md-4">
+
+                            <label class="form-label fw-semibold">From</label>
+
+                            <input type="date" name="fromDate" class="form-control"
+                                   th:value="${selectedFromDate}">
+
+                        </div>
+
+                        <div class="col-lg-2 col-md-4">
+
+                            <label class="form-label fw-semibold">To</label>
+
+                            <input type="date" name="toDate" class="form-control"
+                                   th:value="${selectedToDate}">
+
+                        </div>
+
+                        <div class="col-lg-2 col-md-4 d-flex gap-2">
+
+                            <button type="submit" class="btn btn-primary flex-fill">
+
+                                <i class="bi bi-search me-1"></i>Search
+
+                            </button>
+
+                            <a th:href="@{/activity-log}" class="btn btn-outline-secondary" title="Reset">
+
+                                <i class="bi bi-arrow-counterclockwise"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <div class="sms-card">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead>
+
+                    <tr>
+
+                        <th>Timestamp</th>
+
+                        <th>User</th>
+
+                        <th>Action</th>
+
+                        <th>Module</th>
+
+                        <th>Details</th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    <tr th:each="entry : ${logs}">
+
+                        <td class="text-nowrap"
+                            th:text="${#temporals.format(entry.createdAt, 'dd MMM yyyy, hh:mm a')}"></td>
+
+                        <td th:text="${entry.username}"></td>
+
+                        <td>
+
+                            <span class="badge"
+                                  th:classappend="${entry.action.name() == 'CREATE'} ? 'bg-success' :
+                                                   (${entry.action.name() == 'UPDATE'} ? 'bg-primary' :
+                                                   (${entry.action.name() == 'DELETE'} ? 'bg-danger' :
+                                                   (${entry.action.name() == 'STATUS_CHANGE'} ? 'bg-warning text-dark' :
+                                                   (${entry.action.name() == 'LOGIN'} ? 'bg-info text-dark' :
+                                                   (${entry.action.name() == 'LOGIN_FAILED'} ? 'bg-danger' : 'bg-secondary')))))"
+                                  th:text="${entry.action}"></span>
+
+                        </td>
+
+                        <td th:text="${entry.module}"></td>
+
+                        <td th:text="${entry.description}"></td>
+
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(logs)}">
+
+                        <td colspan="5" class="text-center text-muted py-4">
+
+                            No activity found for the selected filters.
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/toast :: toast}"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>

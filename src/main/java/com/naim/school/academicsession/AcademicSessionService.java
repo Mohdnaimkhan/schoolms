@@ -1,5 +1,7 @@
 package com.naim.school.academicsession;
 
+import com.naim.school.sms.BusinessException;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -30,7 +32,7 @@ public class AcademicSessionService {
      */
     public AcademicSession getById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Academic Session not found."));
+                .orElseThrow(() -> new BusinessException("Academic Session not found."));
     }
 
     /*
@@ -45,7 +47,7 @@ public class AcademicSessionService {
         if (academicSession.getId() == null) {
 
             if (repository.existsBySessionName(academicSession.getSessionName())) {
-                throw new RuntimeException("Session already exists.");
+                throw new BusinessException("Session already exists.");
             }
 
         } else {
@@ -54,7 +56,7 @@ public class AcademicSessionService {
                     academicSession.getSessionName(),
                     academicSession.getId())) {
 
-                throw new RuntimeException("Session already exists.");
+                throw new BusinessException("Session already exists.");
             }
 
         }
@@ -85,7 +87,7 @@ public class AcademicSessionService {
 
         // Closed Session cannot become Current
         if (session.getEndDate() != null) {
-            throw new RuntimeException("Closed Session cannot be Current.");
+            throw new BusinessException("Closed Session cannot be Current.");
         }
 
         repository.findFirstByCurrentSessionTrue().ifPresent(oldSession -> {
@@ -110,7 +112,22 @@ public class AcademicSessionService {
     public AcademicSession getCurrentSession() {
 
         return repository.findFirstByCurrentSessionTrue()
-                .orElseThrow(() -> new RuntimeException("No Current Session Found."));
+                .orElseThrow(() -> new BusinessException("No Current Session Found."));
+
+    }
+
+    /*
+     * ==========================================
+     * GET CURRENT SESSION (NULL-SAFE)
+     * Used by places like the dashboard that must not
+     * fail just because no session has been created yet
+     * (e.g. right after a fresh install).
+     * ==========================================
+     */
+    public AcademicSession getCurrentSessionOrNull() {
+
+        return repository.findFirstByCurrentSessionTrue()
+                .orElse(null);
 
     }
 
@@ -125,15 +142,15 @@ public class AcademicSessionService {
         AcademicSession academicSession = getById(id);
 
         if (academicSession.getEndDate() != null) {
-            throw new RuntimeException("Session already closed.");
+            throw new BusinessException("Session already closed.");
         }
 
         if (endDate == null) {
-            throw new RuntimeException("End Date is required.");
+            throw new BusinessException("End Date is required.");
         }
 
         if (endDate.isBefore(academicSession.getStartDate())) {
-            throw new RuntimeException("End Date cannot be before Start Date.");
+            throw new BusinessException("End Date cannot be before Start Date.");
         }
 
         academicSession.setEndDate(endDate);

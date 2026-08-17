@@ -1,5 +1,7 @@
 package com.naim.school.subject;
 
+import com.naim.school.sms.BusinessException;
+
 import java.util.List;
 
 
@@ -23,7 +25,7 @@ public class SubjectService {
     public Subject getById(Long id) {
 
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Subject not found."));
+                .orElseThrow(() -> new BusinessException("Subject not found."));
 
     }
 
@@ -35,7 +37,7 @@ public class SubjectService {
                     subject.getSubjectName(),
                     subject.getClassRoom().getId())) {
 
-                throw new RuntimeException("Subject already exists.");
+                throw new BusinessException("Subject already exists.");
 
             }
 

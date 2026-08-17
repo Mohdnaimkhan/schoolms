@@ -2,16 +2,27 @@ package com.naim.school.sms;
 
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.Locale;
+import java.util.Set;
 import java.util.UUID;
 
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class FileStorageService {
 
     private static final String UPLOAD_DIR = "uploads";
+
+    // Only real image types are accepted for photo/logo uploads.
+    private static final Set<String> ALLOWED_EXTENSIONS = Set.of("jpg", "jpeg", "png", "webp");
+
+    private static final Set<String> ALLOWED_CONTENT_TYPES = Set.of(
+            "image/jpeg", "image/png", "image/webp");
 
     /*
      * =========================================
@@ -67,6 +78,22 @@ public class FileStorageService {
 
             String extension = getExtension(file.getOriginalFilename());
 
+            if (!ALLOWED_EXTENSIONS.contains(extension)) {
+
+                throw new BusinessException(
+                        "Invalid file type. Only JPG, JPEG, PNG and WEBP images are allowed.");
+
+            }
+
+            String contentType = file.getContentType();
+
+            if (contentType == null || !ALLOWED_CONTENT_TYPES.contains(contentType.toLowerCase(Locale.ROOT))) {
+
+                throw new BusinessException(
+                        "Invalid file content. Only JPG, JPEG, PNG and WEBP images are allowed.");
+
+            }
+
             String fileName = UUID.randomUUID() + "." + extension;
 
             Path path = Paths.get(UPLOAD_DIR, folder);
@@ -82,7 +109,7 @@ public class FileStorageService {
 
         } catch (IOException e) {
 
-            throw new RuntimeException("File Upload Failed.");
+            throw new BusinessException("File Upload Failed.");
 
         }
 
@@ -102,6 +129,14 @@ public class FileStorageService {
 
         }
 
+        // Only allow a bare file name (no directory separators) so a crafted
+        // value can never delete files outside the upload folder.
+        if (fileName.contains("/") || fileName.contains("\\") || fileName.contains("..")) {
+
+            return;
+
+        }
+
         try {
 
             Files.deleteIfExists(
@@ -112,7 +147,7 @@ public class FileStorageService {
 
         } catch (IOException e) {
 
-            e.printStackTrace();
+            log.warn("Failed to delete uploaded file: {}/{}", folder, fileName, e);
 
         }
 
@@ -128,11 +163,23 @@ public class FileStorageService {
 
         if (fileName == null || !fileName.contains(".")) {
 
-            return "jpg";
+            return "";
 
         }
 
-        return fileName.substring(fileName.lastIndexOf('.') + 1);
+        String ext = fileName.substring(fileName.lastIndexOf('.') + 1)
+                .trim()
+                .toLowerCase(Locale.ROOT);
+
+        // Strip anything that isn't a simple alphanumeric extension to prevent
+        // path traversal / null-byte tricks via a crafted original filename.
+        if (!ext.matches("[a-z0-9]+")) {
+
+            return "";
+
+        }
+
+        return ext;
 
     }
 

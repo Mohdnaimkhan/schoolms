@@ -1,0 +1,98 @@
+/* ==========================================================
+   TOAST NOTIFICATIONS
+   Global success/error/warning/info messages shown after
+   save/update/delete actions across every module.
+========================================================== */
+
+.sms-toast-stack {
+    position: fixed;
+    top: 84px;
+    right: 20px;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 360px;
+    width: calc(100% - 40px);
+    pointer-events: none;
+}
+
+.sms-toast {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: var(--bg-card);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--primary);
+    box-shadow: var(--shadow-md, 0 10px 30px rgba(0, 0, 0, .12));
+    font-size: .9rem;
+    line-height: 1.4;
+    pointer-events: auto;
+    opacity: 0;
+    transform: translateX(24px);
+    animation: sms-toast-in .25s ease forwards;
+}
+
+.sms-toast.sms-toast-hide {
+    animation: sms-toast-out .2s ease forwards;
+}
+
+@keyframes sms-toast-in {
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes sms-toast-out {
+    to { opacity: 0; transform: translateX(24px); }
+}
+
+.sms-toast > i {
+    font-size: 1.1rem;
+    margin-top: 1px;
+    flex: 0 0 auto;
+}
+
+.sms-toast > span {
+    flex: 1 1 auto;
+    word-break: break-word;
+}
+
+.sms-toast-close {
+    flex: 0 0 auto;
+    border: 0;
+    background: none;
+    font-size: 1.1rem;
+    line-height: 1;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0;
+}
+
+.sms-toast-close:hover {
+    color: var(--text);
+}
+
+.sms-toast-success { border-left-color: #16a34a; }
+.sms-toast-success > i { color: #16a34a; }
+
+.sms-toast-error { border-left-color: #dc2626; }
+.sms-toast-error > i { color: #dc2626; }
+
+.sms-toast-warning { border-left-color: #d97706; }
+.sms-toast-warning > i { color: #d97706; }
+
+.sms-toast-info { border-left-color: var(--primary); }
+.sms-toast-info > i { color: var(--primary); }
+
+@media (max-width: 576px) {
+    .sms-toast-stack {
+        top: auto;
+        bottom: 16px;
+        right: 12px;
+        left: 12px;
+        width: auto;
+        max-width: none;
+    }
+}

@@ -1,6 +1,10 @@
 package com.naim.school.attendance;
 
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+
+
 import com.naim.school.academicsession.AcademicSession;
 import com.naim.school.classroom.ClassRoom;
 import com.naim.school.sms.BaseEntity;
@@ -15,6 +19,8 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
+@SQLDelete(sql = "UPDATE attendance SET deleted = true, deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
+@SQLRestriction("deleted = false")
 @Entity
 @Table(
         name = "attendance",

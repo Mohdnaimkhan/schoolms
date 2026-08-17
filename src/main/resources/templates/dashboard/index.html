@@ -45,60 +45,29 @@
          WELCOME BANNER
     =========================== -->
 
-        <div class="dashboard-banner bg-dark">
+        <div class="dashboard-banner">
 
-            <div class="row align-items-center">
+            <div>
 
-                <div class="col-lg-8">
+                <h2 class="dashboard-title">
 
-                    <h2 class="dashboard-title">
+                    Welcome,
+                    <span th:text="${currentUsername != null && !#strings.isEmpty(currentUsername)
+                        ? currentUsername
+                        : 'User'}">
+                        User
+                    </span>
+                    👋
 
-                        Welcome Back,
-                        <span class="text-success">
+                </h2>
 
-                            Administrator
-
-                        </span>
-
-                        👋
-
-                    </h2>
-
-                    <p class="dashboard-subtitle">
-
-                        Manage your school efficiently from one dashboard.
-
-                    </p>
-
-                </div>
-
-                <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
-
-                    <div class="dashboard-session">
-
-                        <small>
-
-                            Current Academic Session
-
-                        </small>
-
-                        <h4 th:text="${currentSession != null ? currentSession.sessionName : 'No Active Session'}">
-
-                            2025-26
-
-                        </h4>
-
-                        <small id="currentDateTime"></small>
-
-                    </div>
-
-                </div>
+                <p class="dashboard-subtitle">
+                    Manage your school efficiently from one dashboard.
+                </p>
 
             </div>
 
         </div>
-
-
 
         <!-- ===========================
          SUMMARY CARDS
@@ -110,15 +79,15 @@
 
             <div class="col-xl-3 col-md-6">
 
-                <a th:href="@{/students}" class="dashboard-card">
+                <a th:href="@{/students}" class="dashboard-card dashboard-summary-card">
 
-                    <div class="dashboard-card-icon bg-primary">
+                    <div class="dashboard-summary-card-icon bg-primary">
 
                         <i class="bi bi-people-fill"></i>
 
                     </div>
 
-                    <div class="dashboard-card-content">
+                    <div class="dashboard-summary-card-content">
 
                         <small>
 
@@ -141,7 +110,7 @@
 
                     </div>
 
-                    <div class="dashboard-card-arrow">
+                    <div class="dashboard-summary-card-arrow">
 
                         <i class="bi bi-arrow-right-circle-fill"></i>
 
@@ -157,15 +126,15 @@
 
             <div class="col-xl-3 col-md-6">
 
-                <a th:href="@{/teachers}" class="dashboard-card">
+                <a th:href="@{/teachers}" class="dashboard-card dashboard-summary-card">
 
-                    <div class="dashboard-card-icon bg-success">
+                    <div class="dashboard-summary-card-icon bg-success">
 
                         <i class="bi bi-person-workspace"></i>
 
                     </div>
 
-                    <div class="dashboard-card-content">
+                    <div class="dashboard-summary-card-content">
 
                         <small>
 
@@ -187,7 +156,7 @@
 
                     </div>
 
-                    <div class="dashboard-card-arrow">
+                    <div class="dashboard-summary-card-arrow">
 
                         <i class="bi bi-arrow-right-circle-fill"></i>
 
@@ -203,15 +172,15 @@
 
             <div class="col-xl-3 col-md-6">
 
-                <a th:href="@{/classes}" class="dashboard-card">
+                <a th:href="@{/classrooms}" class="dashboard-card dashboard-summary-card">
 
-                    <div class="dashboard-card-icon bg-warning">
+                    <div class="dashboard-summary-card-icon bg-warning">
 
                         <i class="bi bi-building"></i>
 
                     </div>
 
-                    <div class="dashboard-card-content">
+                    <div class="dashboard-summary-card-content">
 
                         <small>
 
@@ -233,7 +202,7 @@
 
                     </div>
 
-                    <div class="dashboard-card-arrow">
+                    <div class="dashboard-summary-card-arrow">
 
                         <i class="bi bi-arrow-right-circle-fill"></i>
 
@@ -249,15 +218,15 @@
 
             <div class="col-xl-3 col-md-6">
 
-                <a th:href="@{/subjects}" class="dashboard-card">
+                <a th:href="@{/subjects}" class="dashboard-card dashboard-summary-card">
 
-                    <div class="dashboard-card-icon bg-danger">
+                    <div class="dashboard-summary-card-icon bg-danger">
 
                         <i class="bi bi-book-half"></i>
 
                     </div>
 
-                    <div class="dashboard-card-content">
+                    <div class="dashboard-summary-card-content">
 
                         <small>
 
@@ -279,7 +248,7 @@
 
                     </div>
 
-                    <div class="dashboard-card-arrow">
+                    <div class="dashboard-summary-card-arrow">
 
                         <i class="bi bi-arrow-right-circle-fill"></i>
 
@@ -301,7 +270,7 @@
 
             <div class="col-xl-3 col-md-6">
 
-                <a th:href="@{/attendance}" class="dashboard-widget">
+                <a th:href="@{/attendance}" class="dashboard-widget dashboard-summary-card">
 
                     <div class="widget-icon bg-success">
 
@@ -333,7 +302,7 @@
 
             <div class="col-xl-3 col-md-6">
 
-                <a th:href="@{/fees}" class="dashboard-widget">
+                <a th:href="@{/fees}" class="dashboard-widget dashboard-summary-card">
 
                     <div class="widget-icon bg-primary">
 
@@ -365,7 +334,7 @@
 
             <div class="col-xl-3 col-md-6">
 
-                <a th:href="@{/fees}" class="dashboard-widget">
+                <a th:href="@{/fees}" class="dashboard-widget dashboard-summary-card">
 
                     <div class="widget-icon bg-danger">
 
@@ -397,7 +366,7 @@
 
             <div class="col-xl-3 col-md-6">
 
-                <a th:href="@{/students}" class="dashboard-widget">
+                <a th:href="@{/students}" class="dashboard-widget dashboard-summary-card">
 
                     <div class="widget-icon bg-warning">
 
@@ -509,7 +478,7 @@
 
                     <div class="col-lg-2 col-md-4 col-6">
 
-                        <a th:href="@{/classes/add}" class="dashboard-action">
+                        <a th:href="@{/classrooms/add}" class="dashboard-action">
 
                             <i class="bi bi-building"></i>
 
@@ -610,7 +579,7 @@
 
                                     </td>
 
-                                    <td th:text="${student.classRoom.className}">
+                                    <td th:text="${currentClassByStudent.get(student.id)}">
 
                                         Class
 
@@ -698,7 +667,7 @@
 
                                     </td>
 
-                                    <td th:text="${fee.student.studentName}">
+                                    <td th:text="${fee.studentSession != null && fee.studentSession.student != null ? fee.studentSession.student.studentName : '--'}">
 
                                         Student
 
@@ -736,6 +705,103 @@
 
 
 
+
+
+        <!-- ==========================================================
+     RECENT NOTICES
+========================================================== -->
+
+        <div class="row">
+
+            <div class="col-12 mb-4">
+
+                <div class="card shadow-sm border-0">
+
+                    <div class="card-header d-flex justify-content-between align-items-center">
+
+                        <h5 class="mb-0">
+
+                            <i class="bi bi-megaphone text-primary me-2"></i>
+
+                            Recent Notices
+
+                        </h5>
+
+                        <a th:href="@{/notices}" class="btn btn-sm btn-outline-primary">
+
+                            View All
+
+                        </a>
+
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover align-middle mb-0">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Title</th>
+
+                                    <th>Date</th>
+
+                                    <th>Audience</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <tr th:each="notice : ${recentNotices}">
+
+                                    <td>
+
+                                        <a th:href="@{'/notices/edit/' + ${notice.id}}" th:text="${notice.title}">
+
+                                            Notice Title
+
+                                        </a>
+
+                                    </td>
+
+                                    <td th:text="${notice.noticeDate != null ? #temporals.format(notice.noticeDate,'dd MMM yyyy') : '--'}">
+
+                                        01 Jan 2026
+
+                                    </td>
+
+                                    <td th:text="${notice.audience}">
+
+                                        ALL
+
+                                    </td>
+
+                                </tr>
+
+                                <tr th:if="${#lists.isEmpty(recentNotices)}">
+
+                                    <td colspan="3" class="text-center text-muted py-4">
+
+                                        No notices found.
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
 
 
         <!-- ==========================================================
@@ -784,7 +850,7 @@
 
                         <tr th:each="attendance : ${recentAttendance}">
 
-                            <td th:text="${attendance.student.StudentName}">
+                            <td th:text="${attendance.student.studentName}">
 
                                 Student
 
@@ -867,7 +933,9 @@
 
                             <span>School Name</span>
 
-                            <strong>ABC Public School</strong>
+                            <strong th:text="${schoolInfo.schoolName != null && !#strings.isEmpty(schoolInfo.schoolName)
+                                    ? schoolInfo.schoolName
+                                    : 'Your School'}">Your School</strong>
 
                         </div>
 
@@ -1115,7 +1183,8 @@
 
     <!-- Footer -->
 
-    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/toast :: toast}"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
 
     <!-- Scripts -->
 

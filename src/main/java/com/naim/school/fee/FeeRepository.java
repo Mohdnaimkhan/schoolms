@@ -1,7 +1,7 @@
 package com.naim.school.fee;
 
 import com.naim.school.academicsession.AcademicSession;
-import com.naim.school.student.Student;
+import com.naim.school.studentsession.StudentSession;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
@@ -10,9 +10,9 @@ import java.util.Optional;
 
 public interface FeeRepository extends JpaRepository<Fee, Long> {
 
-    List<Fee> findByStudent(Student student);
+    List<Fee> findByStudentSession(StudentSession studentSession);
 
-    List<Fee> findByAcademicSession(AcademicSession academicSession);
+    List<Fee> findByStudentSession_AcademicSession(AcademicSession academicSession);
 
     List<Fee> findByStatus(FeeStatus status);
 

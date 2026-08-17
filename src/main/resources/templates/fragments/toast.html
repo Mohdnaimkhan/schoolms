@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<!--
+    Global toast notifications.
+
+    Any controller can trigger one by adding a RedirectAttributes flash
+    attribute before a redirect - or a plain Model attribute on a normal
+    (non-redirect) render:
+
+        redirectAttributes.addFlashAttribute(Constants.SUCCESS, "Student saved successfully.");
+        redirectAttributes.addFlashAttribute(Constants.ERROR, "Could not save student.");
+
+    Keys read here: "success", "error", "warning", "info".
+    GlobalExceptionHandler's BusinessException/Exception messages already
+    land in "error" via Constants.ERROR, so this fragment also covers
+    server-side error pages automatically.
+-->
+<div th:fragment="toast"
+     id="smsToastStack"
+     class="sms-toast-stack"
+     aria-live="polite"
+     aria-atomic="true">
+
+    <div th:if="${success != null and !#strings.isEmpty(success)}"
+         class="sms-toast sms-toast-success" role="status">
+        <i class="bi bi-check-circle-fill"></i>
+        <span th:text="${success}"></span>
+        <button type="button" class="sms-toast-close" aria-label="Close">&times;</button>
+    </div>
+
+    <div th:if="${error != null and !#strings.isEmpty(error)}"
+         class="sms-toast sms-toast-error" role="alert">
+        <i class="bi bi-x-circle-fill"></i>
+        <span th:text="${error}"></span>
+        <button type="button" class="sms-toast-close" aria-label="Close">&times;</button>
+    </div>
+
+    <div th:if="${warning != null and !#strings.isEmpty(warning)}"
+         class="sms-toast sms-toast-warning" role="status">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span th:text="${warning}"></span>
+        <button type="button" class="sms-toast-close" aria-label="Close">&times;</button>
+    </div>
+
+    <div th:if="${info != null and !#strings.isEmpty(info)}"
+         class="sms-toast sms-toast-info" role="status">
+        <i class="bi bi-info-circle-fill"></i>
+        <span th:text="${info}"></span>
+        <button type="button" class="sms-toast-close" aria-label="Close">&times;</button>
+    </div>
+
+</div>
+
+</body>
+
+</html>

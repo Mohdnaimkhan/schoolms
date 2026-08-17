@@ -1,7 +1,12 @@
 package com.naim.school.fee;
 
+import com.naim.school.sms.BusinessException;
+
 import com.naim.school.academicsession.AcademicSession;
-import com.naim.school.student.Student;
+import com.naim.school.feehead.FeeHead;
+import com.naim.school.feehead.FeeHeadRepository;
+import com.naim.school.studentsession.StudentSession;
+import com.naim.school.studentsession.StudentSessionRepo;
 
 import org.springframework.stereotype.Service;
 
@@ -14,33 +19,85 @@ import java.util.Optional;
 public class FeeService {
 
     private final FeeRepository feeRepository;
+    private final StudentSessionRepo studentSessionRepo;
+    private final FeeHeadRepository feeHeadRepository;
 
-    public FeeService(FeeRepository feeRepository) {
+    public FeeService(FeeRepository feeRepository,
+                       StudentSessionRepo studentSessionRepo,
+                       FeeHeadRepository feeHeadRepository) {
         this.feeRepository = feeRepository;
+        this.studentSessionRepo = studentSessionRepo;
+        this.feeHeadRepository = feeHeadRepository;
     }
 
     public List<Fee> findAll() {
         return feeRepository.findAll();
     }
 
+    // Find by id, with the transient dropdown ids populated for the edit form
     public Optional<Fee> findById(Long id) {
-        return feeRepository.findById(id);
+
+        Optional<Fee> feeOpt = feeRepository.findById(id);
+
+        feeOpt.ifPresent(fee -> {
+
+            if (fee.getStudentSession() != null) {
+
+                fee.setStudentSessionId(fee.getStudentSession().getId());
+
+            }
+
+            if (fee.getFeeHead() != null) {
+
+                fee.setFeeHeadId(fee.getFeeHead().getId());
+
+            }
+
+        });
+
+        return feeOpt;
+
     }
 
+    // Resolve the transient studentSessionId / feeHeadId into real entities, then save
     public Fee save(Fee fee) {
+
+        if (fee.getStudentSessionId() == null) {
+
+            throw new BusinessException("Student is required.");
+
+        }
+
+        StudentSession studentSession = studentSessionRepo.findById(fee.getStudentSessionId())
+                .orElseThrow(() -> new BusinessException("Student session not found."));
+
+        fee.setStudentSession(studentSession);
+
+        if (fee.getFeeHeadId() == null) {
+
+            throw new BusinessException("Fee head is required.");
+
+        }
+
+        FeeHead feeHead = feeHeadRepository.findById(fee.getFeeHeadId())
+                .orElseThrow(() -> new BusinessException("Fee head not found."));
+
+        fee.setFeeHead(feeHead);
+
         return feeRepository.save(fee);
+
     }
 
     public void deleteById(Long id) {
         feeRepository.deleteById(id);
     }
 
-    public List<Fee> findByStudent(Student student) {
-        return feeRepository.findByStudent(student);
+    public List<Fee> findByStudentSession(StudentSession studentSession) {
+        return feeRepository.findByStudentSession(studentSession);
     }
 
     public List<Fee> findByAcademicSession(AcademicSession academicSession) {
-        return feeRepository.findByAcademicSession(academicSession);
+        return feeRepository.findByStudentSession_AcademicSession(academicSession);
     }
 
     public List<Fee> findByStatus(FeeStatus status) {

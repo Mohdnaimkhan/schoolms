@@ -1,5 +1,9 @@
 package com.naim.school.student;
 
+
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+
 import java.time.LocalDate;
 
 import com.naim.school.sms.BaseEntity;
@@ -13,6 +17,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(exclude = "photo")
+@SQLDelete(sql = "UPDATE students SET deleted = true, deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
+@SQLRestriction("deleted = false")
 @Entity
 @Table(
         name = "students",
@@ -133,6 +139,14 @@ public class Student extends BaseEntity {
     @Column(name = "aadhaar_number", length = 14)
     private String aadhaarNumber;
 
+    @Pattern(regexp = "^$|^\\d{4}\\s?\\d{4}\\s?\\d{4}$", message = "PEN No. must be a valid 12-digit number")
+    @Column(name = "pen_no", length = 12, unique = true)
+    private String penNo;
+
+    @Pattern(regexp = "^$|^\\d{4}\\s?\\d{4}\\s?\\d{4}$", message = "APAAR ID must be a valid 12-digit number")
+    @Column(name = "apaar_id", length = 12, unique = true)
+    private String apaarId;
+
     @Enumerated(EnumType.STRING)
     @Column(length = 30)
     private Religion religion;
@@ -192,6 +206,46 @@ public class Student extends BaseEntity {
 
         if (aadhaarNumber != null)
             aadhaarNumber = aadhaarNumber.replaceAll("\\s+", "");
+
+        if (penNo != null)
+            penNo = penNo.replaceAll("\\s+", "").trim();
+
+        if (apaarId != null)
+            apaarId = apaarId.replaceAll("\\s+", "").trim();
+    }
+
+    public String getFormattedPenNo() {
+        return formatTwelveDigitId(penNo);
+    }
+
+    public String getFormattedApaarId() {
+        return formatTwelveDigitId(apaarId);
+    }
+
+    public String getFormattedAadhaarNumber() {
+        return formatTwelveDigitId(aadhaarNumber);
+    }
+
+    public String getFormattedMobileNumber() {
+        return formatMobileNumber(mobileNumber);
+    }
+
+    public String getFormattedEmergencyContact() {
+        return formatMobileNumber(emergencyContact);
+    }
+
+    private String formatMobileNumber(String value) {
+        if (value == null || value.isBlank()) return null;
+        String digits = value.replaceAll("\\s+", "");
+        if (digits.length() != 10) return value;
+        return digits.substring(0, 5) + " " + digits.substring(5);
+    }
+
+    private String formatTwelveDigitId(String value) {
+        if (value == null || value.isBlank()) return null;
+        String digits = value.replaceAll("\\s+", "");
+        if (digits.length() != 12) return value;
+        return digits.substring(0, 4) + " " + digits.substring(4, 8) + " " + digits.substring(8, 12);
     }
 
 }

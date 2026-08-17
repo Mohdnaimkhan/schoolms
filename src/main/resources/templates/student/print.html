@@ -61,27 +61,35 @@
 
                     <div class="col-8 text-center">
 
-                        <h2 class="fw-bold mb-1">
+                        <h2 class="fw-bold mb-1"
+                            th:text="${schoolInfo.schoolName != null && !#strings.isEmpty(schoolInfo.schoolName) ? schoolInfo.schoolName : 'Your School'}">
 
                             ABC PUBLIC SCHOOL
 
                         </h2>
 
-                        <div>
+                        <div th:if="${schoolInfo.address != null and !#strings.isEmpty(schoolInfo.address)}"
+                             th:text="${schoolInfo.address}">
 
                             School Address Here
 
                         </div>
+                        <div class="school-slogan" th:if="${schoolInfo.slogan != null && !#strings.isEmpty(schoolInfo.slogan)}" th:text="${schoolInfo.slogan}"></div>
 
                         <div>
 
-                            Phone :
-                            9876543210
+                            <span th:if="${schoolInfo.phone != null and !#strings.isEmpty(schoolInfo.phone)}">
+                                Phone : <span th:text="${schoolInfo.phone}"></span>
+                            </span>
 
-                            |
+                            <span th:if="${schoolInfo.phone != null and !#strings.isEmpty(schoolInfo.phone)
+                                    and schoolInfo.email != null and !#strings.isEmpty(schoolInfo.email)}">
+                                |
+                            </span>
 
-                            Email :
-                            school@email.com
+                            <span th:if="${schoolInfo.email != null and !#strings.isEmpty(schoolInfo.email)}">
+                                Email : <span th:text="${schoolInfo.email}"></span>
+                            </span>
 
                         </div>
 
@@ -212,6 +220,13 @@
                                 </tr>
 
                                 <tr>
+                                    <th>PEN Number</th>
+                                    <td th:text="${student.formattedPenNo ?: '—'}"></td>
+                                    <th>APAAR ID</th>
+                                    <td th:text="${student.formattedApaarId ?: '—'}"></td>
+                                </tr>
+
+                                <tr>
 
                                     <th>
 
@@ -220,6 +235,33 @@
                                     </th>
 
                                     <td th:text="${student.studentName}">
+                                    </td>
+
+                                    <th>
+
+                                        Class / Section
+
+                                    </th>
+
+                                    <td th:text="${currentSession != null && currentSession.classRoom != null
+                                        ? currentSession.classRoom.className
+                                            + (currentSession.section != null ? ' - ' + currentSession.section.sectionName : '')
+                                        : 'Not Assigned'}">
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <th>
+
+                                        Academic Session
+
+                                    </th>
+
+                                    <td th:text="${currentSession != null && currentSession.academicSession != null
+                                        ? currentSession.academicSession.sessionName
+                                        : '--'}">
                                     </td>
 
                                     <th>
@@ -294,7 +336,7 @@
 
                                     </th>
 
-                                    <td th:text="${student.aadhaarNumber ?: '-'}">
+                                    <td th:text="${student.formattedAadhaarNumber ?: '-'}">
                                     </td>
 
                                 </tr>
@@ -416,7 +458,7 @@
 
                                     </th>
 
-                                    <td width="30%" th:text="${student.mobileNumber ?: '-'}">
+                                    <td width="30%" th:text="${student.formattedMobileNumber ?: '-'}">
                                     </td>
 
                                     <th width="20%">
@@ -425,7 +467,7 @@
 
                                     </th>
 
-                                    <td width="30%" th:text="${student.emergencyContact ?: '-'}">
+                                    <td width="30%" th:text="${student.formattedEmergencyContact ?: '-'}">
                                     </td>
 
                                 </tr>
@@ -587,7 +629,8 @@
 
         </div>
 
-    </div>
+    
+</div>
 
 
 

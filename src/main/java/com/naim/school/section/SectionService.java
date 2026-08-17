@@ -1,5 +1,7 @@
 package com.naim.school.section;
 
+import com.naim.school.sms.BusinessException;
+
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -34,7 +36,7 @@ public class SectionService {
     public Section getById(Long id) {
 
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Section not found."));
+                .orElseThrow(() -> new BusinessException("Section not found."));
 
     }
 
@@ -53,7 +55,7 @@ public class SectionService {
 
             if (repository.existsBySectionName(section.getSectionName())) {
 
-                throw new RuntimeException("Section already exists.");
+                throw new BusinessException("Section already exists.");
 
             }
 
@@ -63,7 +65,7 @@ public class SectionService {
                     section.getSectionName(),
                     section.getId())) {
 
-                throw new RuntimeException("Section already exists.");
+                throw new BusinessException("Section already exists.");
 
             }
 

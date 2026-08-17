@@ -31,3 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Sensitive data - never commit ###
+data/
+uploads/
+.env
+*.env
+application-local.properties

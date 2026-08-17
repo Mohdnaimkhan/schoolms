@@ -1,5 +1,9 @@
 package com.naim.school.academicsession;
 
+
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+
 import java.time.LocalDate;
 
 import com.naim.school.sms.BaseEntity;
@@ -14,6 +18,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@SQLDelete(sql = "UPDATE academic_sessions SET deleted = true, deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
+@SQLRestriction("deleted = false")
 @Entity
 @Table(name = "academic_sessions")
 public class AcademicSession extends BaseEntity {

@@ -51,7 +51,7 @@
 
                 <!-- YAHAN POORA FORM AAYEGA -->
 
-                <form th:action="@{/fees/save}" th:object="${fee}" method="post">
+                <form th:action="@{/fees/save}" th:object="${fee}" method="post"><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 
                     <input type="hidden" th:field="*{id}">
 
@@ -83,14 +83,16 @@
                                     Student
                                 </label>
 
-                                <select class="form-select" th:field="*{student}" required>
+                                <select class="form-select" th:field="*{studentSessionId}" required>
 
                                     <option value="">
                                         Select Student
                                     </option>
 
-                                    <option th:each="student : ${students}" th:value="${student.id}"
-                                        th:text="${student.fullName}">
+                                    <option th:each="ss : ${studentSessions}" th:value="${ss.id}"
+                                        th:text="${(ss.student != null ? ss.student.studentName : '--')
+                                            + ' - ' + (ss.classRoom != null ? ss.classRoom.className : '--')
+                                            + ' (' + (ss.academicSession != null ? ss.academicSession.sessionName : '--') + ')'}">
                                     </option>
 
                                 </select>
@@ -100,30 +102,20 @@
                             <div class="col-md-6 mb-3">
 
                                 <label class="form-label">
-                                    Academic Session
+                                    Fee Head
                                 </label>
 
-                                <select class="form-select" th:field="*{academicSession}" required>
+                                <select class="form-select" th:field="*{feeHeadId}" required>
 
                                     <option value="">
-                                        Select Session
+                                        Select Fee Head
                                     </option>
 
-                                    <option th:each="s : ${academic}" th:value="${s.id}"
-                                        th:text="${s.sessionName}">
+                                    <option th:each="fh : ${feeHeads}" th:value="${fh.id}"
+                                        th:text="${fh.name}">
                                     </option>
 
                                 </select>
-
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-
-                                <label class="form-label">
-                                    Fee Type
-                                </label>
-
-                                <input type="text" class="form-control" th:field="*{feeType}">
 
                             </div>
 
@@ -135,7 +127,7 @@
 
                                 <select class="form-select" th:field="*{status}">
 
-                                    <option th:each="status : ${T(com.naim.school.fee.FeeStatus).values()}"
+                                    <option th:each="status : ${statuses}"
                                         th:value="${status}" th:text="${status}">
                                     </option>
 
@@ -208,7 +200,6 @@
 
                         </div>
 
-                    </div>
                 </form>
 
             </div>
@@ -217,7 +208,8 @@
 
     </main>
 
-    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/toast :: toast}"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
 
     <div th:replace="~{fragments/scripts :: scripts}"></div>
 

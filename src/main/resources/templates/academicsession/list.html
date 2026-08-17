@@ -13,6 +13,7 @@
 
         <div class="container-fluid">
 
+
             <!-- Page Header -->
 
             <div class="sms-page-header mb-4">
@@ -45,13 +46,86 @@
 
             </div>
 
+            <div class="row g-4 module-stat-grid">
+                <div class="col-xl-3 col-md-6">
+                    <div class="module-stat-card">
+                        <div class="module-stat-icon bg-primary"><i class="bi bi-calendar3"></i></div>
+                        <div class="module-stat-body"><span class="module-stat-label">Total Sessions</span><strong
+                                class="module-stat-value" th:text="${sessionTotal}">0</strong><small
+                                class="module-stat-meta">All sessions</small></div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="module-stat-card">
+                        <div class="module-stat-icon bg-success"><i class="bi bi-star-fill"></i></div>
+                        <div class="module-stat-body"><span class="module-stat-label">Current</span><strong
+                                class="module-stat-value" th:text="${sessionCurrent}">0</strong><small
+                                class="module-stat-meta">Current session</small></div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="module-stat-card">
+                        <div class="module-stat-icon bg-secondary"><i class="bi bi-lock-fill"></i></div>
+                        <div class="module-stat-body"><span class="module-stat-label">Closed</span><strong
+                                class="module-stat-value" th:text="${sessionClosed}">0</strong><small
+                                class="module-stat-meta">Closed sessions</small></div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="module-stat-card">
+                        <div class="module-stat-icon bg-info"><i class="bi bi-unlock-fill"></i></div>
+                        <div class="module-stat-body"><span class="module-stat-label">Open</span><strong
+                                class="module-stat-value" th:text="${sessionOpen}">0</strong><small
+                                class="module-stat-meta">Open sessions</small></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- search module -->
+            <!-- search module -->
+            <div class="card shadow-sm mb-4 module-search-toolbar" data-module-search>
+
+                <div class="card-header">
+                    <i class="bi bi-search me-2"></i>
+                    Search
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-3">
+
+                        <div class="col-12">
+
+                            <div class="input-group w-90">
+
+                                <span class="input-group-text">
+                                    <i class="bi bi-search"></i>
+                                </span>
+
+                                <input type="search" class="form-control module-search-input border border-1"
+                                    placeholder="Type to search..." autocomplete="off" spellcheck="false">
+
+                            </div>
+
+                            <div class="small text-secondary mt-2 module-search-count"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
             <!-- Card -->
 
             <div class="sms-card">
 
                 <div class="table-responsive">
 
-                    <table class="table table-hover align-middle mb-0">
+                    <table class="table table-hover align-middle mb-0" data-module-search-table>
 
                         <thead>
 
@@ -185,6 +259,7 @@
 
     </main>
 
+    <div th:replace="~{fragments/toast :: toast}"></div>
     <div th:replace="~{fragments/footer :: footer}"></div>
 
     <div th:replace="~{fragments/scripts :: scripts}"></div>

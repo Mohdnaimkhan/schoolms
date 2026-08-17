@@ -1,6 +1,10 @@
 package com.naim.school.subject;
 
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+
+
 import com.naim.school.classroom.ClassRoom;
 import com.naim.school.sms.BaseEntity;
 
@@ -8,6 +12,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+@SQLDelete(sql = "UPDATE subjects SET deleted = true, deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
+@SQLRestriction("deleted = false")
 @Entity
 @Table(name = "subjects")
 @Getter

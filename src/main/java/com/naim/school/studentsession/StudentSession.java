@@ -1,5 +1,9 @@
 package com.naim.school.studentsession;
 
+
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+
 import java.time.LocalDate;
 
 
@@ -16,11 +20,14 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@SQLDelete(sql = "UPDATE student_sessions SET deleted = true, deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
+@SQLRestriction("deleted = false")
 @Entity
 @Table(name = "student_sessions")
 public class StudentSession extends BaseEntity {
@@ -40,6 +47,24 @@ public class StudentSession extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "section_id")
     private Section section;
+
+    /*
+     * ==========================================================
+     * FORM BINDING (NOT PERSISTED)
+     * ==========================================================
+     */
+
+    @Transient
+    private Long studentId;
+
+    @Transient
+    private Long academicSessionId;
+
+    @Transient
+    private Long classRoomId;
+
+    @Transient
+    private Long sectionId;
 
     @Column(name = "roll_number", length = 20)
     private String rollNumber;

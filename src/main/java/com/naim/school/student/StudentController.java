@@ -3,9 +3,22 @@ package com.naim.school.student;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+
+import java.math.BigDecimal;
+import java.util.List;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.naim.school.studentsession.StudentSessionService;
+import com.naim.school.attendance.Attendance;
+import com.naim.school.attendance.AttendanceService;
+import com.naim.school.attendance.AttendanceStatus;
+import com.naim.school.fee.Fee;
+import com.naim.school.fee.FeeService;
+import com.naim.school.result.Result;
+import com.naim.school.result.ResultRepository;
+import com.naim.school.activitylog.ActivityLogService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +30,12 @@ public class StudentController {
 
     private final StudentService studentService;
 
+    private final StudentSessionService studentSessionService;
+    private final AttendanceService attendanceService;
+    private final FeeService feeService;
+    private final ResultRepository resultRepository;
+    private final ActivityLogService activityLogService;
+
     /*
      * ==========================================================
      * STUDENT LIST
@@ -24,9 +43,16 @@ public class StudentController {
      */
 
     @GetMapping
-    public String list(Model model) {
+    public String list(
+            @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "status", required = false) StudentStatus status,
+            Model model) {
 
-        model.addAttribute("students", studentService.getAllStudents());
+        model.addAttribute("students", studentService.search(keyword, status));
+        model.addAttribute("keyword", keyword == null ? "" : keyword);
+        model.addAttribute("selectedStatus", status);
+        model.addAttribute("studentStatuses", StudentStatus.values());
+
         model.addAttribute("totalStudents", studentService.count());
         model.addAttribute("activeStudents", studentService.countActiveStudents());
         model.addAttribute("boys", studentService.countBoys());
@@ -90,6 +116,8 @@ public class StudentController {
             RedirectAttributes redirectAttributes,
             Model model) {
 
+        boolean isNew = student.getId() == null;
+
         if (result.hasErrors()) {
 
             model.addAttribute(
@@ -126,6 +154,14 @@ public class StudentController {
                 "success",
                 "Student saved successfully.");
 
+        if (isNew) {
+            activityLogService.logCreate("Student", "Added student " + student.getStudentName()
+                    + " (" + student.getAdmissionNo() + ")");
+        } else {
+            activityLogService.logUpdate("Student", "Updated student " + student.getStudentName()
+                    + " (" + student.getAdmissionNo() + ")");
+        }
+
         return "redirect:/students";
     }
 
@@ -140,9 +176,53 @@ public class StudentController {
             @PathVariable Long id,
             Model model) {
 
-        model.addAttribute(
-                "student",
-                studentService.getById(id));
+        Student student = studentService.getById(id);
+
+        model.addAttribute("student", student);
+
+        var currentSession = studentSessionService.getCurrentSession(student);
+        model.addAttribute("currentSession", currentSession);
+        model.addAttribute("studentSessions", studentSessionService.getStudentHistory(student));
+
+        List<Attendance> attendanceRecords = attendanceService.findByStudent(student);
+        if (currentSession != null) {
+            attendanceRecords = attendanceRecords.stream()
+                    .filter(a -> a.getAcademicSession() != null
+                            && a.getAcademicSession().getId().equals(currentSession.getAcademicSession().getId()))
+                    .toList();
+        }
+        long presentCount = attendanceRecords.stream().filter(a -> a.getStatus() == AttendanceStatus.PRESENT).count();
+        long absentCount = attendanceRecords.stream().filter(a -> a.getStatus() == AttendanceStatus.ABSENT).count();
+        long leaveCount = attendanceRecords.stream().filter(a -> a.getStatus() == AttendanceStatus.LEAVE).count();
+        long attendanceTotal = attendanceRecords.size();
+        double attendancePercentage = attendanceTotal == 0 ? 0D : (presentCount * 100D / attendanceTotal);
+
+        List<Fee> fees = currentSession == null ? List.of() : feeService.findByStudentSession(currentSession);
+        BigDecimal totalFees = fees.stream().map(Fee::getAmount).filter(v -> v != null).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal paidFees = fees.stream().map(Fee::getPaidAmount).filter(v -> v != null).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal dueFees = fees.stream().map(Fee::getDueAmount).filter(v -> v != null).reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        List<Result> results = currentSession == null ? List.of() : resultRepository.findByStudentSession(currentSession);
+        BigDecimal obtainedMarks = results.stream().map(Result::getMarksObtained).filter(v -> v != null).reduce(BigDecimal.ZERO, BigDecimal::add);
+        int maxMarks = results.stream()
+                .filter(r -> r.getExamSubject() != null && r.getExamSubject().getMaxMarks() != null)
+                .mapToInt(r -> r.getExamSubject().getMaxMarks()).sum();
+        double resultPercentage = maxMarks == 0 ? 0D : obtainedMarks.doubleValue() * 100D / maxMarks;
+
+        model.addAttribute("attendanceRecords", attendanceRecords);
+        model.addAttribute("presentCount", presentCount);
+        model.addAttribute("absentCount", absentCount);
+        model.addAttribute("leaveCount", leaveCount);
+        model.addAttribute("attendanceTotal", attendanceTotal);
+        model.addAttribute("attendancePercentage", attendancePercentage);
+        model.addAttribute("fees", fees);
+        model.addAttribute("totalFees", totalFees);
+        model.addAttribute("paidFees", paidFees);
+        model.addAttribute("dueFees", dueFees);
+        model.addAttribute("results", results);
+        model.addAttribute("obtainedMarks", obtainedMarks);
+        model.addAttribute("maxMarks", maxMarks);
+        model.addAttribute("resultPercentage", resultPercentage);
 
         return "student/view";
     }
@@ -158,9 +238,12 @@ public class StudentController {
             @PathVariable Long id,
             Model model) {
 
-        model.addAttribute(
-                "student",
-                studentService.getById(id));
+        Student student = studentService.getById(id);
+
+        model.addAttribute("student", student);
+
+        model.addAttribute("currentSession",
+                studentSessionService.getCurrentSession(student));
 
         return "student/print";
     }
@@ -182,6 +265,8 @@ public class StudentController {
         redirectAttributes.addFlashAttribute(
                 "success",
                 "Student status updated successfully.");
+
+        activityLogService.logStatusChange("Student", "Changed status to " + status + " for student #" + id);
 
         return "redirect:/students";
     }

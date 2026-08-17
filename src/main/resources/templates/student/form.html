@@ -71,7 +71,7 @@
 
 
 
-            <form th:action="@{/students/save}" th:object="${student}" method="post" enctype="multipart/form-data">
+            <form th:action="@{/students/save}" th:object="${student}" method="post" enctype="multipart/form-data"><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 
 
                 <input type="hidden" th:field="*{id}">
@@ -106,94 +106,56 @@
 
                         <div class="row">
 
-
-
                             <!-- Admission Number -->
-
-
                             <div class="col-md-4 mb-3">
-
-
-                                <label class="form-label fw-semibold">
-
-                                    Admission Number
-
-                                </label>
-
-
-
-                                <input type="text" class="form-control" th:value="${student.id==null ? 
-       'Auto Generated After Save' : student.admissionNo}" readonly>
-
-
-
+                                <label class="form-label fw-semibold">Admission Number</label>
+                                <input type="text" class="form-control"
+                                       th:value="${student.id==null ? 'Auto Generated After Save' : student.admissionNo}"
+                                       readonly>
                             </div>
-
-
-
-
 
                             <!-- Admission Date -->
-
-
                             <div class="col-md-4 mb-3">
-
-
                                 <label class="form-label fw-semibold">
-
-
-                                    Admission Date
-
-                                    <span class="text-danger">*</span>
-
-
+                                    Admission Date <span class="text-danger">*</span>
                                 </label>
-
-
-
                                 <input type="date" class="form-control" th:field="*{admissionDate}">
-
-
-                                <div class="text-danger small" th:errors="*{admissionDate}">
-
-                                </div>
-
-
+                                <div class="text-danger small" th:errors="*{admissionDate}"></div>
                             </div>
-
-
-
-
 
                             <!-- Status -->
-
-
                             <div class="col-md-4 mb-3">
-
-
-                                <label class="form-label fw-semibold">
-
-
-                                    Status
-
-
-                                </label>
-
-
-
+                                <label class="form-label fw-semibold">Status</label>
                                 <select class="form-select" th:field="*{status}">
-
-
-                                    <option th:each="s:${studentStatuses}" th:value="${s}" th:text="${s}">
-                                    </option>
-
-
+                                    <option th:each="s:${studentStatuses}" th:value="${s}" th:text="${s}"></option>
                                 </select>
-
-
                             </div>
 
+                            <!-- PEN Number -->
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-semibold">PEN Number</label>
+                                <input type="text"
+                                       class="form-control aadhaar-input pen-input"
+                                       th:field="*{penNo}"
+                                       placeholder="1234 5678 9012"
+                                       maxlength="14"
+                                       inputmode="numeric"
+                                       autocomplete="off">
+                                <div class="text-danger small" th:errors="*{penNo}"></div>
+                            </div>
 
+                            <!-- APAAR ID -->
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-semibold">APAAR ID</label>
+                                <input type="text"
+                                       class="form-control aadhaar-input apaar-input"
+                                       th:field="*{apaarId}"
+                                       placeholder="1234 5678 9012"
+                                       maxlength="14"
+                                       inputmode="numeric"
+                                       autocomplete="off">
+                                <div class="text-danger small" th:errors="*{apaarId}"></div>
+                            </div>
 
                         </div>
 
@@ -989,7 +951,6 @@ object-fit:cover;">
 
                             <!-- Remarks -->
 
-
                             <div class="col-12 mb-3">
 
 
@@ -1114,7 +1075,8 @@ object-fit:cover;">
 
 
 
-    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/toast :: toast}"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
 
 
     <div th:replace="~{fragments/scripts :: scripts}"></div>

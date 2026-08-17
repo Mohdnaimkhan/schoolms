@@ -2,10 +2,13 @@ package com.naim.school.academicsession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import com.naim.school.activitylog.ActivityLogService;
 
 @Controller
 @RequiredArgsConstructor
@@ -13,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class AcademicSessionController {
 
     private final AcademicSessionService service;
+    private final ActivityLogService activityLogService;
 
     /*
      * ==========================================
@@ -23,7 +27,14 @@ public class AcademicSessionController {
     public String list(Model model) {
 
         model.addAttribute("pageTitle", "Academic Sessions");
-        model.addAttribute("academicSessions", service.getAllSessions());
+        java.util.List<AcademicSession> academicSessions = service.getAllSessions();
+        long sessionCurrent = academicSessions.stream().filter(a -> Boolean.TRUE.equals(a.getCurrentSession())).count();
+        long sessionClosed = academicSessions.stream().filter(a -> a.getEndDate() != null && a.getEndDate().isBefore(java.time.LocalDate.now())).count();
+        model.addAttribute("academicSessions", academicSessions);
+        model.addAttribute("sessionTotal", academicSessions.size());
+        model.addAttribute("sessionCurrent", sessionCurrent);
+        model.addAttribute("sessionClosed", sessionClosed);
+        model.addAttribute("sessionOpen", academicSessions.size() - sessionClosed);
 
         return "academicsession/list";
     }
@@ -62,9 +73,26 @@ public class AcademicSessionController {
      * ==========================================
      */
     @PostMapping("/save")
-    public String save(@Valid @ModelAttribute AcademicSession academicSession) {
+    public String save(@Valid @ModelAttribute AcademicSession academicSession, BindingResult result,
+                       RedirectAttributes redirectAttributes) {
 
+        if (result.hasErrors()) {
+
+            return "academicsession/form";
+
+        }
+
+        boolean isNew = academicSession.getId() == null;
         service.save(academicSession);
+
+        redirectAttributes.addFlashAttribute("success",
+                isNew ? "Academic session added successfully." : "Academic session updated successfully.");
+
+        if (isNew) {
+            activityLogService.logCreate("Academic Session", "Added session " + academicSession.getSessionName());
+        } else {
+            activityLogService.logUpdate("Academic Session", "Updated session " + academicSession.getSessionName());
+        }
 
         return "redirect:/academic-sessions";
     }
@@ -75,9 +103,13 @@ public class AcademicSessionController {
      * ==========================================
      */
     @GetMapping("/current/{id}")
-    public String setCurrent(@PathVariable Long id) {
+    public String setCurrent(@PathVariable Long id, RedirectAttributes redirectAttributes) {
 
         service.setCurrentSession(id);
+
+        redirectAttributes.addFlashAttribute("success", "Current session updated successfully.");
+
+        activityLogService.logStatusChange("Academic Session", "Set session #" + id + " as current session");
 
         return "redirect:/academic-sessions";
     }
@@ -102,11 +134,15 @@ public class AcademicSessionController {
      * ==========================================
      */
     @PostMapping("/close")
-    public String close(@ModelAttribute AcademicSession academicSession) {
+    public String close(@ModelAttribute AcademicSession academicSession, RedirectAttributes redirectAttributes) {
 
         service.closeSession(
                 academicSession.getId(),
                 academicSession.getEndDate());
+
+        redirectAttributes.addFlashAttribute("success", "Academic session closed successfully.");
+
+        activityLogService.logUpdate("Academic Session", "Closed session #" + academicSession.getId());
 
         return "redirect:/academic-sessions";
     }

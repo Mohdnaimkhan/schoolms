@@ -1,5 +1,6 @@
 package com.naim.school.student;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,8 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     long countByStatus(StudentStatus status);
 
     long countByGender(Gender gender);
+
+    long countByAdmissionDateBetween(LocalDate startDate, LocalDate endDate);
 
     /*
      * ==========================================================
@@ -47,6 +50,14 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
             String aadhaarNumber,
             Long id);
 
+    boolean existsByPenNo(String penNo);
+
+    boolean existsByPenNoAndIdNot(String penNo, Long id);
+
+    boolean existsByApaarId(String apaarId);
+
+    boolean existsByApaarIdAndIdNot(String apaarId, Long id);
+
     /*
      * ==========================================================
      * SEARCH
@@ -61,6 +72,24 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     List<Student> findByAdmissionNoContainingIgnoreCase(
             String admissionNo);
+
+    @org.springframework.data.jpa.repository.Query("""
+        SELECT s FROM Student s
+        WHERE (:keyword IS NULL OR :keyword = ''
+               OR LOWER(COALESCE(s.studentName, '')) LIKE LOWER(CONCAT('%', :keyword, '%'))
+               OR LOWER(COALESCE(s.admissionNo, '')) LIKE LOWER(CONCAT('%', :keyword, '%'))
+               OR LOWER(COALESCE(s.fatherName, '')) LIKE LOWER(CONCAT('%', :keyword, '%'))
+               OR LOWER(COALESCE(s.mobileNumber, '')) LIKE LOWER(CONCAT('%', :keyword, '%'))
+               OR LOWER(COALESCE(s.emergencyContact, '')) LIKE LOWER(CONCAT('%', :keyword, '%'))
+               OR LOWER(COALESCE(s.aadhaarNumber, '')) LIKE LOWER(CONCAT('%', :keyword, '%'))
+               OR LOWER(COALESCE(s.penNo, '')) LIKE LOWER(CONCAT('%', :keyword, '%'))
+               OR LOWER(COALESCE(s.apaarId, '')) LIKE LOWER(CONCAT('%', :keyword, '%')))
+          AND (:status IS NULL OR s.status = :status)
+        ORDER BY s.id DESC
+        """)
+    List<Student> search(
+            @org.springframework.data.repository.query.Param("keyword") String keyword,
+            @org.springframework.data.repository.query.Param("status") StudentStatus status);
 
     /*
      * ==========================================================

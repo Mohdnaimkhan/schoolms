@@ -360,20 +360,20 @@ body{
 
             <div class="id-header">
 
-                <img th:src="@{/images/logo.png}" class="school-logo" alt="School Logo">
+                <img th:src="${schoolInfo.logo != null}
+                    ? @{/uploads/school/{img}(img=${schoolInfo.logo})}
+                    : @{/images/logo.png}"
+                    class="school-logo" alt="School Logo">
 
 
                 <div class="school-info">
 
-                    <h4>
-
-                        ABC PUBLIC SCHOOL
+                    <h4 th:text="${schoolInfo.schoolName != null && !#strings.isEmpty(schoolInfo.schoolName) ? schoolInfo.schoolName : 'Your School'}">
 
                     </h4>
 
-                    <small>
-
-                        Affiliated to CBSE
+                    <small th:if="${schoolInfo.affiliationNo != null and !#strings.isEmpty(schoolInfo.affiliationNo)}"
+                           th:text="'Affiliation No: ' + ${schoolInfo.affiliationNo}">
 
                     </small>
 
@@ -478,7 +478,7 @@ body{
 
                                 </th>
 
-                                <td th:text="${student.mobileNumber ?: '-'}"></td>
+                                <td th:text="${student.formattedMobileNumber ?: '-'}"></td>
 
                             </tr>
 
@@ -531,11 +531,13 @@ body{
 
                 <div class="text-end">
 
-                    <img th:src="@{/images/principal-sign.png}" class="principal-sign" alt="Principal">
+                    <img th:if="${schoolInfo.principalSignature != null}"
+                         th:src="@{'/uploads/school/' + ${schoolInfo.principalSignature}}"
+                         class="principal-sign" alt="Principal">
 
                     <div>
 
-                        <small>
+                        <small th:text="${schoolInfo.principalName != null && !#strings.isEmpty(schoolInfo.principalName) ? schoolInfo.principalName : 'Principal'}">
 
                             Principal
 
@@ -558,9 +560,7 @@ body{
 
             <div class="back-header">
 
-                <h5 class="mb-0">
-
-                    ABC PUBLIC SCHOOL
+                <h5 class="mb-0" th:text="${schoolInfo.schoolName != null && !#strings.isEmpty(schoolInfo.schoolName) ? schoolInfo.schoolName : 'Your School'}">
 
                 </h5>
 
@@ -616,7 +616,7 @@ body{
 
                             <th>Emergency</th>
 
-                            <td th:text="${student.emergencyContact ?: '-'}"></td>
+                            <td th:text="${student.formattedEmergencyContact ?: '-'}"></td>
 
                         </tr>
 
@@ -668,27 +668,24 @@ body{
 
             <div class="back-footer">
 
-                <div>
+                <div th:if="${schoolInfo.city != null and !#strings.isEmpty(schoolInfo.city)}">
 
                     <i class="bi bi-geo-alt-fill"></i>
-
-                    Meerut, Uttar Pradesh
+                    <span th:text="${schoolInfo.city}"></span><span th:if="${schoolInfo.state != null and !#strings.isEmpty(schoolInfo.state)}" th:text="', ' + ${schoolInfo.state}"></span>
 
                 </div>
 
-                <div>
+                <div th:if="${schoolInfo.phone != null and !#strings.isEmpty(schoolInfo.phone)}">
 
                     <i class="bi bi-telephone-fill"></i>
-
-                    +91 98765 43210
+                    <span th:text="${schoolInfo.phone}"></span>
 
                 </div>
 
-                <div>
+                <div th:if="${schoolInfo.website != null and !#strings.isEmpty(schoolInfo.website)}">
 
                     <i class="bi bi-globe"></i>
-
-                    www.abcschool.in
+                    <span th:text="${schoolInfo.website}"></span>
 
                 </div>
 

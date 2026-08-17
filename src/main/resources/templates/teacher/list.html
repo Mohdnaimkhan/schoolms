@@ -1,182 +1,244 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
 
 <body>
 
-<div th:replace="~{fragments/navbar :: navbar}"></div>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
-<main class="sms-content">
+    <main class="sms-content">
 
-    <div class="container-fluid">
+        <div class="container-fluid">
 
-        <!-- =========================
+            <!-- =========================
              Page Header
         ========================== -->
 
-        <div class="sms-page-header mb-4">
+            <div class="sms-page-header mb-4">
 
-            <div>
+                <div>
 
-                <h2 class="sms-page-title">
+                    <h2 class="sms-page-title">
 
-                    <i class="bi bi-person-workspace me-2"></i>
+                        <i class="bi bi-person-workspace me-2"></i>
 
-                    Teachers
+                        Teachers
 
-                </h2>
+                    </h2>
 
-                <p class="text-secondary mb-0">
+                    <p class="text-secondary mb-0">
 
-                    Manage all teachers.
+                        Manage all teachers.
 
-                </p>
+                    </p>
+
+                </div>
+
+                <a th:href="@{/teachers/add}" class="btn btn-primary">
+
+                    <i class="bi bi-plus-circle me-2"></i>
+
+                    Add Teacher
+
+                </a>
 
             </div>
 
-            <a th:href="@{/teachers/add}"
-               class="btn btn-primary">
+            <div class="row g-4 module-stat-grid">
+                <div class="col-xl-3 col-md-6">
+                    <div class="module-stat-card">
+                        <div class="module-stat-icon bg-primary"><i class="bi bi-people-fill"></i></div>
+                        <div class="module-stat-body"><span class="module-stat-label">Total Teachers</span><strong
+                                class="module-stat-value" th:text="${teacherTotal}">0</strong><small
+                                class="module-stat-meta">All teachers</small></div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="module-stat-card">
+                        <div class="module-stat-icon bg-success"><i class="bi bi-person-check-fill"></i></div>
+                        <div class="module-stat-body"><span class="module-stat-label">Active Teachers</span><strong
+                                class="module-stat-value" th:text="${teacherActive}">0</strong><small
+                                class="module-stat-meta">Currently active</small></div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="module-stat-card">
+                        <div class="module-stat-icon bg-info"><i class="bi bi-gender-male"></i></div>
+                        <div class="module-stat-body"><span class="module-stat-label">Male</span><strong
+                                class="module-stat-value" th:text="${teacherMale}">0</strong><small
+                                class="module-stat-meta">Male teachers</small></div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="module-stat-card">
+                        <div class="module-stat-icon bg-danger"><i class="bi bi-gender-female"></i></div>
+                        <div class="module-stat-body"><span class="module-stat-label">Female</span><strong
+                                class="module-stat-value" th:text="${teacherFemale}">0</strong><small
+                                class="module-stat-meta">Female teachers</small></div>
+                    </div>
+                </div>
+            </div>
+            <!-- search module -->
+            <div class="card shadow-sm mb-4 module-search-toolbar" data-module-search>
 
-                <i class="bi bi-plus-circle me-2"></i>
+                <div class="card-header">
+                    <i class="bi bi-search me-2"></i>
+                    Search
+                </div>
 
-                Add Teacher
+                <div class="card-body">
 
-            </a>
+                    <div class="row g-3">
 
-        </div>
+                        <div class="col-12">
 
-        <!-- =========================
-                Search
-        ========================== -->
+                            <div class="input-group w-90">
 
-        <div class="sms-card mb-4">
+                                <span class="input-group-text">
+                                    <i class="bi bi-search"></i>
+                                </span>
 
-            <div class="row">
+                                <input type="search" class="form-control module-search-input border border-1"
+                                    placeholder="Type to search..." autocomplete="off" spellcheck="false">
 
-                <div class="col-lg-4">
+                            </div>
 
-                    <input type="text"
-                           class="form-control"
-                           id="searchTeacher"
-                           placeholder="Search Teacher...">
+                            <div class="small text-secondary mt-2 module-search-count"></div>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
             </div>
 
-        </div>
-
-        <!-- =========================
-                Teacher Table
-        ========================== -->
-
-        <div class="sms-card">
-
             <div class="table-responsive">
-
-                <table class="table table-hover align-middle">
+                <table class="table table-hover align-middle mb-0" data-module-search-table>
 
                     <thead>
 
-                    <tr>
+                        <tr>
 
-                        <th>#</th>
+                            <th>#</th>
 
-                        <th>Code</th>
+                            <th>Photo</th>
 
-                        <th>Name</th>
+                            <th>Code</th>
+                            <th>TEN No.</th>
 
-                        <th>Mobile</th>
+                            <th>Name</th>
 
-                        <th>Subject</th>
+                            <th>Mobile</th>
 
-                        <th>Joining</th>
+                            <th>Subject</th>
 
-                        <th>Status</th>
+                            <th>Joining</th>
 
-                        <th width="170">
+                            <th>Status</th>
 
-                            Action
+                            <th width="210">
 
-                        </th>
+                                Action
 
-                    </tr>
+                            </th>
+
+                        </tr>
 
                     </thead>
 
                     <tbody id="teacherTable">
 
-                    <tr th:each="teacher,stat : ${teachers}">
+                        <tr th:each="teacher,stat : ${teachers}">
 
-                        <td th:text="${stat.count}"></td>
+                            <td th:text="${stat.count}"></td>
 
-                        <td th:text="${teacher.employeeCode}"></td>
+                            <td>
+                                <img th:src="${teacher.photo != null ? '/uploads/teachers/' + teacher.photo : '/images/no-image.png'}"
+                                    class="teacher-list-photo rounded shadow-sm" alt="Teacher Photo">
+                            </td>
 
-                        <td th:text="${teacher.teacherName}"></td>
+                            <td th:text="${teacher.employeeCode}"></td>
 
-                        <td th:text="${teacher.mobile}"></td>
+                            <td th:text="${teacher.tenNo != null ? teacher.tenNo : '—'}"></td>
 
-                        <td th:text="${teacher.subject.subjectName}"></td>
+                            <td th:text="${teacher.teacherName}"></td>
 
-                        <td th:text="${teacher.joiningDate}"></td>
+                            <td th:text="${teacher.mobile}"></td>
 
-                        <td>
+                            <td th:text="${teacher.subject != null ? teacher.subject.subjectName : '--'}"></td>
 
-                            <span class="badge bg-success"
-                                  th:if="${teacher.active}">
+                            <td th:text="${teacher.joiningDate}"></td>
 
-                                Active
+                            <td>
 
-                            </span>
+                                <span class="badge bg-success" th:if="${teacher.active}">
 
-                            <span class="badge bg-danger"
-                                  th:unless="${teacher.active}">
+                                    Active
 
-                                Inactive
+                                </span>
 
-                            </span>
+                                <span class="badge bg-danger" th:unless="${teacher.active}">
 
-                        </td>
+                                    Inactive
 
-                        <td>
+                                </span>
 
-                            <a th:href="@{'/teachers/edit/' + ${teacher.id}}"
-                               class="btn btn-warning btn-sm">
+                            </td>
 
-                                <i class="bi bi-pencil"></i>
+                            <td>
+                                <div class="teacher-action-buttons">
+                                    <a th:href="@{'/teacher-sessions/history/' + ${teacher.id}}"
+                                        class="btn btn-outline-dark btn-sm" title="History">
 
-                            </a>
+                                        <i class="bi bi-clock-history"></i>
 
-                            <a th:href="@{'/teachers/delete/' + ${teacher.id}}"
-                               class="btn btn-danger btn-sm"
-                               onclick="return confirm('Delete this teacher?')">
+                                    </a>
 
-                                <i class="bi bi-trash"></i>
+                                    <a th:href="@{/salary(teacherId=${teacher.id})}"
+                                        class="btn btn-outline-success btn-sm" title="Salary Ledger">
 
-                            </a>
+                                        <i class="bi bi-cash"></i>
 
-                        </td>
+                                    </a>
 
-                    </tr>
+                                    <a th:href="@{'/teachers/edit/' + ${teacher.id}}" class="btn btn-warning btn-sm">
 
-                    <tr th:if="${#lists.isEmpty(teachers)}">
+                                        <i class="bi bi-pencil"></i>
 
-                        <td colspan="8"
-                            class="text-center py-5">
+                                    </a>
 
-                            <i class="bi bi-person-x display-4"></i>
+                                    <form th:action="@{/teachers/delete/{id}(id=${teacher.id})}" method="post"
+                                        class="d-inline teacher-action-form"
+                                        onclick="return confirm('Delete this teacher?')">
+                                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete">
 
-                            <br><br>
+                                            <i class="bi bi-trash"></i>
 
-                            No Teacher Found
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
 
-                        </td>
+                        </tr>
 
-                    </tr>
+                        <tr th:if="${#lists.isEmpty(teachers)}">
+
+                            <td colspan="10" class="text-center py-5">
+
+                                <i class="bi bi-person-x display-4"></i>
+
+                                <br><br>
+
+                                No Teacher Found
+
+                            </td>
+
+                        </tr>
 
                     </tbody>
 
@@ -186,34 +248,18 @@
 
         </div>
 
-    </div>
+        </div>
 
-</main>
+        </div>
 
-<div th:replace="~{fragments/footer :: footer}"></div>
+    </main>
 
-<div th:replace="~{fragments/scripts :: scripts}"></div>
+    <div th:replace="~{fragments/toast :: toast}"></div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
-<script>
+    <div th:replace="~{fragments/scripts :: scripts}"></div>
 
-    document.getElementById("searchTeacher")
-        .addEventListener("keyup", function () {
 
-            let value = this.value.toLowerCase();
-
-            document.querySelectorAll("#teacherTable tr")
-                .forEach(row => {
-
-                    row.style.display =
-                        row.innerText.toLowerCase().includes(value)
-                            ? ""
-                            : "none";
-
-                });
-
-        });
-
-</script>
 
 </body>
 

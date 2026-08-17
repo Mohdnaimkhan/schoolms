@@ -1,5 +1,7 @@
 package com.naim.school.schools;
 
+import com.naim.school.sms.BusinessException;
+
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -52,7 +54,7 @@ public class SchoolService {
         if (school.getId() != null) {
 
             School oldSchool = repository.findById(school.getId())
-                    .orElseThrow(() -> new RuntimeException("School not found."));
+                    .orElseThrow(() -> new BusinessException("School not found."));
 
             // Keep Old Logo
             if (logoFile == null || logoFile.isEmpty()) {

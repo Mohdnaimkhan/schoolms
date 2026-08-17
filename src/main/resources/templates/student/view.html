@@ -1,640 +1,265 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
-<head th:replace="~{fragments/head :: head('Student Details')}"></head>
-
+<head th:replace="~{fragments/head :: head('Student Profile')}"></head>
 <body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
-    <div th:replace="~{fragments/navbar :: navbar}"></div>
-    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+<main class="sms-content">
+    <div class="container-fluid py-3 student-profile-page">
 
-    <main class="sms-content">
-
-        <div class="container-fluid p-3">
-
-            <!-- ===========================
-         PAGE HEADER
-    ============================ -->
-
-            <div class="d-flex justify-content-between align-items-center mb-4">
-
-                <div>
-
-                    <h3 class="fw-bold mb-1">
-
-                        <i class="bi bi-person-vcard-fill text-primary me-2"></i>
-
-                        Student Details
-
-                    </h3>
-
-                    <p class="mb-0 text-secondary">
-
-                        Complete Student Profile
-
-                    </p>
-
-                </div>
-
-                <div class="d-flex gap-2">
-
-                    <a th:href="@{/students}" class="btn btn-outline-secondary">
-
-                        <i class="bi bi-arrow-left"></i>
-
-                        Back
-
-                    </a>
-
-                    <a th:href="@{/students/edit/{id}(id=${student.id})}" class="btn btn-warning">
-
-                        <i class="bi bi-pencil-square"></i>
-
-                        Edit
-
-                    </a>
-
-                    <a th:href="@{/students/print/{id}(id=${student.id})}" target="_blank" class="btn btn-success">
-
-                        <i class="bi bi-printer"></i>
-
-                        Print
-
-                    </a>
-
-                </div>
-
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+            <div>
+                <div class="text-secondary small mb-1">Students / Profile</div>
+                <h2 class="sms-page-title mb-0"><i class="bi bi-person-vcard-fill text-primary me-2"></i>Student Profile</h2>
             </div>
-
-
-            <!-- ===========================
-         PROFILE CARD
-    ============================ -->
-
-            <div class="card shadow-sm rounded-4 border-0 mb-4">
-
-                <div class="card-body p-4">
-
-                    <div class="row align-items-center">
-
-                        <!-- PHOTO -->
-
-                        <div class="col-xl-3 col-lg-4 text-center">
-
-                            <img th:if="${student.photo!=null}" th:src="@{'/uploads/students/'+${student.photo}}"
-                                class="rounded-4 shadow-sm border" style="width:190px;height:230px;object-fit:cover;">
-
-                            <img th:if="${student.photo==null}" th:src="@{/images/no-image.png}"
-                                class="rounded-4 shadow-sm border" style="width:190px;height:230px;object-fit:cover;">
-
-                        </div>
-
-                        <!-- PROFILE SUMMARY -->
-
-                        <div class="col-xl-9 col-lg-8">
-
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-
-                                <div>
-
-                                    <h2 class="fw-bold mb-1" th:text="${student.studentName}">
-                                        Student Name
-                                    </h2>
-
-                                    <div>
-
-                                        Admission No :
-
-                                        <span class="fw-semibold" th:text="${student.admissionNo}">
-                                        </span>
-
-                                    </div>
-
-                                </div>
-
-                                <span class="badge px-3 py-2 fs-6" th:classappend="
-                                ${student.status.name()=='ACTIVE'} ? ' bg-success' :
-                                (${student.status.name()=='INACTIVE'} ? ' bg-secondary' :
-                                (${student.status.name()=='LEFT'} ? ' bg-danger' :
-                                ' bg-primary'))" th:text="${student.status}">
-                                </span>
-
-                            </div>
-
-                            <hr>
-
-                            <div class="row g-4">
-
-                                <div class="col-md-4">
-
-                                    <label class="form-label fw-semibold">
-
-                                        Gender
-
-                                    </label>
-
-                                    <div th:text="${student.gender}"></div>
-
-                                </div>
-
-                                <div class="col-md-4">
-
-                                    <label class="form-label fw-semibold">
-
-                                        Date of Birth
-
-                                    </label>
-
-                                    <div th:text="${student.dateOfBirth}"></div>
-
-                                </div>
-
-                                <div class="col-md-4">
-
-                                    <label class="form-label fw-semibold">
-
-                                        Blood Group
-
-                                    </label>
-
-                                    <div th:text="${student.bloodGroup}"></div>
-
-                                </div>
-
-                                <div class="col-md-4">
-
-                                    <label class="form-label fw-semibold">
-
-                                        Mobile Number
-
-                                    </label>
-
-                                    <div th:text="${student.mobileNumber}"></div>
-
-                                </div>
-
-                                <div class="col-md-4">
-
-                                    <label class="form-label fw-semibold">
-
-                                        Email
-
-                                    </label>
-
-                                    <div th:text="${student.email}"></div>
-
-                                </div>
-
-                                <div class="col-md-4">
-
-                                    <label class="form-label fw-semibold">
-
-                                        Aadhaar Number
-
-                                    </label>
-
-                                    <div th:text="${student.aadhaarNumber}"></div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
+            <div class="d-flex gap-2 flex-wrap">
+                <a th:href="@{/students}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Back</a>
+                <a th:href="@{/students/edit/{id}(id=${student.id})}" class="btn btn-primary"><i class="bi bi-pencil-square me-1"></i>Edit Student</a>
+                <a th:href="@{/students/print/{id}(id=${student.id})}" target="_blank" class="btn btn-outline-primary"><i class="bi bi-printer me-1"></i>Print Profile</a>
             </div>
-            <!-- ===========================
-         ADMISSION INFORMATION
-    ============================ -->
-
-            <div class="card shadow-sm rounded-4 border-0 mb-4">
-
-                <div class="card-header">
-
-                    <h5 class="fw-bold mb-0">
-
-                        <i class="bi bi-journal-check text-primary me-2"></i>
-
-                        Admission Information
-
-                    </h5>
-
-                </div>
-
-                <div class="card-body p-3">
-
-                    <div class="row g-4">
-
-                        <div class="col-lg-4">
-
-                            <label class="form-label fw-semibold">
-
-                                Admission Number
-
-                            </label>
-
-                            <div th:text="${student.admissionNo}"></div>
-
-                        </div>
-
-                        <div class="col-lg-4">
-
-                            <label class="form-label fw-semibold">
-
-                                Admission Date
-
-                            </label>
-
-                            <div th:text="${student.admissionDate}"></div>
-
-                        </div>
-
-                        <div class="col-lg-4">
-
-                            <label class="form-label fw-semibold">
-
-                                Student Status
-
-                            </label>
-
-                            <div>
-
-                                <span class="badge bg-success" th:text="${student.status}">
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- ===========================
-         STUDENT INFORMATION
-    ============================ -->
-
-            <div class="card shadow-sm rounded-4 border-0 mb-4">
-
-                <div class="card-header">
-
-                    <h5 class="fw-bold mb-0">
-
-                        <i class="bi bi-person-fill text-success me-2"></i>
-
-                        Student Information
-
-                    </h5>
-
-                </div>
-
-                <div class="card-body p-3">
-
-                    <div class="row g-4">
-
-                        <div class="col-lg-6">
-
-                            <label class="form-label fw-semibold">
-
-                                Student Name
-
-                            </label>
-
-                            <div th:text="${student.studentName}"></div>
-
-                        </div>
-
-                        <div class="col-lg-3">
-
-                            <label class="form-label fw-semibold">
-
-                                Gender
-
-                            </label>
-
-                            <div th:text="${student.gender}"></div>
-
-                        </div>
-
-                        <div class="col-lg-3">
-
-                            <label class="form-label fw-semibold">
-
-                                Blood Group
-
-                            </label>
-
-                            <div th:text="${student.bloodGroup}"></div>
-
-                        </div>
-
-                        <div class="col-lg-4">
-
-                            <label class="form-label fw-semibold">
-
-                                Date of Birth
-
-                            </label>
-
-                            <div th:text="${student.dateOfBirth}"></div>
-
-                        </div>
-
-                        <div class="col-lg-4">
-
-                            <label class="form-label fw-semibold">
-
-                                Religion
-
-                            </label>
-
-                            <div th:text="${student.religion}"></div>
-
-                        </div>
-
-                        <div class="col-lg-4">
-
-                            <label class="form-label fw-semibold">
-
-                                Category
-
-                            </label>
-
-                            <div th:text="${student.category}"></div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- ===========================
-     PARENT INFORMATION
-=========================== -->
-
-            <div class="card shadow-sm rounded-4 border-0 mb-4">
-
-                <div class="card-header">
-
-                    <h5 class="fw-bold mb-0">
-
-                        <i class="bi bi-people-fill text-warning me-2"></i>
-
-                        Parent Information
-
-                    </h5>
-
-                </div>
-
-                <div class="card-body p-3">
-
-                    <div class="row g-4">
-
-                        <div class="col-lg-6">
-
-                            <label class="form-label fw-semibold">
-
-                                Father Name
-
-                            </label>
-
-                            <div th:text="${student.fatherName}"></div>
-
-                        </div>
-
-                        <div class="col-lg-6">
-
-                            <label class="form-label fw-semibold">
-
-                                Mother Name
-
-                            </label>
-
-                            <div th:text="${student.motherName}"></div>
-
-                        </div>
-
-                        <div class="col-lg-6">
-
-                            <label class="form-label fw-semibold">
-
-                                Guardian Name
-
-                            </label>
-
-                            <div th:text="${student.guardianName}"></div>
-
-                        </div>
-
-                        <div class="col-lg-6">
-
-                            <label class="form-label fw-semibold">
-
-                                Guardian Relation
-
-                            </label>
-
-                            <div th:text="${student.guardianRelation}"></div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- ===========================
-     CONTACT INFORMATION
-=========================== -->
-
-            <div class="card shadow-sm rounded-4 border-0 mb-4">
-
-                <div class="card-header">
-
-                    <h5 class="fw-bold mb-0">
-
-                        <i class="bi bi-telephone-fill text-success me-2"></i>
-
-                        Contact Information
-
-                    </h5>
-
-                </div>
-
-                <div class="card-body p-3">
-
-                    <div class="row g-4">
-
-                        <div class="col-lg-4">
-
-                            <label class="form-label fw-semibold">
-
-                                Mobile Number
-
-                            </label>
-
-                            <div th:text="${student.mobileNumber}"></div>
-
-                        </div>
-
-                        <div class="col-lg-4">
-
-                            <label class="form-label fw-semibold">
-
-                                Emergency Contact
-
-                            </label>
-
-                            <div th:text="${student.emergencyContact}"></div>
-
-                        </div>
-
-                        <div class="col-lg-4">
-
-                            <label class="form-label fw-semibold">
-
-                                Email Address
-
-                            </label>
-
-                            <div th:text="${student.email}"></div>
-
-                        </div>
-
-                        <div class="col-12">
-
-                            <label class="form-label fw-semibold">
-
-                                Address
-
-                            </label>
-
-                            <div th:text="${student.address}"></div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- ===========================
-     OTHER INFORMATION
-=========================== -->
-
-            <div class="card shadow-sm rounded-4 border-0 mb-4">
-
-                <div class="card-header">
-
-                    <h5 class="fw-bold mb-0">
-
-                        <i class="bi bi-info-circle-fill text-primary me-2"></i>
-
-                        Other Information
-
-                    </h5>
-
-                </div>
-
-                <div class="card-body p-3">
-
-                    <div class="row g-4">
-
-                        <div class="col-lg-6">
-
-                            <label class="form-label fw-semibold">
-
-                                Aadhaar Number
-
-                            </label>
-
-                            <div th:text="${student.aadhaarNumber}"></div>
-
-                        </div>
-
-                        <div class="col-lg-6">
-
-                            <label class="form-label fw-semibold">
-
-                                Remarks
-
-                            </label>
-
-                            <div th:text="${student.remarks}"></div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- ===========================
-         ACTION BUTTONS
-    ============================ -->
-
-            <div class="card shadow-sm rounded-4 border-0">
-
-                <div class="card-body p-3">
-
-                    <div class="d-flex justify-content-end gap-2">
-
-                        <a th:href="@{/students}" class="btn btn-outline-secondary">
-
-                            <i class="bi bi-arrow-left"></i>
-
-                            Back
-
-                        </a>
-
-                        <a th:href="@{/students/edit/{id}(id=${student.id})}" class="btn btn-warning">
-
-                            <i class="bi bi-pencil-square"></i>
-
-                            Edit
-
-                        </a>
-
-                        <a th:href="@{/students/print/{id}(id=${student.id})}" target="_blank" class="btn btn-success">
-
-                            <i class="bi bi-printer"></i>
-
-                            Print
-
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </div>
-
         </div>
 
-    </main>
+        <!-- Profile Hero -->
+        <section class="profile-hero mb-3">
+            <div class="profile-hero__media">
+                <img th:if="${student.photo != null and !#strings.isEmpty(student.photo)}"
+                     th:src="@{'/uploads/students/' + student.photo}"
+                     class="profile-hero__photo" alt="Student Photo">
+                <img th:unless="${student.photo != null and !#strings.isEmpty(student.photo)}"
+                     th:src="@{/images/no-image.png}"
+                     class="profile-hero__photo" alt="Student Photo">
+            </div>
+            <div class="profile-hero__body">
+                <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap">
+                    <div>
+                        <h2 class="profile-hero__name mb-1" th:text="${student.studentName}">Student Name</h2>
+                        <div class="profile-hero__admission">Admission No. <strong th:text="${student.admissionNo ?: '—'}">ADM-0001</strong></div>
+                        <div class="profile-hero__meta mt-3">
+                            <span><i class="bi bi-building"></i><strong th:text="${currentSession != null && currentSession.classRoom != null ? currentSession.classRoom.className : 'Not Assigned'}">8</strong></span>
+                            <span><i class="bi bi-grid"></i><strong th:text="${currentSession != null && currentSession.section != null ? currentSession.section.sectionName : '—'}">A</strong></span>
+                            <span><i class="bi bi-hash"></i><strong th:text="${currentSession != null && currentSession.rollNumber != null ? currentSession.rollNumber : '—'}">15</strong></span>
+                            <span><i class="bi bi-calendar3"></i><strong th:text="${currentSession != null && currentSession.academicSession != null ? currentSession.academicSession.sessionName : '—'}">2026-27</strong></span>
+                        </div>
+                    </div>
+                    <span class="profile-status"
+                          th:classappend="${student.status != null && student.status.name() == 'ACTIVE'} ? ' is-active' : (${student.status != null && student.status.name() == 'INACTIVE'} ? ' is-inactive' : ' is-other')"
+                          th:text="${student.status ?: '—'}">ACTIVE</span>
+                </div>
+                <div class="profile-hero__details mt-4">
+                    <div><span>Admission Date</span><strong th:text="${student.admissionDate ?: '—'}">10 Apr 2026</strong></div>
+                    <div><span>Admission No.</span><strong th:text="${student.admissionNo ?: '—'}">ADM-0001</strong></div>
+                </div>
+            </div>
+        </section>
 
-    <div th:replace="~{fragments/footer :: footer}"></div>
+        <ul class="nav nav-tabs student-profile-tabs mb-3" id="studentProfileTabs" role="tablist">
+            <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#overview" type="button">Overview</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#academic" type="button">Academic</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#attendance" type="button">Attendance</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#fees" type="button">Fees</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#results" type="button">Results</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#documents" type="button">Documents</button></li>
+        </ul>
 
-    <div th:replace="~{fragments/scripts :: scripts}"></div>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="overview">
+                <section class="profile-section">
+                    <div class="profile-section__title">Admission Information</div>
+                    <div class="profile-info-grid">
+                        <div><span>Admission No.</span><strong th:text="${student.admissionNo ?: '—'}">ADM-0001</strong></div>
+                        <div><span>Admission Date</span><strong th:text="${student.admissionDate ?: '—'}">10 Apr 2026</strong></div>
+                        <div><span>PEN No.</span><strong th:text="${student.formattedPenNo ?: '—'}">1234 5678 9012</strong></div>
+                        <div><span>APAAR ID</span><strong th:text="${student.formattedApaarId ?: '—'}">1234 5678 9012</strong></div>
+                        <div><span>Status</span><strong th:text="${student.status ?: '—'}">ACTIVE</strong></div>
+                    </div>
+                </section>
 
+                <section class="profile-section">
+                    <div class="profile-section__title">Student Information</div>
+                    <div class="profile-info-grid">
+                        <div><span>Date of Birth</span><strong th:text="${student.dateOfBirth ?: '—'}">15 May 2012</strong></div>
+                        <div><span>Gender</span><strong th:text="${student.gender ?: '—'}">Male</strong></div>
+                        <div><span>Blood Group</span><strong th:text="${student.bloodGroup ?: '—'}">O+</strong></div>
+                        <div><span>Mobile</span><strong class="formatted-mobile" th:text="${student.formattedMobileNumber ?: '—'}">98765 43210</strong></div>
+                        <div><span>Aadhaar</span><strong th:text="${student.formattedAadhaarNumber ?: '—'}">1234 5678 9012</strong></div>
+                        <div><span>Email</span><strong th:text="${student.email ?: '—'}">—</strong></div>
+                        <div><span>Religion</span><strong th:text="${student.religion ?: '—'}">—</strong></div>
+                        <div><span>Category</span><strong th:text="${student.category ?: '—'}">—</strong></div>
+                    </div>
+                </section>
+
+                <section class="profile-section">
+                    <div class="profile-section__title">Parent / Guardian</div>
+                    <div class="profile-info-grid">
+                        <div><span>Father</span><strong th:text="${student.fatherName ?: '—'}">Mr. XYZ</strong></div>
+                        <div><span>Mother</span><strong th:text="${student.motherName ?: '—'}">Mrs. XYZ</strong></div>
+                        <div><span>Guardian</span><strong th:text="${student.guardianName ?: '—'}">—</strong></div>
+                        <div><span>Guardian Relation</span><strong th:text="${student.guardianRelation ?: '—'}">—</strong></div>
+                        <div><span>Emergency Contact</span><strong class="formatted-mobile" th:text="${student.formattedEmergencyContact ?: '—'}">98765 43210</strong></div>
+                    </div>
+                </section>
+
+                <section class="profile-section">
+                    <div class="profile-section__title">Address</div>
+                    <p class="profile-address mb-0" th:text="${student.address ?: 'No address available'}">123, Main Road, New Delhi - 1100XX</p>
+                </section>
+
+                <section class="profile-section">
+                    <div class="profile-section__title">Current Academic Information</div>
+                    <div class="profile-info-grid">
+                        <div><span>Academic Session</span><strong th:text="${currentSession != null && currentSession.academicSession != null ? currentSession.academicSession.sessionName : '—'}">2026-27</strong></div>
+                        <div><span>Class</span><strong th:text="${currentSession != null && currentSession.classRoom != null ? currentSession.classRoom.className : '—'}">8</strong></div>
+                        <div><span>Section</span><strong th:text="${currentSession != null && currentSession.section != null ? currentSession.section.sectionName : '—'}">A</strong></div>
+                        <div><span>Roll No.</span><strong th:text="${currentSession != null && currentSession.rollNumber != null ? currentSession.rollNumber : '—'}">15</strong></div>
+                        <div><span>Session Status</span><strong th:text="${currentSession != null && currentSession.status != null ? currentSession.status : '—'}">ACTIVE</strong></div>
+                    </div>
+                </section>
+
+                <div class="row g-3 mt-1">
+                    <div class="col-lg-4">
+                        <div class="profile-summary">
+                            <div class="profile-summary__label">ATTENDANCE</div>
+                            <div class="profile-summary__value" th:text="${#numbers.formatDecimal(attendancePercentage, 1, 1) + '%'}">92.5%</div>
+                            <div class="profile-summary__meta" th:text="${presentCount + ' Present / ' + attendanceTotal + ' Records'}">185 Present / 200 Records</div>
+                            <a class="profile-summary__action" href="#attendance" data-bs-toggle="tab">View Details <i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="profile-summary">
+                            <div class="profile-summary__label">FEES</div>
+                            <div class="profile-summary__value" th:text="${'₹' + dueFees}">₹5,000</div>
+                            <div class="profile-summary__meta">Outstanding</div>
+                            <div class="profile-summary__sub" th:text="${'₹' + paidFees + ' Paid of ₹' + totalFees}">₹20,000 Paid of ₹25,000</div>
+                            <a class="profile-summary__action" href="#fees" data-bs-toggle="tab">View Fees <i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="profile-summary">
+                            <div class="profile-summary__label">RESULT</div>
+                            <div class="profile-summary__value" th:text="${#numbers.formatDecimal(resultPercentage, 1, 1) + '%'}">82.4%</div>
+                            <div class="profile-summary__meta" th:text="${obtainedMarks + ' / ' + maxMarks + ' Marks'}">422 / 500 Marks</div>
+                            <a class="profile-summary__action" href="#results" data-bs-toggle="tab">View Results <i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="profile-section profile-activity mt-3">
+                    <div class="profile-section__title">Recent Activity</div>
+                    <div class="profile-activity__row">
+                        <div class="profile-activity__icon"><i class="bi bi-cash-coin"></i></div>
+                        <div><strong>Fee payment</strong><span th:text="${#lists.isEmpty(fees) ? 'No recent payment' : 'Latest payment received'}">Latest payment received</span></div>
+                        <div class="profile-activity__value" th:if="${!#lists.isEmpty(fees)}" th:text="${'₹' + fees[0].paidAmount}">₹5,000</div>
+                    </div>
+                    <div class="profile-activity__row">
+                        <div class="profile-activity__icon"><i class="bi bi-calendar-check"></i></div>
+                        <div><strong>Attendance</strong><span th:text="${#lists.isEmpty(attendanceRecords) ? 'No attendance records' : 'Latest attendance record'}">Latest attendance record</span></div>
+                        <div class="profile-activity__value" th:if="${!#lists.isEmpty(attendanceRecords)}" th:text="${attendanceRecords[0].status}">PRESENT</div>
+                    </div>
+                    <div class="profile-activity__row">
+                        <div class="profile-activity__icon"><i class="bi bi-award"></i></div>
+                        <div><strong>Result</strong><span th:text="${#lists.isEmpty(results) ? 'No result record' : 'Latest result available'}">Latest result available</span></div>
+                        <div class="profile-activity__value" th:if="${!#lists.isEmpty(results)}" th:text="${results[0].marksObtained}">82</div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="tab-pane fade" id="academic">
+                <section class="profile-section">
+                    <div class="profile-section__title">Academic History</div>
+                    <div class="table-responsive">
+                        <table class="table align-middle mb-0">
+                            <thead><tr><th>Session</th><th>Class</th><th>Section</th><th>Roll No.</th><th>Status</th></tr></thead>
+                            <tbody>
+                            <tr th:each="s : ${studentSessions}">
+                                <td th:text="${s.academicSession != null ? s.academicSession.sessionName : '—'}">2026-27</td>
+                                <td th:text="${s.classRoom != null ? s.classRoom.className : '—'}">8</td>
+                                <td th:text="${s.section != null ? s.section.sectionName : '—'}">A</td>
+                                <td th:text="${s.rollNumber ?: '—'}">15</td>
+                                <td th:text="${s.status ?: '—'}">ACTIVE</td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(studentSessions)}"><td colspan="5" class="text-center py-4 text-secondary">No academic history found.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <div class="tab-pane fade" id="attendance">
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4"><div class="profile-mini-stat"><span>Present</span><strong th:text="${presentCount}">185</strong></div></div>
+                    <div class="col-md-4"><div class="profile-mini-stat"><span>Absent</span><strong th:text="${absentCount}">15</strong></div></div>
+                    <div class="col-md-4"><div class="profile-mini-stat"><span>Leave</span><strong th:text="${leaveCount}">0</strong></div></div>
+                </div>
+                <section class="profile-section">
+                    <div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Date</th><th>Class</th><th>Status</th><th>Remarks</th></tr></thead><tbody>
+                        <tr th:each="a : ${attendanceRecords}"><td th:text="${a.attendanceDate}">11 Aug 2026</td><td th:text="${a.classroom != null ? a.classroom.className : '—'}">8</td><td th:text="${a.status}">PRESENT</td><td th:text="${a.remarks ?: '—'}">—</td></tr>
+                        <tr th:if="${#lists.isEmpty(attendanceRecords)}"><td colspan="4" class="text-center py-4 text-secondary">No attendance records found.</td></tr>
+                    </tbody></table></div>
+                </section>
+            </div>
+
+            <div class="tab-pane fade" id="fees">
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4"><div class="profile-mini-stat"><span>Total</span><strong th:text="${'₹' + totalFees}">₹25,000</strong></div></div>
+                    <div class="col-md-4"><div class="profile-mini-stat"><span>Paid</span><strong class="text-success" th:text="${'₹' + paidFees}">₹20,000</strong></div></div>
+                    <div class="col-md-4"><div class="profile-mini-stat"><span>Outstanding</span><strong class="text-danger" th:text="${'₹' + dueFees}">₹5,000</strong></div></div>
+                </div>
+                <section class="profile-section">
+                    <div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Date</th><th>Receipt No.</th><th>Fee Head</th><th>Amount</th><th>Paid</th><th>Status</th></tr></thead><tbody>
+                        <tr th:each="fee : ${fees}"><td th:text="${fee.paymentDate ?: '—'}">11 Aug 2026</td><td th:text="${fee.receiptNo ?: '—'}">REC-00125</td><td th:text="${fee.feeHead != null ? fee.feeHead.name : '—'}">Tuition Fee</td><td th:text="${'₹' + fee.amount}">₹5,000</td><td th:text="${'₹' + fee.paidAmount}">₹5,000</td><td th:text="${fee.status}">PAID</td></tr>
+                        <tr th:if="${#lists.isEmpty(fees)}"><td colspan="6" class="text-center py-4 text-secondary">No fee records found.</td></tr>
+                    </tbody></table></div>
+                </section>
+            </div>
+
+            <div class="tab-pane fade" id="results">
+                <section class="profile-section">
+                    <div class="d-flex justify-content-between align-items-center mb-3"><div class="profile-section__title mb-0">Result Summary</div><strong class="profile-result-chip" th:text="${#numbers.formatDecimal(resultPercentage, 1, 1) + '%'}">82.4%</strong></div>
+                    <div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Exam</th><th>Subject</th><th>Max Marks</th><th>Obtained</th><th>Status</th></tr></thead><tbody>
+                        <tr th:each="r : ${results}"><td th:text="${r.examSubject != null && r.examSubject.exam != null ? r.examSubject.exam.examName : '—'}">Annual Exam</td><td th:text="${r.examSubject != null && r.examSubject.subject != null ? r.examSubject.subject.subjectName : '—'}">Mathematics</td><td th:text="${r.examSubject != null ? r.examSubject.maxMarks : 0}">100</td><td th:text="${r.marksObtained}">82</td><td><span class="badge" th:classappend="${r.passed} ? ' bg-success' : ' bg-danger'" th:text="${r.passed ? 'Passed' : 'Failed'}">Passed</span></td></tr>
+                        <tr th:if="${#lists.isEmpty(results)}"><td colspan="5" class="text-center py-4 text-secondary">No result records found.</td></tr>
+                    </tbody></table></div>
+                </section>
+            </div>
+
+            <div class="tab-pane fade" id="documents">
+                <section class="profile-section">
+                    <div class="profile-section__title">Documents</div>
+                    <div class="row g-3">
+                        <div class="col-md-4" th:if="${student.photo != null}"><a th:href="@{'/uploads/students/' + student.photo}" target="_blank" class="profile-document"><i class="bi bi-image"></i><span>Student Photo</span><i class="bi bi-box-arrow-up-right ms-auto"></i></a></div>
+                        <div class="col-md-4"><div class="profile-document"><i class="bi bi-person-vcard"></i><span>Aadhaar <strong th:text="${student.formattedAadhaarNumber ?: 'Not Added'}">Not Added</strong></span></div></div>
+                        <div class="col-md-4">
+    <a th:href="@{/students/certificate/bonafide/{id}(id=${student.id})}" target="_blank" class="profile-document">
+        <i class="bi bi-file-earmark-check"></i>
+        <span>Bonafide Certificate</span>
+        <i class="bi bi-box-arrow-up-right ms-auto"></i>
+    </a>
+</div>
+<div class="col-md-4">
+    <a th:href="@{/students/certificate/character/{id}(id=${student.id})}" target="_blank" class="profile-document">
+        <i class="bi bi-award"></i>
+        <span>Character Certificate</span>
+        <i class="bi bi-box-arrow-up-right ms-auto"></i>
+    </a>
+</div>
+<div class="col-md-4">
+    <a th:href="@{/students/certificate/tc/{id}(id=${student.id})}" class="profile-document">
+        <i class="bi bi-file-earmark-text"></i>
+        <span>Transfer Certificate</span>
+        <i class="bi bi-arrow-right ms-auto"></i>
+    </a>
+</div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</main>
+
+<link rel="stylesheet" th:href="@{/css/student-profile.css}">
+<div th:replace="~{fragments/toast :: toast}"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
 </body>
-
 </html>

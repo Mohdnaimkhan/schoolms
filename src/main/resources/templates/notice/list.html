@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head(${pageTitle})}"></head>
+
+<body>
+
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <main class="sms-content">
+
+        <div class="container-fluid">
+
+            <div class="sms-page-header mb-4">
+
+                <div>
+
+                    <h2 class="sms-page-title">
+
+                        <i class="bi bi-megaphone me-2"></i>
+
+                        Notices
+
+                    </h2>
+
+                    <p class="text-secondary mb-0">
+
+                        School-wide Announcements
+
+                    </p>
+
+                </div>
+
+                <a th:href="@{/notices/add}" class="btn btn-primary">
+
+                    <i class="bi bi-plus-circle me-2"></i>
+
+                    Add Notice
+
+                </a>
+
+            </div>
+
+            <div class="row g-4 module-stat-grid">
+                <div class="col-xl-3 col-md-6">
+                    <div class="module-stat-card">
+                        <div class="module-stat-icon bg-primary"><i class="bi bi-megaphone"></i></div>
+                        <div class="module-stat-body"><span class="module-stat-label">Total Notices</span><strong
+                                class="module-stat-value" th:text="${noticeTotal}">0</strong><small
+                                class="module-stat-meta">All notices</small></div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="module-stat-card">
+                        <div class="module-stat-icon bg-success"><i class="bi bi-broadcast-pin"></i></div>
+                        <div class="module-stat-body"><span class="module-stat-label">Active</span><strong
+                                class="module-stat-value" th:text="${noticeActive}">0</strong><small
+                                class="module-stat-meta">Published notices</small></div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="module-stat-card">
+                        <div class="module-stat-icon bg-warning"><i class="bi bi-pause-circle-fill"></i></div>
+                        <div class="module-stat-body"><span class="module-stat-label">Inactive</span><strong
+                                class="module-stat-value" th:text="${noticeInactive}">0</strong><small
+                                class="module-stat-meta">Disabled notices</small></div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="module-stat-card">
+                        <div class="module-stat-icon bg-info"><i class="bi bi-calendar-check"></i></div>
+                        <div class="module-stat-body"><span class="module-stat-label">Today</span><strong
+                                class="module-stat-value" th:text="${noticeToday}">0</strong><small
+                                class="module-stat-meta">Published today</small></div>
+                    </div>
+                </div>
+            </div>
+            <!-- search module -->
+            <div class="card shadow-sm mb-4 module-search-toolbar" data-module-search>
+
+                <div class="card-header">
+                    <i class="bi bi-search me-2"></i>
+                    Search
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-3">
+
+                        <div class="col-12">
+
+                            <div class="input-group w-100">
+
+                                <span class="input-group-text">
+                                    <i class="bi bi-search"></i>
+                                </span>
+
+                                <input type="search" class="form-control module-search-input"
+                                    placeholder="Type to search..." autocomplete="off" spellcheck="false">
+
+                                <button type="button" class="btn btn-outline-secondary module-search-clear"
+                                    title="Clear search" aria-label="Clear search">
+                                    <i class="bi bi-x-lg"></i>
+                                </button>
+
+                            </div>
+
+                            <div class="small text-secondary mt-2 module-search-count"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="sms-card">
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0" data-module-search-table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Date</th>
+                                <th>Audience</th>
+                                <th>Status</th>
+                                <th width="170" class="text-center">Action</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr th:each="n, stat : ${notices}">
+
+                                <td th:text="${stat.count}"></td>
+
+                                <td th:text="${n.title}"></td>
+
+                                <td
+                                    th:text="${n.noticeDate != null ? #temporals.format(n.noticeDate,'dd MMM yyyy') : '--'}">
+                                </td>
+
+                                <td th:text="${n.audience}"></td>
+
+                                <td>
+
+                                    <span class="badge bg-success" th:if="${n.active}">Active</span>
+
+                                    <span class="badge bg-secondary" th:unless="${n.active}">Inactive</span>
+
+                                </td>
+
+                                <td class="text-center">
+
+                                    <a th:href="@{'/notices/edit/' + ${n.id}}" class="btn btn-warning btn-sm"
+                                        title="Edit">
+
+                                        <i class="bi bi-pencil"></i>
+
+                                    </a>
+
+                                    <a th:href="@{'/notices/status/' + ${n.id}}" class="btn btn-sm"
+                                        th:classappend="${n.active} ? ' btn-secondary' : ' btn-success'"
+                                        th:title="${n.active} ? 'Deactivate' : 'Activate'"
+                                        onclick="return confirm('Are you sure?')">
+
+                                        <i class="bi" th:classappend="${n.active} ? ' bi-eye-slash' : ' bi-eye'"></i>
+
+                                    </a>
+
+                                    <form th:action="@{/notices/delete/{id}(id=${n.id})}" method="post" class="d-inline"
+                                        onclick="return confirm('Delete this notice?')">
+                                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+
+                                            <i class="bi bi-trash"></i>
+
+                                        </button>
+                                    </form>
+
+                                </td>
+
+                            </tr>
+
+                            <tr th:if="${#lists.isEmpty(notices)}">
+
+                                <td colspan="6" class="text-center py-5">
+
+                                    <i class="bi bi-megaphone display-5"></i>
+
+                                    <br><br>
+
+                                    No Notice Found
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <div th:replace="~{fragments/toast :: toast}"></div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/scripts :: scripts}"></div>
+
+</body>
+
+</html>

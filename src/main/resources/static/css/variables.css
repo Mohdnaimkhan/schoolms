@@ -306,4 +306,59 @@ html.dark {
     --scrollbar-bg: #273449;
     --scrollbar-thumb: #64748b;
 
+    /* ======================================================
+       BOOTSTRAP VARIABLE OVERRIDES (DARK MODE)
+       Bootstrap components (dropdown, modal, borders,
+       text-secondary/text-muted utilities) read from these
+       --bs-* variables internally. Without overriding them
+       here, they silently stay on Bootstrap's light-theme
+       defaults even inside html.dark, causing dark-on-dark
+       invisible text and light borders on a dark page.
+    ====================================================== */
+
+    --bs-body-bg: var(--bg-body);
+    --bs-body-color: var(--text);
+
+    --bs-emphasis-color: var(--text-primary);
+    --bs-secondary-color: var(--text-secondary);
+    --bs-tertiary-color: var(--text-muted);
+    --bs-tertiary-bg: var(--bg-hover);
+    --bs-heading-color: var(--text);
+
+    --bs-border-color: var(--border);
+    --bs-border-color-translucent: var(--border);
+
+    --bs-link-color: var(--primary);
+    --bs-link-hover-color: var(--primary-hover);
+
+    --bs-dropdown-bg: var(--dropdown-bg);
+    --bs-dropdown-color: var(--text);
+    --bs-dropdown-border-color: var(--dropdown-border);
+    --bs-dropdown-divider-bg: var(--border);
+    --bs-dropdown-link-color: var(--text);
+    --bs-dropdown-link-hover-color: var(--text);
+    --bs-dropdown-link-hover-bg: var(--dropdown-hover);
+    --bs-dropdown-link-active-color: #fff;
+    --bs-dropdown-link-active-bg: var(--primary);
+    --bs-dropdown-link-disabled-color: var(--text-muted);
+    --bs-dropdown-header-color: var(--text-secondary);
+
+    --bs-modal-bg: var(--modal-bg);
+    --bs-modal-color: var(--text);
+    --bs-modal-header-border-color: var(--border);
+    --bs-modal-footer-border-color: var(--border);
+
+    --bs-pagination-bg: var(--pagination-bg);
+    --bs-pagination-color: var(--text);
+    --bs-pagination-hover-bg: var(--pagination-hover);
+    --bs-pagination-hover-color: var(--text);
+    --bs-pagination-border-color: var(--border);
+    --bs-pagination-disabled-bg: var(--bg-hover);
+    --bs-pagination-disabled-color: var(--text-muted);
+
+    --bs-card-bg: var(--bg-card);
+    --bs-card-color: var(--text);
+    --bs-card-border-color: var(--border);
+    --bs-card-cap-bg: var(--modal-header);
+
 }

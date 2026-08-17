@@ -1,5 +1,8 @@
 package com.naim.school.student;
 
+import com.naim.school.sms.BusinessException;
+
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -32,6 +35,11 @@ public class StudentService {
 
     }
 
+    public List<Student> search(String keyword, StudentStatus status) {
+        String normalizedKeyword = keyword == null ? "" : keyword.trim();
+        return repository.search(normalizedKeyword, status);
+    }
+
     /*
      * ==========================================================
      * GET BY ID
@@ -42,7 +50,7 @@ public class StudentService {
 
         return repository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException("Student not found."));
+                        new BusinessException("Student not found."));
 
     }
 
@@ -70,6 +78,14 @@ public class StudentService {
             throw new IllegalArgumentException(
                     "Aadhaar Number already exists.");
 
+        }
+
+        if (existsPenNo(student.getPenNo(), student.getId())) {
+            throw new IllegalArgumentException("PEN No. already exists.");
+        }
+
+        if (existsApaarId(student.getApaarId(), student.getId())) {
+            throw new IllegalArgumentException("APAAR ID already exists.");
         }
 
         /*
@@ -205,6 +221,16 @@ public class StudentService {
 
     }
 
+    public long countByAdmissionDateBetween(
+            LocalDate startDate,
+            LocalDate endDate) {
+
+        return repository.countByAdmissionDateBetween(
+                startDate,
+                endDate);
+
+    }
+
     /*
      * ==========================================================
      * SEARCH
@@ -263,6 +289,18 @@ public class StudentService {
                 aadhaarNumber,
                 id);
 
+    }
+
+    public boolean existsPenNo(String penNo, Long id) {
+        if (penNo == null || penNo.isBlank()) return false;
+        penNo = penNo.replaceAll("\\s+", "");
+        return id == null ? repository.existsByPenNo(penNo) : repository.existsByPenNoAndIdNot(penNo, id);
+    }
+
+    public boolean existsApaarId(String apaarId, Long id) {
+        if (apaarId == null || apaarId.isBlank()) return false;
+        apaarId = apaarId.replaceAll("\\s+", "");
+        return id == null ? repository.existsByApaarId(apaarId) : repository.existsByApaarIdAndIdNot(apaarId, id);
     }
 
     /*

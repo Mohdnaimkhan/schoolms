@@ -14,10 +14,10 @@ public interface StudentSessionRepo extends JpaRepository<StudentSession, Long> 
     Optional<StudentSession> findByStudentAndCurrentSessionTrue(Student student);
 
     // All Session History
-    List<StudentSession> findByStudentOrderByAcademicSessionIdDesc(Student student);
+    List<StudentSession> findByStudentOrderByAcademicSession_IdDesc(Student student);
 
     // Session + Class Wise Students
-    List<StudentSession> findByAcademicSessionIdAndClassRoomId(Long sessionId,
+    List<StudentSession> findByAcademicSession_IdAndClassRoom_Id(Long sessionId,
                                                                Long classRoomId);
 
     // Session Wise Students
@@ -27,6 +27,6 @@ public interface StudentSessionRepo extends JpaRepository<StudentSession, Long> 
     List<StudentSession> findByCurrentSessionTrue();
 
     // Current Students of Session
-    List<StudentSession> findByAcademicSessionIdAndCurrentSessionTrue(Long sessionId);
+    List<StudentSession> findByAcademicSession_IdAndCurrentSessionTrue(Long sessionId);
 
 }
