@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Administrator Setup')}"></head>
+<body>
+<div class="d-flex align-items-center justify-content-center" style="min-height:100vh; background:var(--bg-body);">
+  <div class="card shadow-sm border-0" style="width:100%; max-width:460px;">
+    <div class="card-body p-4 p-md-5">
+      <div class="text-center mb-4">
+        <img src="/images/logo.png" alt="Logo" style="height:56px;">
+        <h4 class="fw-bold mt-3 mb-1">Administrator Setup</h4>
+        <p class="text-secondary mb-0">Create the first administrator account.</p>
+      </div>
+
+      <div class="alert alert-danger py-2" th:if="${error != null}" th:text="${error}"></div>
+
+      <form th:action="@{/setup}" method="post">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Username</label>
+          <input type="text" name="username" class="form-control" minlength="3" maxlength="50" pattern="[A-Za-z0-9._-]{3,50}" autocomplete="username" required th:value="${username}">
+          <div class="form-text">3-50 characters: letters, numbers, dot, underscore or hyphen.</div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Password</label>
+          <input type="password" name="password" class="form-control" minlength="8" autocomplete="new-password" required>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label fw-semibold">Confirm Password</label>
+          <input type="password" name="confirmPassword" class="form-control" minlength="8" autocomplete="new-password" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">
+          Create Administrator
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -133,6 +133,21 @@ public class AcademicSessionService {
 
     /*
      * ==========================================
+     * GET CURRENT SESSION (NULL-SAFE)
+     * Used by places like the dashboard that must not
+     * fail just because no session has been created yet
+     * (e.g. right after a fresh install).
+     * ==========================================
+     */
+    public AcademicSession getCurrentSessionOrNull() {
+
+        return repository.findFirstByCurrentSessionTrue()
+                .orElse(null);
+
+    }
+
+    /*
+     * ==========================================
      * CLOSE SESSION
      * ==========================================
      */
